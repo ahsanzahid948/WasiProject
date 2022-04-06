@@ -19,11 +19,7 @@
     </style>
 }
 <!---->
-<div id="idDivDdlReason" style="display:none;">
-    <select id="ddlReturnReason" class="clsDdlReturnReason">
-        <option selected value="">Select Reason</option>
-    </select>
-</div>
+
 <head>
     <title>Purchase Orders</title>
 </head>
@@ -49,7 +45,7 @@
     <form id="GoodsReceiptForm">
         @Html.AntiForgeryToken()
 
-        <div class="card-body">s
+        <div class="card-body">
            
             <div class="tab-content">
                 <div class="tab-pane fade in active show" id="generalinformation">
@@ -61,26 +57,26 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> Refrence No </label>
+                                <label class="col-form-label "> GRN No </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtRefrenceNo" name="txtRefrenceNo" maxlength="15" class="form-control" />
+                                    <input type="text" id="txtGRNNo" name="txtGRNNo" maxlength="15" class="form-control" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> Terms </label>
+                                <label class="col-form-label "> Date </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtTerms" name=" txtTerms" maxlength="15" autocomplete="off" placeholder="Vendor Terms" class="form-control" />
+                                    <input type="date" value="" id="txtGRNDate" name=" txtGRNDate" maxlength="15" autocomplete="off" placeholder="" class="form-control pickadate-accessibility" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-
-                                <label id="lblComInfo2" class="form-control col-md-10"></label>
-
-                                <label id="lblComInfo3" class="form-control col-md-10"></label>
+                                <label class="col-form-label "> Project </label>
+                                <div class="col-md-10">
+                                    <input type="text" value="" id="txtGRNProject" name=" txtGRNProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,28 +85,29 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="col-form-label ">
-                                    Due Date
+                                    Name
                                 </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtDueDate" name="txtDueDate" maxlength="10" class="form-control pickadate-accessibility" placeholder="Select Date" />
+                                    <input type="text" id="txtGRNName" name="txtGRNName" maxlength="10" class="form-control " placeholder="" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> Instraction </label>
+                                <label class="col-form-label "> Designation </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtInstraction" name="txtInstraction" maxlength="95" class="form-control" />
+                                    <input type="text" value="" id="txtDesignation" name="txtDesignation" maxlength="95" class="form-control" />
 
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label id="lblComInfo4" class="form-control col-md-10"></label>
+                                <label class="col-form-label "> LAB </label>
+                                <div class="col-md-10">
+                                    <input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" />
 
-                                <label id="lblComInfo5" class="form-control col-md-10"></label>
-
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,27 +123,13 @@
                                 Add New
                             </button>
                             <span class="font-weight-semibold">Items List</span>
-                            <span class="font-weight-semibold clsSpnPO_Number" id="idSpnPO_NumberDesc" style="display:none !important;"> PO # </span>
-                            <span class="font-weight-semibold clsSpnPO_Number" id="idSpnPO_Number" style="display:none !important;"> </span>
+                          
                         </h5>
-                        <div class="card-tools" id="" style="width:50% !important;">
-
-                            <div class="row">
-                                <label class="control-label col-md-3"> Destination Store ID </label>
-                                <div class=" col-md-3">
-                                    <select class="form-control" id="ddlStore" name="StoreID">
-                                        <option value="" selected disabled>Select Store</option>
-                                    </select>
-                                </div>
-                                <label class="control-label col-md-3"> Amount Expected </label>
-                                <label class="form-control col-md-3 text-right" id="spnIDAmountExpected">0</label>
-                            </div>
-
-                        </div>
+                     
 
                     </div>
                     <div class="card-body">
-                        <table class="table datatable-button-html5-columns dataTable no-footer" id="dtAddItemsList">
+                        <table class="table " >
                             <thead>
                                 <tr>
                                     <th> Sr. #</th>
@@ -279,20 +262,19 @@
                     </h5>
                 </div><!-- style="font-size:10px !important;"-->
                 <div class="box-body col-md-12 jvmodalbodyscroll">
-                    <table class="table datatable-button-html5-columns dataTable no-footer" id="dtItemList">
+                    <table class="table  no-footer" id="dtGRNDetail">
                         <thead>
                             <tr>
                                 <th> Item #</th>
-                                <th> Item Name</th>
-                                <th> Part # </th>
-                                <th> In Stock </th>
-                                <th> Reorder Level </th>
-                                <th> Reorder Qty</th>
-                                <th> Cost Per</th>
-                                <th> Case Cost</th>
+                                <th> Ledger Page</th>
+                                <th> Description # </th>
+                                <th> A/U </th>
+                                <th> QTY Created </th>
+                                <th> QTY Recived </th>
+                                <th> Rate</th>
+                                <th> Total Values</th>
                                 <th> No / Case</th>
-                                <th> Vendor No</th>
-                                <th> Dep ID</th>
+                               
                                 <th> <button type="button" class="btn btn-xs border btn-primary" onclick="fnAddBulkPoItems();">Add Selected</button></th>
                             </tr>
 
@@ -495,7 +477,7 @@
 
     @Scripts.Render("~/bundles/DateScripts")
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
-    <script>
+    @*<script>
 
         $(document).ready(function () {
             SBPO();
@@ -2639,5 +2621,5 @@
             //1 for save 2 for save and goto list
             $("#txtRedirection").val(type);
         }
-    </script>
+    </script>*@
 }
