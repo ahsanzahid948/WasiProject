@@ -1,0 +1,561 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section styles{
+
+}
+<div class="page-header page-header-light">
+
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="~/Dashboard/Index" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Dashboard</a>
+                <span class="breadcrumb-item active">Inventory</span>
+            </div>
+
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-header" style="color:white">
+        <h5 class="card-title">
+            <a class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' href="#"data-toggle='modal' data-target='#InventoryTypeModal'  style="text-decoration:none;background-color:white;">
+                <b><i class="icon-plus3"></i></b>
+                Add New
+            </a>
+            <span class="font-weight-semibold">Inventory</span>
+        </h5>
+
+        <div class="card-tools">
+            <form id="InventorySearchForm">
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <label class="col-md-3 control-label">Inventory #</label>
+                    <div class="col-md-6">
+                        <input class="form-control" id="txtItemNo" name="txtItemNo">
+
+
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn  btn-primary btn-sm mt-1" style="float:right;"><b>Search<i class="icon-search4 ml-2"></i></b></button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <div class="card-body">
+
+        <table class="table datatable-button-html5-columns   dataTable no-footer" id="dtInventory">
+            <thead>
+                <tr>
+                    <th>Item No.</th>
+                    <th>Description</th>
+                    <th>Department</th>
+                    <th>Price</th>
+                    <th>In Stock</th>
+                    <th>Vendor No.</th>
+                    <th>Vendor</th>
+                    <th>Vendor Part No.</th>
+                    
+
+                    <th style="text-align:right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+        </table>
+        <input type="hidden" id="txtCurrentPageID" name="CurrentPageID" value="1" />
+        <input type="hidden" id="txtNoOfRowsID" name="NoOfRowsID" value="10" />
+        <input type="hidden" id="txtSortType" name="SortType" value="asc" />
+        <input type="hidden" id="txtSortCol" name="SortCol" value="id" />
+        <input type="hidden" id="txtkeyWordSearch" name="keyWordSearch" value="" />
+    </div>
+
+
+</div>
+<div id="InventoryTypeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="InventoryTypeForm">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Select Item Type</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-4">
+                                Item Type
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-6">
+                                <select class=" form-control" id="ddlItemTypeID" name="ddlItemTypeID">
+                                    <option value="0" selected>Standard Item</option>
+                                    <option value="3" >Choice Item</option>
+                                    <option value="4" >Modifier Group</option>
+                                    <option value="7" >Coupon</option>
+                                    <option value="14" >Pay In</option>
+                                    <option value="15" >Pay Out</option>
+                                    <option value="2" >Kit</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Select</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/DataTableScripts")
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+
+
+    <script>
+        var LocationID='@Session["LocationID"]';
+        $(document).ready(function () {
+            SBInventory();
+            $('#ddlItemTypeID').select2();
+            $('input[type="search"]').keyup(function () {
+                debugger;
+                $('#txtkeyWordSearch').val($('input[type="search"]').val()).change();
+                LoadTableData();
+            });
+            $('select[name="dtInventory_length"]').change(function () {
+                $('#txtNoOfRowsID').val($('select[name="dtInventory_length"]').val()).change();
+                LoadTableData();
+            });
+            $('#txtSortType').change(function () {
+
+                LoadTableData();
+            });
+            $('#txtSortCol').change(function () {
+
+                LoadTableData();
+            });
+            LoadTableData();
+
+        });
+        $(document).on("preInit.dt", function () {
+            $(".dataTables_filter input[type='search']").attr("maxlength", 100);
+
+        });
+
+        $('#dtInventory thead').on('click', 'tr', function () {
+            debugger;
+            var table = $("#dtInventory").DataTable();
+            var order = table.order();
+
+            var title = table.column(order[0][0]).header();
+            if ($(title).html() != "Sr.") {
+                $("#txtSortType").val(order[0][1]);//asc,desc
+                $("#txtSortCol").val($(title).html()).change();//Column Name
+            }
+
+        });
+       
+        function LoadTableData() {
+
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+            let ItemNo = $('#txtItemNo').val();
+
+            var table = $("#dtInventory").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/InventoryList/GetTableSummary",
+                data: JSON.stringify({ "ItemNo": ItemNo, "PageNo": $('#txtCurrentPageID').val(), "PageRows": $('#txtNoOfRowsID').val(), "SortCol": $('#txtSortCol').val(), "SortType": $('#txtSortType').val(), "KeyWordSearch": $('#txtkeyWordSearch').val()}),
+                dataType: "json",
+                success: function (result) {
+                    var totalrecords = 0;
+                    if (result != null && result != "Error") {
+                        table.clear();
+                        $.each(result, function (i, Data) {
+                            totalrecords = Data.TotalRecords;
+                           
+                            var newRow = "<tr>" +
+                                "<td  style='text-align:left'>" + Data.ItemNum + "</td>" +
+                                "<td>" + Data.ItemName + "</td>" +
+                                "<td>" + Data.Department + "</td>" +
+                                "<td>" + Data.Price + "</td>" +
+                                "<td>" + Data.In_Stock + "</td>" +
+                                "<td>" + Data.Vendor_Number + "</td>" +
+                                "<td>" + Data.Company + "</td>" +
+                                "<td>" + Data.Vendor_Part_Num + "</td>" +
+                                "<td style='text-align:Right'>" +
+                                "<div class='list-icons'><div class='dropdown hide'><a href='#' class='btn  actionbtn btn-sm' data-toggle='dropdown' aria-expanded='true'>" +
+                                "<i class='icon-menu9'></i></a>" +
+                                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='EditInventory(\"" + Data.ItemNum + "\"," + Data.ItemType+");'type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='icon-pencil'></i></b></button></span>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='DeleteRecord(\"" + Data.ItemNum + "\");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</div></div></div></td>"
+                            "</tr>";
+
+
+                            table.row.add($(newRow));
+                        });
+
+                        table.draw();
+                        $(".paging_simple_numbers").html("");
+                         var i;
+
+                        var TotalPages = totalrecords / $('#txtNoOfRowsID').val();
+                        var CurrentPage = $('#txtCurrentPageID').val();
+                        var paginghtml = "";
+                        if (CurrentPage == 1) {
+                            paginghtml += '<a class="paginate_button previous disabled" aria-controls="dtInventory" data-dt-idx="0" tabindex="0" id="dtInventory_previous">←</a>';
+
+                        } else {
+                            paginghtml += '<a class="paginate_button previous" aria-controls="dtInventory" data-dt-idx="0" tabindex="0" id="dtInventory_previous" onclick="fnGoToPrevPage()">←</a>';
+
+                        }
+                        
+                        if (TotalPages > 5) {
+                            if (CurrentPage == Math.ceil(TotalPages) || CurrentPage > Math.ceil(TotalPages) - 4) {
+                                paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="1" onclick="fnGoToPage(1)" tabindex="0">1</a>';
+
+                                paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="1" tabindex="0">...</a>';
+
+                                for (i = Math.ceil(TotalPages) - 4; i <= Math.ceil(TotalPages); i++) {
+                                    if ($('#txtCurrentPageID').val() == i) {
+                                        paginghtml += '<span><a class="paginate_button current" aria-controls="dtInventory" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                    }
+                                    else {
+                                        paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                    }
+
+                                }
+
+
+
+                            }
+                            else if (CurrentPage < 5) {
+                                if (TotalPages > 5) {
+                                    for (i = 1; i <= 5; i++) {
+                                        if ($('#txtCurrentPageID').val() == i) {
+                                            paginghtml += '<span><a class="paginate_button current" aria-controls="dtInventory" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                        }
+                                        else {
+                                            paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                        }
+
+                                    }
+                                    paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="1" tabindex="0">...</a>';
+                                    paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="' + Math.ceil(TotalPages) + '" onclick="fnGoToPage(' + Math.ceil(TotalPages) + ')" tabindex="0">' + Math.ceil(TotalPages) + '</a>';
+
+
+
+
+                                }
+                            }
+                            else if (CurrentPage > 4 && CurrentPage <= Math.ceil(TotalPages) - 4 && CurrentPage != Math.ceil(TotalPages)) {
+                                paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="1" onclick="fnGoToPage(1)" tabindex="0">1</a>';
+
+                                paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="1" tabindex="0">...</a>';
+
+                                for (i = CurrentPage - 1; i <= parseInt(CurrentPage) + parseInt(1); i++) {
+                                    debugger;
+                                    if ($('#txtCurrentPageID').val() == i) {
+                                        paginghtml += '<span><a class="paginate_button current" aria-controls="dtInventory" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                    }
+                                    else {
+                                        paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                    }
+
+                                }
+                                paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="1" tabindex="0">...</a>';
+                                paginghtml += '<span><a class="paginate_button" aria-controls="dtInventory" data-dt-idx="' + Math.ceil(TotalPages) + '" onclick="fnGoToPage(' + Math.ceil(TotalPages) + ')" tabindex="0">' + Math.ceil(TotalPages) + '</a>';
+
+
+
+
+
+                            }
+
+                        }
+                        else {
+                            for (i = 1; i <= Math.ceil(TotalPages); i++) {
+                                if ($('#txtCurrentPageID').val() == i) {
+                                    paginghtml += '<span><a class="paginate_button current" aria-controls="dtCustomer" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                }
+                                else {
+                                    paginghtml += '<span><a class="paginate_button" aria-controls="dtCustomer" data-dt-idx="' + i + '" onclick="fnGoToPage(' + i + ')" tabindex="0">' + i + '</a>';
+
+
+                                }
+                            }
+                        }
+
+                        if (CurrentPage == Math.ceil(TotalPages)) {
+                            paginghtml += '</span><a class="paginate_button next disabled" aria-controls="dtInventory" data-dt-idx="3" tabindex="0" id="dtInventory_next" ">→</a>';
+
+                        }
+                        else{
+                            paginghtml += '</span><a class="paginate_button next " aria-controls="dtInventory" data-dt-idx="3" tabindex="0" id="dtInventory_next" onclick="fnGoToNextPage()">→</a>';
+
+                        }
+                       
+                        $(".paging_simple_numbers").html(paginghtml);
+
+                        let firstRowID = Math.min.apply(null, result.map(function (o) { return o.RowNoID; }));
+                        let lastRowID = totalrecords;
+                        if (result.length >= $('#txtNoOfRowsID').val()) {
+                            //  lastRowID = result[$('#txtNoOfRowsID').val() - 1].RowNoID
+                            lastRowID = Math.max.apply(null, result.map(function (o) { return o.RowNoID; }));
+                        }
+                        if (firstRowID == 'Infinity') {
+                            $("#dtInventory_info").text("Showing 0 to " + lastRowID + " of " + totalrecords + " entries.");
+                        }
+                        else {
+                            $("#dtInventory_info").text("Showing " + firstRowID + " to " + lastRowID + " of " + totalrecords + " entries.");
+                        }
+                    }
+                    else {
+                        debugger;
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    debugger;
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+
+
+        $("#InventorySearchForm").submit(function (event) {
+            event.preventDefault();
+            LoadTableData();
+        });
+        $("#InventoryTypeForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            EditInventory(0, $("#ddlItemTypeID").val());
+        });
+        function EditInventory(id,itemTypeID) {
+            debugger;
+            encrypt(id, itemTypeID);
+        }
+        function encrypt(id, itemTypeID) {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: '/Common/Encrypt/',
+                data: JSON.stringify({ ID: id }),
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result != null && result != "" && result != "Error") {
+                        setValues(result, itemTypeID)
+
+
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+            });
+
+
+
+
+
+
+
+        }
+        function setValues(type, itemTypeID) {
+            var ItemType = itemTypeID;
+            if (ItemType == 0) {
+                window.open("/Inventory/Index?ID=" + type, '_self');// _blank
+            }
+            else if (ItemType == 2) {
+                window.open("/KitItems/Index?ID=" + type, '_self');// _blank
+
+
+            }
+            else if (ItemType == 3) {
+                window.open("/ChoiceItems/Index?ID=" + type, '_self');// _blank
+            }
+            else if (ItemType == 4) {
+                window.open("/ModifierItems/Index?ID=" + type, '_self');// _blank
+            }
+            else if (ItemType == 7) {
+                window.open("/CouponItems/Index?ID=" + type, '_self');// _blank
+            }
+            else if (ItemType == 14) {
+                window.open("/PayInItems/Index?ID=" + type, '_self');// _blank
+                
+
+            }
+            else if (ItemType == 15) {
+                window.open("/PayOutItems/Index?ID=" + type, '_self');// _blank
+
+
+            }
+        }
+
+
+        function DeleteRecord(ID) {
+            swal({
+                title: "",
+                text: "Are you sure you want to Delete this record?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Confirm Delete",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var headers = {};
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+                        $.ajax({
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: "/Inventory/Delete",
+                            data: JSON.stringify({ ID: ID }),
+                            dataType: "json",
+                            success: function (result) {
+
+                                if (result.Code = 200) {
+                                    LoadTableData();
+                                    swal("", result.Message, result.Type);
+                                }
+                                else {
+                                    swal("", result.Message, result.Type);
+
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                swal("", errorMessage, "error");
+                            }
+
+                        });
+
+
+                    } else {
+
+                        swal("Cancelled", "Your operation Canceled :)", "error");
+                    }
+                });
+
+        }
+
+        function fnGoToNextPage() {
+            try {
+                let
+                    _currentPageNumber = $.isNumeric($('#txtCurrentPageID').val()) ? Number($('#txtCurrentPageID').val()) : Number(1);
+                _currentPageNumber = _currentPageNumber > 0 ? Number(++_currentPageNumber) : Number(1);
+                $('#txtCurrentPageID').val(_currentPageNumber);
+                let dttable = $("#dtInventory > tbody");
+                dttable.html('');
+                LoadTableData();
+            } catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function fnGoToPrevPage() {
+            try {
+
+                let
+                    _currentPageNumber = $.isNumeric($('#txtCurrentPageID').val()) ? Number($('#txtCurrentPageID').val()) : Number(1)
+                    ;
+                _currentPageNumber = _currentPageNumber > 1 ? Number(--_currentPageNumber) : Number(1);
+                $('#txtCurrentPageID').val(_currentPageNumber);
+                let dttable = $("#dtInventory > tbody");
+                dttable.html('');
+                LoadTableData();
+            } catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+
+        function fnGoToPage(pageno) {
+            try {
+
+                $('#txtCurrentPageID').val(pageno);
+                let dttable = $("#dtInventory > tbody");
+                dttable.html('');
+                LoadTableData();
+            } catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+       
+    </script>
+}
+
+
+
+

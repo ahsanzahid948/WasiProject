@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InventoryManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="GRN">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DesignationID" Type="bigint" />
+    <Property Name="Lab" Type="nvarchar" MaxLength="50" />
+    <Property Name="Project" Type="nvarchar" MaxLength="50" />
+    <Property Name="GRNNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="SuplyOrderNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="SuplyDate" Type="datetime" />
+    <Property Name="GRNDate" Type="datetime" />
+    <Property Name="SupplierName" Type="nvarchar" MaxLength="50" />
+    <Property Name="SupplierAddress" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InventoryManagementSystem.dbo.GRNDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="GRNDetail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="LeadgerPage" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nchar" MaxLength="500" />
+    <Property Name="AU" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYCreated" Type="bigint" />
+    <Property Name="QTYRecived" Type="bigint" />
+    <Property Name="Rate" Type="nvarchar" MaxLength="50" />
+    <Property Name="TotalValue" Type="nchar" MaxLength="50" />
+    <Property Name="GRNID" Type="bigint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InventoryManagementSystem.dbo.RefDesignation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="RefDesignation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="CompanyID" Type="bigint" />
+    <Property Name="ProjectID" Type="bigint" />
+    <Property Name="EntryUserID" Type="nchar" MaxLength="10" />
+    <Property Name="EntryDate" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="RefUser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="IdentityNo" Type="varchar" MaxLength="50" />
+    <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MobileNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="UserProfileImage" Type="varchar" MaxLength="100" />
+    <Property Name="IsAdmin" Type="bit" />
+    <Property Name="IsSuperAdmin" Type="bit" />
+    <Property Name="IsExternal" Type="bit" />
+    <Property Name="CompanyID" Type="bigint" />
+    <Property Name="ProjectID" Type="bigint" />
+    <Property Name="EntryUserID" Type="bigint" Nullable="false" />
+    <Property Name="EntryDate" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <Association Name="FK_GRNDetail_GRN">
+    <End Role="GRN" Type="Self.GRN" Multiplicity="0..1" />
+    <End Role="GRNDetail" Type="Self.GRNDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRN">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GRNDetail">
+        <PropertyRef Name="GRNID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InventoryManagementSystemModelStoreContainer">
+    <EntitySet Name="GRN" EntityType="Self.GRN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RefUser" EntityType="Self.RefUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GRNDetail" EntityType="Self.GRNDetail" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[GRNDetail].[ID] AS [ID], 
+[GRNDetail].[LeadgerPage] AS [LeadgerPage], 
+[GRNDetail].[Description] AS [Description], 
+[GRNDetail].[AU] AS [AU], 
+[GRNDetail].[QTYCreated] AS [QTYCreated], 
+[GRNDetail].[QTYRecived] AS [QTYRecived], 
+[GRNDetail].[Rate] AS [Rate], 
+[GRNDetail].[TotalValue] AS [TotalValue], 
+[GRNDetail].[GRNID] AS [GRNID]
+FROM [dbo].[GRNDetail] AS [GRNDetail]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="RefDesignation" EntityType="Self.RefDesignation" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[RefDesignation].[ID] AS [ID], 
+[RefDesignation].[Description] AS [Description], 
+[RefDesignation].[CompanyID] AS [CompanyID], 
+[RefDesignation].[ProjectID] AS [ProjectID], 
+[RefDesignation].[EntryUserID] AS [EntryUserID], 
+[RefDesignation].[EntryDate] AS [EntryDate], 
+[RefDesignation].[IsActive] AS [IsActive]
+FROM [dbo].[RefDesignation] AS [RefDesignation]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_GRNDetail_GRN" Association="Self.FK_GRNDetail_GRN">
+      <End Role="GRN" EntitySet="GRN" />
+      <End Role="GRNDetail" EntitySet="GRNDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

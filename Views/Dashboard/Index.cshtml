@@ -1,0 +1,247 @@
+﻿@{
+
+    ViewBag.Title = "Home Page";
+}
+@section styles{
+    <style>
+        .products-list > .item {
+
+            padding: 8px 0!important;
+
+        }
+        .products-list .product-info {
+    margin-left: 30px;
+        margin-right: 30px;
+}
+    </style>
+
+
+}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Dashboard</h1>
+            </div><!-- /.col -->
+        <div class="col-sm-3"></div>
+        <!--<div class="col-sm-3">
+           
+            <div class="row">
+                <label class="col-md-2 control-label">Store</label>
+                <div class="col-md-10">
+                    <select id="ddlStoreID" class="form-control" required></select>
+
+
+                </div>
+                
+            </div>-->
+            @*<ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active">Today Dashboard</li>
+        </ol>*@
+        <!--</div>--><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-boxes fa-2x"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Inventory Items</span>
+                <span class="info-box-number" id="TotalItems">
+                    0
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-user-alt fa-2x"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Customers</span>
+                <span class="info-box-number" id="TotalCustomers">0</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-cog fa-2x"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Vendors</span>
+                <span class="info-box-number"  id="TotalVendors">0</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    
+    <!-- /.col -->
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-teal elevation-1"><i class="fas fa-cog fa-2x"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Low Stock Items</span>
+                <span class="info-box-number" id="LowStockItems">
+                    0
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-purple elevation-1"><i class="fas fa-file-invoice fa-2x"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Purchase Orders - Open</span>
+                <span class="info-box-number"  id="TotalOpenPOs">0</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-gray elevation-1"><i class="fas fa-file-invoice-dollar fa-2x"></i></span>
+            @Html.AntiForgeryToken()
+            <div class="info-box-content">
+                <span class="info-box-text">Purchase Orders - Closed</span>
+                <span class="info-box-number" id="TotalClosedPOs">0</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    
+    <!-- /.col -->
+</div>
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+          
+            //$('#ddlStoreID').select2();
+            GetDashBoardTopCount();
+
+        });
+        function GetDashBoardTopCount() {
+            try {
+
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+
+                $.ajax({
+                    url: '/Dashboard/GetDashboardTopCounts',
+                    type: 'POST',
+                    //async: false,
+                    
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                  
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "Error") {
+                            $.each(result, function (i, Data) {
+
+                                $('#TotalItems').text(Data.TotalItems);
+                                $('#TotalCustomers').text(Data.TotalCustomers);
+                                $('#TotalVendors').text(Data.TotalVendors);
+                                $('#TotalOpenPOs').text(Data.OpenPOs);
+                                $('#TotalClosedPOs').text(Data.ClosedPOs);
+                                $('#LowStockItems').text(Data.LowStockItems);
+                                 }) ;
+                        }
+
+
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+                });
+            }
+            catch (err) { swal("Cancelled", err.toString(), "error"); }
+        }
+        //function GetAllStores() {
+        //    try {
+        //        var headers = {};
+        //        var token = $('input[name="__RequestVerificationToken"]').val();
+        //        headers['__RequestVerificationToken'] = token;
+        //        $.ajax({
+        //            url: '/Customer/GetStoresAll',
+        //            type: 'POST',
+        //            headers: headers,
+        //            contentType: 'application/json; charset=utf-8',
+        //            success: function (result) {
+
+        //                if (result != null && result != "" && result != "Error") {
+        //                    $("#ddlNavBarStoreID").html("");
+        //                    $.each($.parseJSON(result), function (i, Data) {
+
+        //                        $("#ddlNavBarStoreID").append
+        //                            ($('<option></option>').val(Data.ID).html(Data.Description))
+
+        //                    });
+
+        //                    $("#ddlNavBarStoreID").prop("selectedIndex", 0).change();
+
+                          
+        //                }
+        //                else {
+        //                    var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+        //                    swal("", errorMessage, "error");
+        //                }
+
+        //            },
+        //            error: function (xhr, status, error) {
+        //                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+        //                swal("", errorMessage, "error");
+
+        //            }
+        //        });
+
+
+        //    }
+        //    catch (err) {
+        //        swal("Cancelled", err.toString(), "error");
+        //    }
+        //}
+    //    $("#ddlStoreID").change(function () {
+    //    debugger;
+    //        GetDashBoardTopCount();
+    //});
+    </script>
+   
+}

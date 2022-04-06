@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Compatible Tags Input Demos</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.1/darkly/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="tagInput.js"></script>
+  <link rel="stylesheet" href="tagInput.css">
+  <script>
+  $(document).ready(function(){
+	$('#tags').tagInput({labelClass:"badge badge-success"});
+  });
+  </script>
+</head>
+<body>
+<div class="container">
+
+<h1>Bootstrap Compatible Tags Input Demos</h1>
+  <form>
+    <div class="form-group">
+      <label for="tags">Tags:</label>
+      <div class="form-control tags" id="tags">
+      	<input type="text" class="labelinput">
+        <input type="hidden" value="jQuery,Script,Net" name="result">
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

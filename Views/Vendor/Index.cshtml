@@ -1,0 +1,951 @@
+﻿
+
+
+
+<head>
+    <title>Vendor</title>
+
+
+
+
+     
+</head>
+
+
+
+
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Vendor</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header header-elements-inline search-header">
+        <h5 class="card-title">
+            <i class=""></i>Vendor
+        </h5>
+
+    </div>
+
+    @Html.AntiForgeryToken()
+
+    <div class="card-body">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="#generalinfo" class="nav-link active show" data-toggle="tab">General Info</a></li>
+            <li class="nav-item"><a href="#Address" class="nav-link" data-toggle="tab">Address</a></li>
+            <li class="nav-item"><a href="#Contact" class="nav-link" data-toggle="tab">Contact Info</a></li>
+
+
+
+
+
+
+        </ul>
+        <form id="VendorForm">
+            <div class="tab-content">
+
+                <div class="tab-pane fade in active show" id="generalinfo">
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Vendor No.
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtVendorNo" name="txtVendorNo" maxlength="12" class="form-control" required onkeyup="ClearMessage()" onchange="CheckAvailability();" />
+                                    <span id="message"></span>
+                                    <input type="hidden" id="IsValidID" value="true">
+                                    <input type="hidden" id="txtEdit" value="0">
+                                    <input type="hidden" id="txtRedirection" value="1">
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Company Name
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCompanyName" name="txtCompanyName" maxlength="30" class="form-control" required />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    PO Delivery Method
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <select class="form-control" id="ddlPODeliveryMethodID">
+                                        <option value="0" selected>Print</option>
+                                        <option value="1">Fax</option>
+                                        <option value="2">Email</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Terms
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" id="txtTerms" name="txtTerms" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Flat Rent Rate ($)
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtFlatRentRate" name="txtFlatRentRate" maxlength="20" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Tax ID
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtTaxID" name="RegistrationNumber" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Minimum Order($)
+
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" value="" onkeypress="return isNumberKey(event,this)" id="txtMinimumOrder" name="MinimumOrder" maxlength="20" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Commision (%)
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" onkeypress="return isNumberKey(event,this)" value="" id="txtCommision" name="RegistrationNumber" maxlength="20" class="form-control" />
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Billable Department
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtBillableDepartment" name="RegistrationNumber" maxlength="20" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Social Security No
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtSocialSecurityNo" name="RegistrationNumber" maxlength="11" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+                <div class="tab-pane fade in " id="Address">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Street Address
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtStreetAddress" name="RegistrationNumber" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    City
+
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCity" name="RegistrationNumber" maxlength="20" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    State
+
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtState" name="RegistrationNumber" maxlength="12" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Extended Address
+
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtExtendedAddress" name="RegistrationNumber" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Zip Code
+                                    <span class="text-danger">  </span>
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtZipCode" name="RegistrationNumber" maxlength="10" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Country
+                                    <span class="text-danger">  </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCountry" name="RegistrationNumber" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                <div class="tab-pane fade in " id="Contact">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    First Name
+
+                                </label>
+
+                                <div class="col-md-8 ">
+                                    <input type="text" value="" id="txtFirstName" name="RegistrationNumber" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Last Name
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtLastName" name="RegistrationNumber" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Telephone Number
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtTelephoneNumber" name="RegistrationNumber" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Email
+
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="email" value="" id="txtEmail" name="RegistrationNumber" maxlength="50" class="form-control" />
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Website
+
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="url" value="" id="txtWebsite" name="RegistrationNumber" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Fax Number
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtFaxNumber" name="RegistrationNumber" maxlength="15" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-lg" style="color:white" onclick="RedirectPage();"><b><i class="icon-cross2"></i></b>Cancel</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsave" onclick="SetRedirection(1);">Save</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+@section scripts
+{
+
+ @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+<script>
+
+    $(document).ready(function () {
+
+        SBVendor();
+        $('#ddlPODeliveryMethodID').select2();
+       
+       // GetAllStores();
+
+
+        var EncryptedID = fnCheckIDForEditOnLoad();
+        if (EncryptedID != null && EncryptedID != undefined & EncryptedID != "") {
+            var ID = fnDecryptID(EncryptedID);
+            if (ID != null && ID != undefined && ID != "0") {
+                debugger;
+                LoadVendorDetailsAll(ID);
+            }
+
+
+        }
+
+    });
+    function fnCheckIDForEditOnLoad() {
+        try {
+            var EncryptedID = "";
+            var wlss = window.location.search.substring(1);
+            if (wlss != null && wlss != undefined & wlss != "") {
+                if (wlss.indexOf('&') != -1) {
+                    var wlsssplitam = wlss.split('&');
+                    if (wlsssplitam.length > 0) {
+                        $(wlsssplitam).each(function () {
+                            var KeyValue = this;
+                            if (KeyValue.indexOf('=') != -1) {
+                                var ObjKeyValue = KeyValue.split(/=(.+)/);
+                                if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                    EncryptedID = ObjKeyValue[1] != null && ObjKeyValue[1] != undefined ? ObjKeyValue[1] : '';
+                                    return EncryptedID;
+                                }
+                            }
+                        });
+                    }
+                }
+                else {
+                    if (wlss.indexOf('=') != -1) {
+                        var ObjKeyValue = wlss.split(/=(.+)/);
+                        if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                            EncryptedID = ObjKeyValue[1];
+                        }
+                    }
+                }
+            }
+            return EncryptedID;
+        } catch (e) {
+            return "";
+        }
+    }
+    function fnDecryptID(id) {
+        try {
+            var decryptedID = '0';
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: '/Common/Decrypt/',
+                data: JSON.stringify({ ID: id }),
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result != null && result != undefined && result != "" && result != "Error") {
+                        if (result != "") {
+                            decryptedID = result;
+                        }
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+            });
+            return decryptedID;
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+        return '0';
+    }
+    function fnEncryptID(id) {
+        try {
+            var EncryptedID = '';
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: '/Common/Encrypt/',
+                data: JSON.stringify({ ID: id }),
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result != null && result != undefined && result != "" && result != "Error") {
+                        EncryptedID = result;
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+            });
+            return EncryptedID;
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+        return '';
+    }
+    function LoadVendorDetailsAll(VendorNo) {
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        $('[data-toggle="tooltip"]').tooltip({ html: true });
+        try {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                url: '/Vendor/LoadVendorData',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo }),
+                headers: headers,
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+
+                    if (result != null && result != "" && result != "Error") {
+                        $.each(result, function (i, Data) {
+
+
+                            $('#btnsave').text('Update');
+                            $('#btnsaveandList').text('Update and Go to List');
+                            $('#txtEdit').val(1);
+                            $('#txtVendorNo').val(Data.Vendor_Number);
+                            $('#txtVendorNo').prop("disabled", true);
+                            $('#txtFirstName').val(Data.First_Name);
+                            $('#txtLastName').val(Data.Last_Name);
+                            $('#txtCompanyName').val(Data.Company);
+                            $('#txtStreetAddress').val(Data.Address_1);
+                            $('#txtExtendedAddress').val(Data.Address_2);
+                            $('#txtCity').val(Data.City);
+                            $('#txtState').val(Data.State);
+                            $('#txtZipCode').val(Data.Zip_Code);
+                            $('#txtTelephoneNumber').val(Data.Phone);
+                             $('#txtFaxNumber').val(Data.Fax);
+                             $('#txtTaxID').val(Data.Vendor_Tax_ID);
+                             $('#txtTerms').val(Data.Vendor_Terms);
+                             $('#txtSocialSecurityNo').val(Data.SSN);
+                             $('#txtCommision').val(Data.Commission);
+                            $('#txtFlatRentRate').val(Data.Rent);
+                            $('#txtCountry').val(Data.Country);
+                             $('#txtEmail').val(Data.Email);
+                             $('#txtWebsite').val(Data.Website);
+                             $('#txtMinimumOrder').val(Data.Minimum_Order);
+                             $('#txtEmployeeID').val(Data.Default_Ordering_Mode);
+                             $('#txtBillableDepartment').val(Data.Default_Billable_Department);
+                             $('#ddlPODeliveryMethodID').val(Data.Default_PO_Delivery);
+
+
+
+                        });
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+            });
+
+
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+    }
+   
+
+    $("#VendorForm").submit(function (event) {
+        event.preventDefault();
+        SaveRecord();
+    });
+
+    function isNumberKey(evt, obj) {
+
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        var value = obj.value;
+        var dotcontains = value.indexOf(".") != -1;
+        if (dotcontains)
+            if (charCode == 46) return false;
+        if (charCode == 46) return true;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function SaveRecord() {
+        try {
+
+
+            if ($('#IsValidID').val() != "true" && $('#IsValidID').val() != true) {
+
+                swal("Warning", "Vendor Number already exists!", "error");
+            }
+            else {
+
+
+                if ($('#btnsave').text() == 'Save') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Save this record ?";
+                    var ConfirmButtonText = "Confirm Save";
+                    var CancelButtonText = "Cancel";
+                }
+                if ($('#btnsave').text() == 'Update') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Update this record ?";
+                    var ConfirmButtonText = "Confirm Update";
+                    var CancelButtonText = "Cancel";
+                }
+                swal(
+                    {
+                        title: Title,
+                        text: Text,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: ConfirmButtonText,
+                        cancelButtonText: CancelButtonText,
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    },
+                    function (isConfirm) {
+
+                        if (isConfirm) {
+                            var AjaxObj = VendorObjCall();
+                           
+                            var headers = {};
+                            var token = $('input[name="__RequestVerificationToken"]').val();
+                            headers['__RequestVerificationToken'] = token;
+                            var Url = "";
+                            if ($('#btnsave').text() == 'Save') {
+                                Url = "/Vendor/Create";
+                            }
+                            else {
+                                Url = "/Vendor/Update";
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                headers: headers,
+                                contentType: "application/json; charset=utf-8",
+                                url: Url,
+                                data: JSON.stringify({ "Obj": AjaxObj }),
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result.Code == 200) {
+
+                                        swal({
+                                            title: "",
+                                            text: result.Message,
+                                            type: result.Type,
+                                            showCancelButton: false,
+                                            confirmButtonClass: "btn btn-success",
+                                            cancelButtonClass: "btn btn-primary",
+                                            confirmButtonText: "Ok",
+                                            cancelButtonText: "Cancel",
+                                            closeOnConfirm: true,
+                                            closeOnCancel: true
+                                        },
+                                            //debugger;
+                                            function (isConfirm) {
+                                                if (isConfirm) {
+                                                    if ($("#txtRedirection").val() == 2) {
+                                                        window.location.replace("/VendorList/Index");
+                                                    }
+                                                    else {
+                                                        $('#btnsave').text('Update');
+                                                        $('#btnsaveandList').text('Update and Go to List');
+                                                        $('#txtEdit').val(1);
+                                                        $('#txtVendorNo').prop("disabled", true);
+                                                    }
+                                                }
+                                            });
+
+
+                                    }
+                                    else {
+                                        swal("", result.Message, result.Type);
+
+                                    }
+
+                                },
+                                error: function (xhr, status, error) {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                    swal("", errorMessage, "error");
+                                }
+
+                            });
+
+
+                        }
+                        else {
+
+                            swal("Cancelled", "Your operation Canceled :)", "error");
+                        }
+
+                    }
+                );
+            }
+        }
+        catch (err) {
+            swal("Cancelled", err.ToString(), "error");
+        }
+    }
+
+    function VendorObjCall() {
+        debugger;
+        var AjaxObj = {
+            "Vendor_Number":"",
+            "First_Name"   :"",
+            "Last_Name"    :"",
+            "Company"      :"",
+            "Address_1"    :"",
+            "Address_2"    :"",
+            "City"        : "",
+            "State"        :"",
+            "Zip_Code"     :"",
+            "Phone"        :"",
+            "Fax"          :"",
+            "Vendor_Tax_ID":"",
+            "Vendor_Terms" :"",
+            "SSN"          :"",
+            "Commission"   :"",
+            "Rent"         :"",
+            "Dirty"        :"",
+            "County"       :"",
+            "Country"      :"",
+            "Email"        :"",
+            "Website"      :"",
+            "Minimum_Order":"",
+            "Default_Ordering_Mode":"",
+            "Default_Billable_Department":"",
+            "Default_PO_Delivery" :"",
+
+        };
+
+
+       
+        AjaxObj.Vendor_Number = $('#txtVendorNo').val();
+        AjaxObj.First_Name = $('#txtFirstName').val();
+        AjaxObj.Last_Name = $('#txtLastName').val();
+        AjaxObj.Company = $('#txtCompanyName').val();
+        AjaxObj.Address_1 = $('#txtStreetAddress').val();
+        AjaxObj.Address_2 = $('#txtExtendedAddress').val();
+        AjaxObj.City = $('#txtCity').val();
+        AjaxObj.State = $('#txtState').val();
+        AjaxObj.Zip_Code = $('#txtZipCode').val();
+        AjaxObj.Phone = $('#txtTelephoneNumber').val();
+        AjaxObj.Fax = $('#txtFaxNumber').val();
+        AjaxObj.Vendor_Tax_ID = $('#txtTaxID').val();
+        AjaxObj.Vendor_Terms = $('#txtTerms').val();
+        AjaxObj.SSN = $('#txtSocialSecurityNo').val();
+        AjaxObj.Commission = $('#txtCommision').val();
+        AjaxObj.Rent = $('#txtFlatRentRate').val();
+        AjaxObj.Dirty= false;
+        AjaxObj.County = $('#txtCountry').val();
+        AjaxObj.Country = $('#txtCountry').val();
+        AjaxObj.Email = $('#txtEmail').val();
+        AjaxObj.Website = $('#txtWebsite').val();
+        AjaxObj.Minimum_Order = $('#txtMinimumOrder').val();
+        AjaxObj.Default_Ordering_Mode = $('#txtEmployeeID').val();
+        AjaxObj.Default_Billable_Department = $('#txtBillableDepartment').val();
+        AjaxObj.Default_PO_Delivery = $('#ddlPODeliveryMethodID').val();
+
+
+
+
+
+
+
+        return AjaxObj;
+    }
+    function ClearMessage() {
+        $("#message").html("");
+    };
+    function CheckAvailability() {
+
+
+        var VendorNo = $("#txtVendorNo").val();
+        var IsEdit = $('#txtEdit').val();
+        var headers = {};
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        headers['__RequestVerificationToken'] = token;
+        $.ajax({
+            type: "POST",
+            url: '/Vendor/CheckVendorNo',
+            headers: headers,
+            data: JSON.stringify({ VendorNo: VendorNo, IsEdit: IsEdit }),
+
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var message = $("#message");
+                if (result == true) {
+
+
+                    $("#IsValidID").val(result);
+                }
+                else if (result == false) {
+                    message.css("color", "red");
+                    message.html("Vendor Number already exists!");
+                    $("#IsValidID").val(result);
+                }
+                else {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                    swal("", errorMessage, "error");
+
+                }
+
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                swal("", errorMessage, "error");
+            }
+
+
+
+
+        });
+
+    }
+    function RedirectPage() {
+        window.location.replace("/VendorList/Index");
+
+    }
+    function SetRedirection(type) {
+        //1 for save 2 for save and goto list
+        $("#txtRedirection").val(type);
+    }
+</script>
+}

@@ -1,0 +1,3113 @@
+﻿
+
+
+
+<head>
+    <title>Customer</title>
+
+
+
+
+</head>
+
+
+
+
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="dashboard.cshtml" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Customer</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card">
+    @Html.AntiForgeryToken()
+    <div class="card-header header-elements-inline search-header">
+        <h5 class="card-title">
+            <i class=""></i> Customer
+        </h5>
+
+    </div>
+
+
+
+    <div class="card-body">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="#generalinfo" class="nav-link active show" data-toggle="tab">General Info</a></li>
+            <li class="nav-item"><a href="#ExtendedInfo" class="nav-link" data-toggle="tab">Extended Info</a></li>
+            <li class="nav-item"><a href="#AccountInfo" class="nav-link" data-toggle="tab">Accounts Info</a></li>
+            <li class="nav-item"><a href="#Shipping" class="nav-link" data-toggle="tab">Shipping/Billing</a></li>
+            <li class="nav-item"><a href="#History" class="nav-link" data-toggle="tab">History</a></li>
+            <li class="nav-item"><a href="#Note" class="nav-link" data-toggle="tab">Notes</a></li>
+            <li class="nav-item"><a href="#Properties" class="nav-link" data-toggle="tab">Properties</a></li>
+            <li class="nav-item"><a href="#Stores" class="nav-link" data-toggle="tab">Stores</a></li>
+
+
+
+
+
+        </ul>
+        <form id="CustomerForm">
+            <div class="tab-content">
+
+                <div class="tab-pane fade in active show" id="generalinfo">
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Customer No.
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCustomerNo" name="txtCustomerNo" maxlength="12" class="form-control" required onkeyup="ClearMessage()" onchange="CheckAvailability();" />
+                                    <span id="message"></span>
+                                    <input type="hidden" id="IsValidID" value="true">
+                                    <input type="hidden" id="txtEdit" value="0">
+                                    <input type="hidden" id="txtRedirection" value="1">
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    First Name
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtFirstName" name="txtFirstName" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Last Name
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtLastName" name="txtLastName" maxlength="15" class="form-control" required />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    E-mail
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="email" id="txtEmail" name="txtEmail" maxlength="50" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Street Address
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtAdress1" name="txtAdress1" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Primary Phone No
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtPhone" name="txtPhone" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Company Name
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCompany" name="txtCompany" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Street Address 2
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtAddress2" name="txtAddress2" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Alternate Phone
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtPhone2" name="txtPhone2" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    City
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCity" name="txtCity" maxlength="20" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Country
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCountry" name="txtCountry" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Bonus Points Achieved
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="number" value="" id="txtBonusPoints" name="txtBonusPoints" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    State
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtState" name="txtState" maxlength="12" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Zip Code
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtZipCode" name="txtZipCode" maxlength="10" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Birthday
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtBirthday" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Discount (%)
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="0.00" id="txtDiscountPercentage" name="txtDiscountPercentage" class="form-control" onkeypress="return isNumberKey(event,this)" required />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Price Level
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <select class="form-control" id="ddlDiscountLevelID" name="DiscountLevelID" required>
+                                        <option value="A" selected>A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="E">E</option>
+                                        <option value="F">F</option>
+                                        <option value="G">G</option>
+                                        <option value="H">H</option>
+                                        <option value="I">I</option>
+                                        <option value="J">J</option>
+                                        <option value="K">K</option>
+                                        <option value="L">L</option>
+                                        <option value="M">M</option>
+                                        <option value="N">N</option>
+                                        <option value="O">O</option>
+                                        <option value="P">P</option>
+                                        <option value="Q">Q</option>
+                                        <option value="R">R</option>
+                                        <option value="S">S</option>
+                                        <option value="T">T</option>
+                                        <option value="U">U</option>
+                                        <option value="V">V</option>
+                                        <option value="W">W</option>
+                                        <option value="X">X</option>
+                                        <option value="Y">Y</option>
+                                        <option value="Z">Z</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Application Date
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtApplicationDate" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="row" style="">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Loyality Plan
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <select class="form-control " id="ddlLoyaltyPlanID" name="ddlLoyaltyPlanID"></select>
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-8">
+
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Charge at Cost
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="cbxChargeAtCost" value="true" name="cbxChargeAtCost">
+                                        <input type="hidden" value="false" name="cbxChargeAtCost" />
+                                        <label class="custom-control-label" for="cbxChargeAtCost"></label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax Exempt
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="cbxTaxExempt" value="true" name="cbxTaxExempt">
+                                        <input type="hidden" value="false" name="cbxTaxExempt" />
+                                        <label class="custom-control-label" for="cbxTaxExempt"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Print Notes on Receipt
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="cbxPrintNotes" value="true" name="cbxPrintNotes">
+                                        <input type="hidden" value="false" name="cbxPrintNotes" />
+                                        <label class="custom-control-label" for="cbxPrintNotes"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                    <div class="card">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+                                <button type='button' id="btnAddSwipeIDDetails" class='btn   btn-labeled btn-labeled-left btn-sm' onclick="NewSwipeID();" data-toggle='modal' data-target='#SwipeModal' style="background-color:white;">
+                                    <b><i class="icon-plus3"></i></b>
+                                    Add
+                                </button>
+                                <span> Card Swipe ID(s)</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+
+
+                            <table class="table  dataTable no-footer clsdtNoPagingInfo" id="tblSwipeIDDetail">
+                                <thead>
+                                    <tr>
+                                        <th hidden>ID</th>
+                                        <th>Swipe ID</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="tab-pane fade in " id="ExtendedInfo">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Referral Source
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtReferralSource" name=" txtReferralSource" maxlength="20" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Tax ID
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtTaxID" name="txtTaxID" maxlength="20" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Tax Rate
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <select class="form-control" id="ddlTaxRateID" name="ddlTaxRateID"></select>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <h3 class="MyCustomHeader mt-4"><i class="icon-credit-card"></i> Credit Card Info</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Credit Card Type
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <select class="form-control" id="ddlCreditCardTypeID">
+                                        <option value="0" selected>None</option>
+                                        <option value="1">Master Card</option>
+                                        <option value="2">Visa</option>
+                                        <option value="3">American Express</option>
+                                        <option value="4">Discover</option>
+                                        <option value="5">Diners Club</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Credit Card No
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCreditCardNo" name="txtCreditCardNo" maxlength="500" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Expiration
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" id="txtCreditCardExpiry" name="txtCreditCardExpiry" maxlength="500" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <h3 class="MyCustomHeader"><i class="icon-user"></i> Personal Info</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Drivers License ID
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtLiscenceNo" name="txtLiscenceNo" maxlength="20" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Exp Date
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtLiscenceExpiry" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Mobile No
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtMobileNo" name="txtMobileNo" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Fax
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtFaxNo" name="txtFaxNo" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                    <h3 class="MyCustomHeader"><i class="icon-calendar5"></i> Event</h3>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Event description
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtEventDesc" name="txtEventDesc" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Event Date
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtEventDate" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="tab-pane fade in " id="AccountInfo">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Account Type
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8 " style="margin-right:-80px;">
+                                    <div class="mt-radio-inline form-control" style="border:none">
+                                        <label class="mt-radio">
+                                            <input type="radio" name="AccountType" id="rdbAccountType" value="0" checked> Standard
+                                            <span></span>
+                                        </label> &nbsp;   &nbsp;   &nbsp;
+                                        <label class="mt-radio">
+                                            <input type="radio" name="AccountType" id="rdbAccountType1" value="1" checked> Layaway
+                                            <span></span>
+                                        </label>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Account Open Date
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtAccountOpenDate" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Account Close Date
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtAccountCloseDate" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Attn
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtAttn" name="txtAttn" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Balance Due
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtAccBalance" name="txtAccBalance" class="form-control" onkeypress="return isNumberKey(event,this)" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Default Sales Person
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <select class="form-control" id="ddlSalesPersonID"></select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Membership Expiration
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtMembershipExpiry" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+
+
+                                <label class="col-form-label ">
+                                    Required PO Entry
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="cbxRequiredPOEntry" value="true" name="cbxRequiredPOEntry">
+                                        <input type="hidden" value="false" name="cbxRequiredPOEntry" />
+                                        <label class="custom-control-label" for="cbxRequiredPOEntry"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <h3 class="MyCustomHeader mb-4"><i class="icon-coins"></i> Credit Limit</h3>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-form-label ">
+                                    Max Balance
+
+                                </label>
+
+                                <div class="col-md-2">
+                                    <input type="text" value="" id="txtMaxBalance" name="txtMaxBalance" class="form-control" onkeypress="return isNumberKey(event,this)" />
+
+                                </div>
+                                <label class="col-form-label ">
+                                    Restrict Spending To
+
+                                </label>
+
+                                <div class="col-md-2">
+                                    <input type="text" value="" id="txtMaxChargeAmount" name="txtMaxChargeAmount" class="form-control" onkeypress="return isNumberKey(event,this)" />
+
+
+                                </div>
+                                <label class="col-form-label ">
+                                    Over
+
+                                </label>
+
+                                <div class="col-md-1">
+                                    <input type="number" value="" id="txtMaxChargeNumDays" name="txtMaxChargeNumDays" maxlength="200" class="form-control" />
+
+
+                                </div>
+                                <label class="col-form-label ">
+                                    (Days)  Starting from
+
+                                </label>
+
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input type="text" id="txtNextStartDate" class="form-control pickadate-accessibility" placeholder="Select  Date">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+                                <button type='button' id="btnAddAuthorizedMembersDetails" class='btn   btn-labeled btn-labeled-left btn-sm' onclick="NewAuthorizedMembers();" data-toggle='modal' data-target='#AuthorizedMembersModal' style="background-color:white;">
+                                    <b><i class="icon-plus3"></i></b>
+                                    Add
+                                </button>
+                                <span> Authorized Members</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+
+
+                            <table class="table  dataTable no-footer clsdtNoPagingInfo" id="tblAuthorizedMembersDetail">
+                                <thead>
+                                    <tr>
+                                        <th hidden>ID</th>
+                                        <th>Member</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="tab-pane fade in " id="Shipping">
+                    <h3 class="MyCustomHeader mb-4"><i class="fas fa-shipping-fast"></i> Shipping Information</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    First Name
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingFirstName" name="txtShippingFirstName" maxlength="15" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Last Name
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingLastName" name="txtShippingLastName" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Company Name
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingCompanyName" name="txtShippingCompanyName" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Phone No
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingPhoneNo" name="txtShippingPhoneNo" maxlength="15" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Street Address
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingAddress" name="txtShippingAddress" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Extended Address
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingAddress2" name="txtShippingAddress2" maxlength="30" class="form-control" />
+                                   
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    City
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingCity" name="txtShippingCity" maxlength="20" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Country
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingCountry" name="txtShippingCountry" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    State
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingState" name="txtShippingState" maxlength="12" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Zip Code
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtShippingZipCode" name="txtShippingZipCode" maxlength="10" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <h3 class="MyCustomHeader mb-4"><i class="fas fa-file-invoice-dollar"></i> Billing Information</h3>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Bill To
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtBillToName" name="txtBillToName" maxlength="30" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Primary Contact
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtPrimaryContact" name="txtPrimaryContact" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Secondary Contact
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtSecondaryContact" name="txtSecondaryContact" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Terms
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtTerms" name="txtTerms" maxlength="15" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Resale Number
+
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtResaleNo" name="txtResaleNo" maxlength="15" class="form-control" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="tab-pane fade in " id="History">
+
+
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+
+                    <div class="card">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        @*// add patient*@
+                        <div class="card-header header-elements-inline bg-orange-800">
+
+                            <h5 class="card-title">
+
+                                <span class="font-weight-semibold">History</span>
+                            </h5>
+
+
+                        </div>
+
+
+
+                        <div class="card-body">
+                            <table class="table datatable-button-html5-columns dataTable no-footer" id="dtEmployeeList">
+                                <thead>
+                                    <tr>
+
+                                        <th> Customer No</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>E-mail </th>
+
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+                <div class="tab-pane fade in " id="Note">
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-2">
+
+
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Notes
+
+                                </label>
+
+                                <div class="col-md-10">
+                                    <textarea class="form-control" rows="10" id="txtNotes"></textarea>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-2">
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="tab-pane fade in " id="Properties">
+                    <div class="card mt-4">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+                                <button type='button' id="btnAddCustomerPropertiesDetails" class='btn   btn-labeled btn-labeled-left btn-sm' onclick="NewCustomerProperties();" data-toggle='modal' data-target='#PropertiesModal' style="background-color:white;">
+                                    <b><i class="icon-plus3"></i></b>
+                                    Add
+                                </button>
+                                <span> Properties</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+
+
+                            <table class="table  dataTable no-footer clsdtNoPagingInfo" id="dtCustomerProperties">
+                                <thead>
+                                    <tr>
+                                        <th hidden>ID</th>
+                                        <th>Property</th>
+                                        <th>Value</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade in " id="Stores">
+                    <div class="card mt-4">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+                                <button type='button' id="btnAddCustomerStoresDetails" class='btn   btn-labeled btn-labeled-left btn-sm' onclick="NewCustomerStores();" data-toggle='modal' data-target='#StoresModal' style="background-color:white;">
+                                    <b><i class="icon-plus3"></i></b>
+                                    Add
+                                </button>
+                                <span> Customer Stores</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+
+
+                            <table class="table  dataTable no-footer clsdtNoPagingInfo" id="dtCustomerStores">
+                                <thead>
+                                    <tr>
+                                        <th hidden>ID</th>
+                                        <th>Store</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-lg" style="color:white" onclick="RedirectPage();"><b><i class="icon-cross2"></i></b>Cancel</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsave" onclick="SetRedirection(1);">Save</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="AuthorizedMembersModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="AuthorizedMembersDetailForm">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Authorized Member</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Member
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtAMDetailID" class="form-control" name="ID" style="display:none" />
+                                <input type="text" id="txtAuthorizedMembersDetailSrID" class="form-control" value="-1" style="display:none" />
+
+                                <input id="txtAuthorizedMembersDescription" type="text" class="form-control" name="Description" maxlength="30" required />
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnAMDetailsave" class="btn btn-primary btn-sm">Add<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<div id="SwipeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="SwipeIDDetailForm">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Card Swipe ID</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Swipe ID
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtDetailID" class="form-control" name="ID" style="display:none" />
+                                <input type="text" id="txtSwipeIDDetailSrID" class="form-control" value="-1" style="display:none" />
+
+                                <input id="txtSwipeIDDescription" type="text" class="form-control" name="Description" maxlength="50" required />
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Add<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="StoresModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="StoresDetailForm">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Stores</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Store
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtCSDetailID" class="form-control" name="ID" style="display:none" />
+                                <input type="text" id="txtCSSrID" class="form-control" value="-1" style="display:none" />
+
+                                <select id="ddlStoreID" class="form-control" required></select>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Add<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="PropertiesModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="PropertiesDetailForm">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Properties</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Property
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtCPDetailID" class="form-control" name="ID" style="display:none" />
+                                <input type="text" id="txtCPSrID" class="form-control" value="-1" style="display:none" />
+
+                                <select id="ddlPropertyID" class="form-control" required></select>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Value
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+
+
+                                <select id="ddlValueID" class="form-control" required>
+
+                                    <option value="">Select Value</option>
+                                </select>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Add<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+@section scripts
+{
+
+
+    @*@Scripts.Render("~/bundles/Validation")*@
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+    <script>
+        $(document).ready(function () {
+            SBCustomer();
+            $('#CustomerSideBarID').addClass('active');
+            try {
+                $('.clsdtNoPagingInfo').DataTable({
+                    "paging": false, searching: false, ordering: false, info: false, buttons: { dom: { button: { className: 'btn btn-light' } }, buttons: [] }
+                });
+            } catch (e) { }
+            $('#ddlCreditCardTypeID').select2();
+            $('#ddlTaxRateID').select2();
+            $('#ddlLoyaltyPlanID').select2();
+            GetAllLoyaltyPlan();
+            GetAllSalesPerson();
+            GetAllStores();
+            GetAllProperties();
+
+            var EncryptedID = fnCheckIDForEditOnLoad();
+            if (EncryptedID != null && EncryptedID != undefined & EncryptedID != "") {
+                var ID = fnDecryptID(EncryptedID);
+                if (ID != null && ID != undefined && ID !="0") {
+                    debugger;
+                    LoadCustomerDetailsAll(ID);
+                }
+               
+
+            }
+           
+
+        });
+        function fnCheckIDForEditOnLoad() {
+            try {
+                var EncryptedID = "";
+                var wlss = window.location.search.substring(1);
+                if (wlss != null && wlss != undefined & wlss != "") {
+                    if (wlss.indexOf('&') != -1) {
+                        var wlsssplitam = wlss.split('&');
+                        if (wlsssplitam.length > 0) {
+                            $(wlsssplitam).each(function () {
+                                var KeyValue = this;
+                                if (KeyValue.indexOf('=') != -1) {
+                                    var ObjKeyValue = KeyValue.split(/=(.+)/);
+                                    if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                        EncryptedID = ObjKeyValue[1] != null && ObjKeyValue[1] != undefined ? ObjKeyValue[1] : '';
+                                        return EncryptedID;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        if (wlss.indexOf('=') != -1) {
+                            var ObjKeyValue = wlss.split(/=(.+)/);
+                            if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                EncryptedID = ObjKeyValue[1];
+                            }
+                        }
+                    }
+                }
+                return EncryptedID;
+            } catch (e) {
+                return "";
+            }
+        }
+        function fnDecryptID(id) {
+            try {
+                var decryptedID = '0';
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Decrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "" && result != "Error") {
+                            if (result!="") {
+                                decryptedID = result;
+                            }
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                return decryptedID;
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+            return '0';
+        }
+        function fnEncryptID(id) {
+            try {
+                var EncryptedID = '';
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Encrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "" && result != "Error") {
+                            EncryptedID = result;
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                return EncryptedID;
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+            return '';
+        }
+        function LoadCustomerDetailsAll(CustomerNo) {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+            LoadCustomerData(CustomerNo);
+            LoadCustomerStoresData(CustomerNo);
+            LoadCustomerPropertiesData(CustomerNo);
+            LoadCustomerSwipeIDsData(CustomerNo);
+            LoadAuthorizedMembersData(CustomerNo);
+        }
+        function LoadCustomerData(CustomerNo) {
+
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Customer/LoadCustomerData',
+                    type: 'POST',
+                    data: JSON.stringify({ CustomerNo: CustomerNo }),
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $.each(result, function (i, Data) {
+
+
+                                $('#btnsave').text('Update');
+                                $('#btnsaveandList').text('Update and Go to List');
+                                $('#txtEdit').val(1);
+                                $('#txtCustomerNo').val(Data.CustNum);
+                                $('#txtCustomerNo').prop("disabled", true);
+                                $('#txtFirstName').val(Data.First_Name);
+                                $('#txtLastName').val(Data.Last_Name);
+                                $('#txtCompany').val(Data.Company);
+                                $('#txtAddress1').val(Data.Address_1);
+                                $('#txtAddress2').val(Data.Address_2);
+                                $('#txtCity').val(Data.City);
+                                $('#txtState').val(Data.State);
+                                $('#txtZipCode').val(Data.Zip_Code);
+                                $('#txtPhone').val(Data.Phone_1);
+                                $('#txtPhone2').val(Data.Phone_2);
+                                $('#ddlCreditCardTypeID').val(Data.CC_Type).change();
+                                $('#txtCreditCardNo').val(Data.CC_Num);
+                                $('#txtCreditCardExpiry').val(Data.CC_Exp);
+                                $('#ddlDiscountLevelID').val(Data.Discount_Level).change();
+                                $('#txtDiscountPercentage').val(Data.Discount_Percent);
+                                $('#txtAccountOpenDate').val(Data.Acct_Open_Date);
+                                $('#txtAccountCloseDate').val(Data.Acct_Close_Date);
+                                $('#txtAccBalance').val(Data.Acct_Balance);
+                                $('#txtMaxBalance').val(Data.Acct_Max_Balance);
+                                
+                                $('#txtBonusPoints').val(Data.Bonus_Points);
+                                $('#txtMembershipExpiry').val(Data.Member_Exp);
+                                
+                                $('#txtMobileNo').val(Data.Phone_3);
+                                $('#txtFaxNo').val(Data.Phone_4);
+                                $('#txtEmail').val(Data.EMail);
+                                $('#txtCountry').val(Data.County);
+                                $('#txtBirthday').val(Data.Birthday);
+                                
+                                $('#ddlSalesPersonID').val(Data.Def_SP).change();
+                               
+                                $('#txtReferralSource').val(Data.Referral);
+                                $('#txtMaxChargeNumDays').val(Data.Max_Charge_NumDays);
+                                $('#txtMaxChargeAmount').val(Data.Max_Charge_Amount);
+                                $('#txtNextStartDate').val(Data.Next_Start_Date);
+
+                              
+                                $('#txtBillToName').val(Data.Bill_To_Name);
+                                $('#txtPrimaryContact').val(Data.Contact_1);
+                                $('#txtSecondaryContact').val(Data.Contact_2);
+                                $('#txtTerms').val(Data.Terms);
+                                $('#txtResaleNo').val(Data.Resale_Num);
+
+
+                                if (Data.Account_Type ==0) {
+                                    $("#rdbAccountType").prop("checked", true);
+                                }
+                                else {
+                                    $("#rdbAccountType").prop("checked", false);
+                                }
+
+                                $('#txtLiscenceNo').val(Data.License_Num);
+                                $('#ddlLoyaltyPlanID').val(Data.Loyalty_Plan_ID).change();
+                                $('#ddlTaxRateID').val(Data.Tax_Rate_ID).change();
+
+                                if (Data.ChargeAtCost == true) {
+                                    $("#cbxChargeAtCost").prop("checked", true)
+                                }
+                                else {
+                                    $("#cbxChargeAtCost").prop("checked", false)
+                                }
+                                if (Data.Tax_Exempt == true) {
+                                    $("#cbxTaxExempt").prop("checked", true)
+                                }
+                                else {
+                                    $("#cbxTaxExempt").prop("checked", false)
+                                }
+                                if (Data.PrintNotes == true) {
+                                    $("#cbxPrintNotes").prop("checked", true)
+                                }
+                                else {
+                                    $("#cbxPrintNotes").prop("checked", false)
+                                }
+                                if (Data.Require_PONum == true) {
+                                    $("#cbxRequiredPOEntry").prop("checked", true)
+                                }
+                                else {
+                                    $("#cbxRequiredPOEntry").prop("checked", false)
+                                }
+                               
+                            
+                                 $('#txtLiscenceExpiry').val(Data.License_ExpDate);
+                                 $('#txtTaxID').val(Data.TaxID);
+                                $('#txtAttn').val(Data.Attn);
+
+
+                                //Notes
+
+                                if (Data.Notes != "") {
+                                    $('#txtNotes').val(Data.Notes);
+
+                                }
+                                
+                                 //Shipping
+                                $('#txtShippingFirstName').val(Data.ShippingFirstName);
+                                $('#txtShippingLastName').val(Data.ShippingLastName);
+                                $('#txtShippingCompanyName').val(Data.ShippingCompany);
+                                $('#txtShippingAddress').val(Data.ShippingAddress1);
+                                $('#txtShippingAddress2').val(Data.ShippingAddress2);
+                                $('#txtShippingCity').val(Data.ShippingCity);
+                                $('#txtShippingState').val(Data.ShippingState);
+                                $('#txtShippingZipCode').val(Data.ShippingZipCode);
+                                $('#txtShippingPhoneNo').val(Data.ShippingPhone);
+                                $('#txtShippingCountry').val(Data.ShippingCounty);
+
+                                //Event
+
+                                $('#txtEventDate').val(Data.Event_Date);
+                                $('#txtEventDesc').val(Data.Event_Desc);
+
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function LoadCustomerStoresData(CustomerNo) {
+            var table = $("#dtCustomerStores").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Customer/GetTableSummaryCustomerStores",
+                data: JSON.stringify({ CustomerNo: CustomerNo }),
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+                    if (result != null && result != "Error") {
+                        table.clear();
+                      
+                      
+                        $.each(result, function (i, Data) {
+                           
+                            debugger;
+                            var newRow = "<tr><td hidden>" + Data.CustNum + "</td>" +
+                                "<td>" + Data.Store_ID + "</td>" +
+                                "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delCSRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        function LoadCustomerPropertiesData(CustomerNo) {
+            var table = $("#dtCustomerProperties").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Customer/GetTableSummaryCustomerProperties",
+                data: JSON.stringify({ CustomerNo: CustomerNo }),
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+
+
+                            var newRow = "<tr><td hidden>" + Data.CustNum + "</td>" +
+                                "<td>" + Data.Description + "</td>" +
+                                "<td>" + Data.Value_ID + "</td>" +
+                                "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delCPRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        function LoadAuthorizedMembersData(CustomerNo) {
+            var table = $("#tblAuthorizedMembersDetail").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Customer/GetTableSummaryAuthorizedMember",
+                data: JSON.stringify({ CustomerNo: CustomerNo }),
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+
+
+                            var newRow = "<tr><td hidden>" + Data.CustNum + "</td>" +
+                                "<td>" + Data.Member + "</td>" +
+                                "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delAMRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        function LoadCustomerSwipeIDsData(CustomerNo) {
+            var table = $("#tblSwipeIDDetail").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Customer/GetTableSummarySwipeID",
+                data: JSON.stringify({ CustomerNo: CustomerNo }),
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+
+
+                            var newRow = "<tr><td hidden>" + Data.CustNum + "</td>" +
+                                "<td>" + Data.Swipe_ID + "</td>" +
+                                "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+
+        function NewSwipeID() {
+            $('#modalHeading').text(" New Record");
+
+            $('#SwipeModal').modal('show');
+            $('#txtSwipeIDDescription').val('');
+            $('#txtDetailID').val(0);
+            $('#btnDetailsave').show();
+            $('#btnDetailsave').text('Add');
+            $('#txtSwipeIDDetailSrID').val('-1');
+        }
+        function NewCustomerProperties() {
+            $('#modalHeading').text(" New Record");
+
+            $('#PropertiesModal').modal('show');
+            $('#ddlPropertyID').val('0').change();
+            $('#ddlValueID').val('0').change();
+            $('#txtCPDetailID').val(0);
+            $('#btnDetailsave').show();
+            $('#btnDetailsave').text('Add');
+            $('#txtCPSrID').val('-1');
+        }
+        function NewAuthorizedMembers() {
+            $('#modalHeading').text(" New Record");
+
+            $('#AuthorizedMembersModal').modal('show');
+            $('#txtAuthorizedMembersDescription').val('');
+            $('#txtAMDetailID').val(0);
+            $('#btnDetailsave').show();
+            $('#btnDetailsave').text('Add');
+            $('#txtAuthorizedMembersDetailSrID').val('-1');
+        }
+        function NewCustomerStores() {
+            $('#modalHeading').text(" New Record");
+
+            $('#StoresModal').modal('show');
+            $('#ddlStoreID').val('').change();
+
+            $('#txtCsDetailID').val(0);
+            $('#btnDetailsave').show();
+            $('#btnDetailsave').text('Add');
+            $('#txtCSSrID').val('-1');
+        }
+
+
+
+
+        $("#AuthorizedMembersDetailForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            AddAuthorizedMembersDetailRecord();
+        });
+        $("#SwipeIDDetailForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            AddDetailRecord();
+        });
+        $("#StoresDetailForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            AddStoresDetailRecord();
+        });
+        $("#PropertiesDetailForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            AddPropertiesDetailRecord();
+        });
+        $("#CustomerForm").submit(function (event) {
+            event.preventDefault();
+            SaveRecord();
+        });
+
+        function AddDetailRecord() {
+            try {
+                $('#SwipeModal').modal('hide');
+                let ID = $("#txtDetailID").val();
+                let Description = $("#txtSwipeIDDescription").val();
+
+
+
+                var table = $('#tblSwipeIDDetail').DataTable();
+
+                var count = 1;
+                count += table.rows().count();
+
+
+                var newRow = "<tr><td hidden>" + ID + "</td>" +
+                    "<td>" + Description + "</td>" +
+                    "<td>" +
+                    "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                    "</td></tr>";
+
+                table.row.add($(newRow));
+                table.draw();
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+        function AddAuthorizedMembersDetailRecord() {
+            try {
+                $('#AuthorizedMembersModal').modal('hide');
+                let ID = $("#txtAMDetailID").val();
+                let Description = $("#txtAuthorizedMembersDescription").val();
+
+
+
+                var table = $('#tblAuthorizedMembersDetail').DataTable();
+
+                var count = 1;
+                count += table.rows().count();
+
+
+                var newRow = "<tr><td hidden>" + ID + "</td>" +
+                    "<td>" + Description + "</td>" +
+                    "<td>" +
+                    "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delAMRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                    "</td></tr>";
+
+                table.row.add($(newRow));
+                table.draw();
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+        function AddStoresDetailRecord() {
+            try {
+                $('#StoresModal').modal('hide');
+                let ID = $("#txtCSDetailID").val();
+                let Description = $("#ddlStoreID").val();
+
+
+
+                var table = $('#dtCustomerStores').DataTable();
+
+                var count = 1;
+                count += table.rows().count();
+
+
+                var newRow = "<tr><td hidden>" + ID + "</td>" +
+                    "<td>" + Description + "</td>" +
+                    "<td>" +
+                    "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delCSRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                    "</td></tr>";
+
+                table.row.add($(newRow));
+                table.draw();
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+        function AddPropertiesDetailRecord() {
+            try {
+                $('#PropertiesModal').modal('hide');
+                let ID = $("#txtCSDetailID").val();
+                let Property = $("#ddlPropertyID option:selected").text();
+                let Value = $("#ddlValueID").val();
+
+                var table = $('#dtCustomerProperties').DataTable();
+
+                var count = 1;
+                count += table.rows().count();
+
+
+                var newRow = "<tr><td hidden>" + ID + "</td>" +
+                    "<td>" + Property + "</td>" +
+                    "<td>" + Value + "</td>" +
+                    "<td>" +
+                    "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delCPRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                    "</td></tr>";
+
+                table.row.add($(newRow));
+                table.draw();
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+
+
+
+        function delRow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#tblSwipeIDDetail').DataTable();
+                table1.row(row).remove().draw(false);
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+        }
+        function delCPRow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#dtCustomerProperties').DataTable();
+                table1.row(row).remove().draw(false);
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+        }
+        function delCSRow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#dtCustomerStores').DataTable();
+                table1.row(row).remove().draw(false);
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+        }
+        function delAMRow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#tblAuthorizedMembersDetail').DataTable();
+                table1.row(row).remove().draw(false);
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+        }
+
+        function isNumberKey(evt, obj) {
+
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            var value = obj.value;
+            var dotcontains = value.indexOf(".") != -1;
+            if (dotcontains)
+                if (charCode == 46) return false;
+            if (charCode == 46) return true;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        $('#ddlPropertyID').change(function () {
+            var PropertyID = $(this).val();
+            if (Number(PropertyID) > 0) {
+                GetValueByProperty();
+            }
+
+        });
+
+
+        function SaveRecord() {
+            try {
+
+
+                if ($('#IsValidID').val() != "true" && $('#IsValidID').val() != true) {
+
+                    swal("Warning", "Customer Number already exists!", "error");
+                }
+                else {
+
+
+                    if ($('#btnsave').text() == 'Save') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Save this record ?";
+                        var ConfirmButtonText = "Confirm Save";
+                        var CancelButtonText = "Cancel";
+                    }
+                    if ($('#btnsave').text() == 'Update') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Update this record ?";
+                        var ConfirmButtonText = "Confirm Update";
+                        var CancelButtonText = "Cancel";
+                    }
+                    swal(
+                        {
+                            title: Title,
+                            text: Text,
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: ConfirmButtonText,
+                            cancelButtonText: CancelButtonText,
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        },
+                        function (isConfirm) {
+
+                            if (isConfirm) {
+                                var AjaxObj = CustomerObjCall();
+                                var CustomerStoresObj = CusomerStoresObjCall();
+                                var headers = {};
+                                var token = $('input[name="__RequestVerificationToken"]').val();
+                                headers['__RequestVerificationToken'] = token;
+                                var Url = "";
+                                if ($('#btnsave').text() == 'Save') {
+                                    Url = "/Customer/Create";
+                                }
+                                else {
+                                    Url = "/Customer/Update";
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    headers: headers,
+                                    contentType: "application/json; charset=utf-8",
+                                    url: Url,
+                                    data: JSON.stringify({ "Obj": AjaxObj, "CustomerStoresObj": CustomerStoresObj }),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+                                        if (result.Code == 200) {
+
+                                            swal({
+                                                title: "",
+                                                text: result.Message,
+                                                type: result.Type,
+                                                showCancelButton: false,
+                                                confirmButtonClass: "btn btn-success",
+                                                cancelButtonClass: "btn btn-primary",
+                                                confirmButtonText: "Ok",
+                                                cancelButtonText: "Cancel",
+                                                closeOnConfirm: true,
+                                                closeOnCancel: true
+                                            },
+                                                //debugger;
+                                                function (isConfirm) {
+                                                    if (isConfirm) {
+                                                        if ($("#txtRedirection").val() == 2) {
+                                                            window.location.replace("/CustomerList/Index");
+                                                        }
+                                                        else {
+                                                            $('#btnsave').text('Update');
+                                                            $('#btnsaveandList').text('Update and Go to List');
+                                                            $('#txtEdit').val(1);
+                                                            $('#txtCustomerNo').prop("disabled", true);
+                                                        }
+                                                    }
+                                                });
+
+
+                                        }
+                                        else {
+                                            swal("", result.Message, result.Type);
+
+                                        }
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                        swal("", errorMessage, "error");
+                                    }
+
+                                });
+
+
+                            }
+                            else {
+
+                                swal("Cancelled", "Your operation Canceled :)", "error");
+                            }
+
+                        }
+                    );
+                }
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+
+        function CustomerObjCall() {
+            debugger;
+            var AjaxObj = {
+                "CustNum": "", "First_Name": "", "Last_Name": "",
+                "Company": "",
+                "Address_1": "",
+                "Address_2": "",
+                "City": "",
+                "State": "",
+                "Zip_Code": "",
+                "Phone_1": "",
+                "Phone_2": "",
+                "CC_Type": "",
+                "CC_Num": "",
+                "CC_Exp": "",
+                "Discount_Level": "",
+                "Discount_Percent": "",
+                "Acct_Open_Date": "",
+                "Acct_Close_Date": "",
+                "Acct_Balance": "",
+                "Acct_Max_Balance": "",
+                "Bonus_Plan_Member": "",
+                "Bonus_Points": "",
+                "Tax_Exempt": "",
+                "Member_Exp": "",
+                "Dirty": "",
+                "Phone_3": "",
+                "Phone_4": "",
+                "EMail": "",
+                "County": "",
+                "Def_SP": "",
+                "CreateDate": "",
+                "Referral": "",
+                "Birthday": "",
+                "Last_Birthday_Bonus": "",
+                "Last_Visit": "",
+                "Require_PONum": "",
+                "Max_Charge_NumDays": "",
+                "Max_Charge_Amount": "",
+                "License_Num": "",
+                "ID_Last_Checked": "",
+                "Next_Start_Date": "",
+                "Checking_AcctNum": "",
+                "PrintNotes": "",
+                "Loyalty_Plan_ID": "",
+                "Tax_Rate_ID": "",
+                "Bill_To_Name": "",
+                "Contact_1": "",
+                "Contact_2": "",
+                "Terms": "",
+                "Resale_Num": "",
+                "Last_Coupon": "",
+                "Account_Type": "",
+                "ChargeAtCost": "",
+                "Disabled": "",
+                "ImagePath": "",
+                "License_ExpDate": "",
+                "TaxID": "",
+                "SecretCode": "",
+                "OnlineUserName": "",
+                "OnlinePassword": "",
+                "Token": "",
+                "MaskedCardNumber": "",
+                "Attn": "",
+                "DueDate": "",
+                "Customer_Events": "",
+                "Customer_Notes": "",
+                "Customer_ShipTos": "",
+                "Customer_Swipes": [],
+                "Customer_Authorized": [],
+                "Customer_Properties": []
+
+            };
+            var Customer_Events = { "CustNum": "", "Event_Date": "", "Event_Desc": "" };
+            var Customer_Notes = { "CustNum": "", "Notes": "" };
+            var Customer_Swipes = { "CustNum": "", "Swipe_ID": "" };
+            var Customer_Properties = { "CustNum": "", "Value_ID": "" };
+            var Customer_Authorized = { "CustNum": "", "Member": "", "Dirty": "" };
+            var Customer_ShipTos = {
+                "CustNum": "", "First_Name": "", "Last_Name": "", "Company": "", "Address_1": "", "Address_2": "", "City": ""
+                , "State": ""
+                , "Zip_Code": ""
+                , "Phone": ""
+                , "County": ""
+                , "Dirty": ""
+                , "DeliveryAddressSpecialInstructions": ""
+            };
+            if ($('#txtNotes').val() != "") {
+                Customer_Notes.Notes = $('#txtNotes').val();
+                Customer_Notes.CustNum = $('#txtCustomerNo').val();
+                AjaxObj.Customer_Notes = Customer_Notes;
+                //Customer_Notes = { "CustNum": "", "Notes": "" };
+            }
+
+            if ($('#txtShippingFirstName').val() != "" && $('#txtShippingLastName').val() != "") {
+
+                Customer_ShipTos.CustNum = $('#txtCustomerNo').val();
+                Customer_ShipTos.First_Name = $('#txtShippingFirstName').val();
+                Customer_ShipTos.Last_Name = $('#txtShippingLastName').val();
+                Customer_ShipTos.Company = $('#txtShippingCompanyName').val();
+                Customer_ShipTos.Address_1 = $('#txtShippingAddress').val();
+                Customer_ShipTos.Address_2 = $('#txtShippingAddress2').val();
+                Customer_ShipTos.City = $('#txtShippingCity').val();
+                Customer_ShipTos.State = $('#txtShippingState').val();
+                Customer_ShipTos.Zip_Code = $('#txtShippingZipCode').val();
+                Customer_ShipTos.Phone = $('#txtShippingPhoneNo').val();
+                Customer_ShipTos.Dirty = false;
+                Customer_ShipTos.County = $('#txtShippingCountry').val();
+             
+                AjaxObj.Customer_ShipTos = Customer_ShipTos;
+               
+            }
+
+            if ($('#txtEventDate').val() != "" && $('#txtEventDesc').val() != "") {
+                debugger;
+                Customer_Events.CustNum = $('#txtCustomerNo').val();
+                Customer_Events.Event_Date = $('#txtEventDate').val();
+                Customer_Events.Event_Desc = $('#txtEventDesc').val();
+                AjaxObj.Customer_Events = Customer_Events;
+                //  Customer_Events = { "CustNum": "", "Event_Date": "", "Event_Desc": "" }
+            }
+
+
+            var tblSwipeIDDetail = $('#tblSwipeIDDetail').DataTable(), tblRows = tblSwipeIDDetail.rows().data();
+            if (tblRows.length > 0) {
+                $.each(tblRows, function (index, value) {
+                    debugger;
+                    Customer_Swipes.CustNum = $('#txtCustomerNo').val();
+                    Customer_Swipes.Swipe_ID = value[1];
+
+                    AjaxObj.Customer_Swipes.push(Customer_Swipes);
+                    Customer_Swipes = { "CustNum": "", "Swipe_ID": "" };
+                });
+            }
+            var tblAMDetail = $('#tblAuthorizedMembersDetail').DataTable(), tblARows = tblAMDetail.rows().data();
+            if (tblARows.length > 0) {
+                $.each(tblARows, function (index, value) {
+                    debugger;
+                    Customer_Authorized.CustNum = $('#txtCustomerNo').val();
+                    Customer_Authorized.Member = value[1];
+                    Customer_Authorized.Dirty = false;
+                    AjaxObj.Customer_Authorized.push(Customer_Authorized);
+                    Customer_Authorized = { "CustNum": "", "Member": "", "Dirty": "" };
+                });
+            }
+            var tblCPDetail = $('#dtCustomerProperties').DataTable(), tblRows = tblCPDetail.rows().data();
+            if (tblRows.length > 0) {
+                $.each(tblRows, function (index, value) {
+                    debugger;
+                    Customer_Properties.CustNum = $('#txtCustomerNo').val();
+                    Customer_Properties.Value_ID = value[2];
+
+                    AjaxObj.Customer_Properties.push(Customer_Properties);
+                    Customer_Properties = { "CustNum": "", "Value_ID": "" };
+                });
+            }
+
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var EntryDate = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+
+
+            AjaxObj.CustNum = $('#txtCustomerNo').val();
+            AjaxObj.First_Name = $('#txtFirstName').val();
+            AjaxObj.Last_Name = $('#txtLastName').val();
+            AjaxObj.Company = $('#txtCompany').val();
+            AjaxObj.Address_1 = $('#txtAddress1').val();
+            AjaxObj.Address_2 = $('#txtAddress2').val();
+            AjaxObj.City = $('#txtCity').val();
+            AjaxObj.State = $('#txtState').val();
+            AjaxObj.Zip_Code = $('#txtZipCode').val();
+            AjaxObj.Phone_1 = $('#txtPhone').val();
+            AjaxObj.Phone_2 = $('#txtPhone2').val();
+            AjaxObj.CC_Type = $('#ddlCreditCardTypeID').val();
+            AjaxObj.CC_Num = $('#txtCreditCardNo').val();
+            AjaxObj.CC_Exp = $('#txtCreditCardExpiry').val();
+            AjaxObj.Discount_Level = $('#ddlDiscountLevelID').val();
+            AjaxObj.Discount_Percent = $('#txtDiscountPercentage').val();
+            AjaxObj.Acct_Open_Date = $('#txtAccountOpenDate').val();
+            AjaxObj.Acct_Close_Date = $('#txtAccountCloseDate').val();
+            AjaxObj.Acct_Balance = $('#txtAccBalance').val();
+            AjaxObj.Acct_Max_Balance = $('#txtMaxBalance').val();
+            AjaxObj.Bonus_Plan_Member = true;
+            AjaxObj.Bonus_Points = $('#txtBonusPoints').val();
+            AjaxObj.Member_Exp = $('#txtMembershipExpiry').val();
+            AjaxObj.Dirty = false;
+            AjaxObj.Phone_3 = $('#txtMobileNo').val();
+            AjaxObj.Phone_4 = $('#txtFaxNo').val();
+            AjaxObj.EMail = $('#txtEmail').val();
+            AjaxObj.County = $('#txtCountry').val();
+            AjaxObj.Birthday = $('#txtBirthday').val();
+            //AjaxObj.Last_Birthday_Bonus = $('#txtEmployeeID').val();
+            //AjaxObj.Last_Visit = $('#txtEmployeeID').val();
+            AjaxObj.Def_SP = $('#ddlSalesPersonID').val();
+            AjaxObj.CreateDate = EntryDate;
+            AjaxObj.Referral = $('#txtReferralSource').val();
+            AjaxObj.Max_Charge_NumDays = $('#txtMaxChargeNumDays').val();
+            AjaxObj.Max_Charge_Amount = $('#txtMaxChargeAmount').val();
+            AjaxObj.Next_Start_Date = $('#txtNextStartDate').val();
+
+            // AjaxObj.Checking_AcctNum = $('#txtEmployeeID').val();
+            //  AjaxObj.ID_Last_Checked = $('#txtEmployeeID').val();
+            //  AjaxObj.Last_Coupon = $('#txtEmployeeID').val();
+
+            AjaxObj.Bill_To_Name = $('#txtBillToName').val();
+            AjaxObj.Contact_1 = $('#txtPrimaryContact').val();
+            AjaxObj.Contact_2 = $('#txtSecondaryContact').val();
+            AjaxObj.Terms = $('#txtTerms').val();
+            AjaxObj.Resale_Num = $('#txtResaleNo').val();
+
+
+            if ($("#rdbAccountType").is(":checked")) {
+                AjaxObj.Account_Type = "0";
+            }
+            else {
+                AjaxObj.Account_Type = "1";
+            }
+
+            AjaxObj.License_Num = $('#txtLiscenceNo').val();
+            AjaxObj.Loyalty_Plan_ID = $('#ddlLoyaltyPlanID').val();
+            AjaxObj.Tax_Rate_ID = $('#ddlTaxRateID').val();
+
+            if ($("#cbxChargeAtCost").is(":checked")) {
+                AjaxObj.ChargeAtCost = true;
+            }
+            else {
+                AjaxObj.ChargeAtCost = false;
+            }
+            if ($("#cbxTaxExempt").is(":checked")) {
+                AjaxObj.Tax_Exempt = true;
+            }
+            else {
+                AjaxObj.Tax_Exempt = false;
+            }
+            if ($("#cbxPrintNotes").is(":checked")) {
+                AjaxObj.PrintNotes = true;
+            }
+            else {
+                AjaxObj.PrintNotes = false;
+            }
+            if ($("#cbxRequiredPOEntry").is(":checked")) {
+                AjaxObj.Require_PONum = true;
+            }
+            else {
+                AjaxObj.Require_PONum = false;
+            }
+            AjaxObj.Disabled = $('#txtEmployeeID').val();
+            AjaxObj.ImagePath = $('#txtEmployeeID').val();
+            AjaxObj.License_ExpDate = $('#txtLiscenceExpiry').val();
+            AjaxObj.TaxID = $('#txtTaxID').val();
+            AjaxObj.SecretCode = $('#txtEmployeeID').val();
+            AjaxObj.OnlineUserName = $('#txtEmployeeID').val();
+            AjaxObj.OnlinePassword = $('#txtEmployeeID').val();
+            AjaxObj.Token = $('#txtEmployeeID').val();
+            AjaxObj.MaskedCardNumber = $('#txtEmployeeID').val();
+            AjaxObj.Attn = $('#txtAttn').val();
+            AjaxObj.DueDate = ""
+
+
+
+
+
+
+
+
+
+
+            return AjaxObj;
+        }
+
+        function CusomerStoresObjCall() {
+
+
+            var Customer_Stores = [];
+
+            //Customer_Stores = { "CustNum": "", "Store_ID": "" };
+
+            var tblDetail = $('#dtCustomerStores').DataTable(), tblRows = tblDetail.rows().data();
+            if (tblRows.length > 0) {
+                $.each(tblRows, function (index, value) {
+
+
+
+                    let CustNum = $('#txtCustomerNo').val();
+                    let Store_ID = value[1];
+
+                    Customer_Stores.push({ "CustNum": CustNum, "Store_ID": Store_ID });
+
+                });
+            }
+
+
+            return Customer_Stores;
+        }
+
+
+
+        function GetAllLoyaltyPlan() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Customer/GetLoyalityPlansAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlLoyaltyPlanID").html("");
+                            $("#ddlLoyaltyPlanID").append
+                                ($('<option  selected value="0"></option>').val('0').html("None"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlLoyaltyPlanID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetAllSalesPerson() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Customer/GetSalesPersonAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlSalesPersonID").html("");
+                            $("#ddlSalesPersonID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Sales Person"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlSalesPersonID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetAllStores() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Customer/GetStoresAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlStoreID").html("");
+                            $("#ddlStoreID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Store"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlStoreID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetAllProperties() {
+            debugger;
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Customer/GetPropertiesAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            debugger;
+                            $("#ddlPropertyID").html("");
+                            $("#ddlPropertyID").append
+                                ($('<option  selected value="0"></option>').val('0').html("Select Property"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlPropertyID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetValueByProperty() {
+
+            var PropertyID = $("#ddlPropertyID").val();
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Customer/GetValueByProperty',
+                    type: 'POST',
+                    async: false,
+                    data: JSON.stringify({ PropertyID: PropertyID }),
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlValueID").html("");
+                            $("#ddlValueID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Value"));
+                            $.each($.parseJSON(result), function (i, ECategory) {
+                                $("#ddlValueID").append
+                                    ($('<option></option>').val(ECategory.ID).html(ECategory.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function ClearMessage() {
+            $("#message").html("");
+        };
+        function CheckAvailability() {
+
+
+            var CustomerNo = $("#txtCustomerNo").val();
+            var IsEdit = $('#txtEdit').val();
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Customer/CheckCustomerNo',
+                headers: headers,
+                data: JSON.stringify({ CustomerNo: CustomerNo, IsEdit: IsEdit}),
+
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var message = $("#message");
+                    if (result == true) {
+
+
+                        $("#IsValidID").val(result);
+                    }
+                    else if (result == false) {
+                        message.css("color", "red");
+                        message.html("Customer Number already exists!");
+                        $("#IsValidID").val(result);
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+
+        }
+        function RedirectPage() {
+            window.location.replace("/CustomerList/Index");
+
+        }
+
+        $("#SwipeModal").on("hidden.bs.modal", function () {
+
+            $('body').addClass('modal-open');
+
+        });
+        $("#AuthorizedMembersModal").on("hidden.bs.modal", function () {
+
+            $('body').addClass('modal-open');
+
+        });
+        function SetRedirection(type) {
+            //1 for save 2 for save and goto list
+            $("#txtRedirection").val(type);
+        }
+    </script>
+}

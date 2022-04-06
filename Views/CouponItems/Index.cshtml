@@ -1,0 +1,2931 @@
+﻿
+@using System.Configuration;
+
+@{string ImagePath = ConfigurationManager.AppSettings["ImageLocationURL"].ToString();}
+
+
+
+<head>
+    <title>Coupon Item</title>
+
+
+
+</head>
+
+
+@section styles {
+
+    <link href="~/Content/assets/css/dropzone.css" rel="stylesheet" />
+    <style>
+
+
+        .dz-max-files-reached {
+            border-color: red;
+        }
+    </style>
+}
+
+
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="dashboard.cshtml" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Coupon Item</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header header-elements-inline search-header">
+        <h5 class="card-title">
+            <i class=""></i>Coupon Item
+        </h5>
+
+    </div>
+
+
+
+    <div class="card-body">
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="#ItemInfo" class="nav-link active show" data-toggle="tab">Item Info </a></li>
+            <li class="nav-item"><a href="#DaysValid" class="nav-link" data-toggle="tab">Days Valid </a></li>
+            <li class="nav-item"><a href="#Restrictions" class="nav-link show" data-toggle="tab">Restrictions</a></li>
+
+            <li class="nav-item"><a href="#Image" class="nav-link" data-toggle="tab">Image </a></li>
+
+
+
+        </ul>
+        <form id="InventoryForm">
+            @Html.AntiForgeryToken()
+
+            <div class="tab-content">
+
+
+                <div class="tab-pane fade in active  show" id="ItemInfo">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Department
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-8">
+                                    <select class=" form-control" id="ddlDepartmentID" name="ddlDepartmentID">
+                                        <option>Select Department</option>
+                                    </select>
+                                    <input type="hidden" id="txtStoreID" value="0">
+                                    <input type="hidden" id="txtItemType" value="7">
+                                    <input type="hidden" id="txtRedirection" value="1">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Item Number
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtItemNo" name="txtItemNo" maxlength="20" class="form-control" required onkeyup="ClearMessage()" onchange="CheckAvailability();" />
+                                    <span id="message"></span>
+                                    <input type="hidden" id="IsValidID" value="true">
+                                    <input type="hidden" id="txtEdit" value="0">
+                                    <input type="hidden" id="txtRowID" value="">
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Description
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="text" value="" id="txtDescription" name="txtDescription" maxlength="30" class="form-control" required />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Amount Type </label>
+                            <div class="col-md-8">
+                                <div class="radio ">
+                                    <label><input type="radio" name="rdamounttype" id="rdbAmounttype" checked>  Flat </label>
+
+
+                                    <label><input type="radio" name="rdamounttype" id="rdbAmounttype1">  Percent </label>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Discount Amount
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="0" id="txtDiscountAmount" name="nbrDiscountAmount" class="form-control" required onkeypress="return isNumberKey(event,this)" />
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Second Description
+
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="text" value="" id="txtSecondDescription" name="txtSecondDescription" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 1
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax1" value="true" checked name="chkTax1">
+                                        <input type="hidden" value="false" name="chkTax1" />
+                                        <label class="custom-control-label" for="chkTax1"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 2
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax2" value="true" name="chkTax2">
+                                        <input type="hidden" value="false" name="chkTax2" />
+                                        <label class="custom-control-label" for="chkTax2"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 3
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax3" value="true" name="chkTax3">
+                                        <input type="hidden" value="false" name="chkTax3" />
+                                        <label class="custom-control-label" for="chkTax3"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 4
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax4" value="true" name="chkTax4">
+                                        <input type="hidden" value="false" name="chkTax4" />
+                                        <label class="custom-control-label" for="chkTax4"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 5
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax5" value="true" name="chkTax5">
+                                        <input type="hidden" value="false" name="chkTax5" />
+                                        <label class="custom-control-label" for="chkTax5"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 6
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax6" value="true" name="chkTax6">
+                                        <input type="hidden" value="false" name="chkTax6" />
+                                        <label class="custom-control-label" for="chkTax6"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade in " id="DaysValid">
+
+
+
+
+
+
+
+
+
+
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-form-label">Does Coupon expire?  </label>
+                                <div class="col-md-8">
+
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkEnforceExpiry" value="true" name="chkTax1">
+                                        <input type="hidden" value="false" name="chkEnforceExpiry" />
+                                        <label class="custom-control-label" for="chkEnforceExpiry"></label>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label ">
+                                        Expiration Date
+
+                                    </label>
+
+                                    <div class="col-md-8">
+
+                                        <input type="text" id="dtexpiration" class="form-control pickadate-accessibility" />
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header header-elements-inline search-header">
+                                <h5 class="card-title">
+
+                                    <button type='button' id="btnAddDaysValidDetails" class='btn   btn-labeled btn-labeled-left btn-sm' data-toggle='modal' data-target='#DaysValidModal' onclick="NewDayValidPricing();" style="background-color:white;">
+                                        <b><i class="icon-plus3"></i></b>
+                                        Add
+                                    </button>
+                                    <span> Time </span>
+
+                                </h5>
+
+
+                            </div>
+
+                            <div class="card-body">
+
+
+                                <table class="table  dataTable no-footer clsdtNoPagingInfo" id="dtDaysValid">
+                                    <thead>
+                                        <tr>
+                                            <th hidden>ID</th>
+                                            <th>Day</th>
+                                            <th>Time</th>
+                                            <th></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="tab-pane fade in   show" id="Restrictions" style="padding-top:50px">
+
+
+                    <div class="card">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+                                <button type='button' id="btnEnableRestriction" class='btn   btn-labeled btn-labeled-left btn-sm' data-toggle='modal' data-target='#RestrictionModal' onclick="NewRule()" style="background-color:white;">
+                                    <b><i class="icon-plus3"></i></b>
+                                    Add
+                                </button>
+                                <span> Restrictions List</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body">
+                            <table class="table dataTable no-footer clsdtNoPagingInfo" id="dtRuleList">
+                                <thead>
+                                    <tr>
+
+                                        <th>Rule</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th hidden>RuleID </th>
+                                        <th hidden>RuleTypeID </th>
+                                        <th hidden>ItemID </th>
+                                        <th></th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                    <div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="col-form-label ">
+                                        Minimum Amount
+
+                                    </label>
+                                    <div class="col-md-8">
+                                        <input type="text" value="0" id="txtMinimumAmount" name="txtMinimumAmount" maxlength="20" class="form-control" onkeypress="return isNumberKey(event,this)" />
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label ">
+                                        Days Between Use
+
+                                    </label>
+
+                                    <div class="col-md-8">
+                                        <input type="number" value="0" id="txtDaysBetweenUse" name="txtDaysBetweenUse" maxlength="20" class="form-control" required />
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label ">
+                                        Minimum Quantity For Bonus Plan
+                                        <span class="text-danger"> * </span>
+                                    </label>
+
+                                    <div class="col-md-8">
+
+                                        <input type="text" value="0" id="txtMinimumQuantityForBonusPlan" name="txtMinimumQuantityForBonusPlan" class="form-control" onkeypress="return isNumberKey(event,this)" required />
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <label class="col-form-label ">
+                                    Include All Items Besides <br /> Below Exceptions
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkIncludeAllExcept" value="true" name="chkTax1">
+                                        <input type="hidden" value="false" name="chkIncludeAllExcept" />
+                                        <label class="custom-control-label" for="chkIncludeAllExcept"></label>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-4">
+
+
+                                <label class="col-form-label ">
+                                    Suppress Bonus Points<br> of Affected Items
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkSuppressBonusPoints" value="true" name="chkSuppressBonusPoints">
+                                        <input type="hidden" value="false" name="chkSuppressBonusPoints" />
+                                        <label class="custom-control-label" for="chkSuppressBonusPoints"></label>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-4">
+
+                                <label class="col-form-label ">
+                                    Allow On Deposit Invoices
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkAllowOnDepositInvoices" value="true" name="chkAllowOnDepositInvoices">
+                                        <input type="hidden" value="false" name="chkAllowOnDepositInvoices" />
+                                        <label class="custom-control-label" for="chkAllowOnDepositInvoices"></label>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <label class="col-form-label ">
+                                    Apply only on Parant Items
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkApplyonlyonParantItems" value="true" name="chkApplyonlyonParantItems">
+                                        <input type="hidden" value="false" name="chkApplyonlyonParantItems" />
+                                        <label class="custom-control-label" for="chkApplyonlyonParantItems"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+
+                                <label class="col-form-label ">
+                                    Only Allow Through Bonus Plan
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkOnlyAllowThroughBonusPlan" value="true" name="chkOnlyAllowThroughBonusPlan">
+                                        <input type="hidden" value="false" name="chkOnlyAllowThroughBonusPlan" />
+                                        <label class="custom-control-label" for="chkOnlyAllowThroughBonusPlan"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+
+
+                                <label class="col-form-label ">
+                                    Apply to already Discounted Items
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkApplytoalreadyDiscountedItems" value="true" name="chkApplytoalreadyDiscountedItems">
+                                        <input type="hidden" value="false" name="chkApplytoalreadyDiscountedItems" />
+                                        <label class="custom-control-label" for="chkApplytoalreadyDiscountedItems"></label>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+
+
+
+                                <label class="col-form-label ">
+                                    Apply To Items Using Special Pricing
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkApplyToItemsUsingSpecialPricing" value="true" name="chkApplyToItemsUsingSpecialPricing">
+                                        <input type="hidden" value="false" name="chkApplyToItemsUsingSpecialPricing" />
+                                        <label class="custom-control-label" for="chkApplyToItemsUsingSpecialPricing"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="col-form-label ">
+                                    Require Permission
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkRequirePermission" value="true" name="chkRequirePermission">
+                                        <input type="hidden" value="false" name="chkRequirePermission" />
+                                        <label class="custom-control-label" for="chkRequirePermission"></label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="tab-pane fade in" id="Image">
+                    <div class="card  mt-4">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+
+                                <span> Inventory Images</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+                            <table class="table  dataTable no-footer  clsdtNoPagingInfo" id="dtInventoryImages">
+                                <thead>
+
+                                    <tr>
+                                        <th>Image</th>
+                                        <th hidden>Position</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @*<span style="color:cornflowerblue" class="Pics">
+                            You can Upload upto <span style="color:cornflowerblue" class="Pics" id="ImageCount">@Model.AllowedPics</span> Pictures .
+                        </span>*@
+
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <div action="#" class="dropzone" id="my-awesome-dropzone">
+                                @Html.AntiForgeryToken()
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple id="InventoryImages" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-lg" style="color:white" onclick="RedirectPage();"><b><i class="icon-cross2"></i></b>Cancel</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsave" onclick="SetRedirection(1);">Save</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
+            </div>
+
+        </form>
+
+
+    </div>
+
+
+
+
+
+</div>
+<!-- Modals Area -->
+<!-- Div DaysValid Modal -->
+
+<div id="DaysValidModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="DaysValidModalForm">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Valid Days And Time</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Day
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <select class=" form-control" id="ddlDayID" name="ddlDayID" required>
+                                    <option disabled selected value="">Select Day</option>
+                                    <option value="1"> Sunday </option>
+                                    <option value="2"> Monday </option>
+                                    <option value="3"> Tuesday </option>
+                                    <option value="4"> Wednesday </option>
+                                    <option value="5"> thursday </option>
+                                    <option value="6"> Friday </option>
+                                    <option value="7"> Saturday </option>
+                                </select>
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Start Time
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+
+
+                                <input id="txtStartTime" type="time" class="form-control" name="txtStartTime" maxlength="50" required />
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                End Time
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+
+                                <input id="txtEndTime" type="time" class="form-control" name="txtEndTime" maxlength="50" required />
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Add<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--Resiction Modal-->
+
+<div id="RestrictionModal" class="modal  fade ">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Restriction </span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <form id="RuleForm">
+                <div class="modal-body" id="RuleDiv">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+
+
+
+                            <label class="col-md-3 control-label">Rule<span class="text-danger"> * </span></label>
+                            <div class="col-md-7">
+                                <select class=" form-control" id="ddlRuleID" name="ddlRuleD" required>
+                                    <option disabled selected value="">Select Rule</option>
+                                    <option value="0">Include</option>
+                                    <option value="1">Exclude</option>
+                                    <option value="2">Exclusive</option>
+                                </select>
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group row">
+
+
+
+                            <label class="col-md-3 control-label">Type<span class="text-danger"> * </span></label>
+                            <div class="col-md-7">
+                                <select class=" form-control" id="ddlRuleTypeID" name="ddlRuleTypeID" required>
+                                    <option disabled selected value="">Select Rule Type</option>
+                                    <option value="0">Item</option>
+                                    <option value="1">Department</option>
+                                    <option value="2">Catagory</option>
+                                </select>
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group row" id="DepartmentDiv">
+
+
+
+                            <label class="col-md-3 control-label">Department<span class="text-danger"> * </span></label>
+                            <div class="col-md-7">
+                                <select class=" form-control" id="ddlResDepartmentID" name="ddlResDepartmentID">
+                                    <option disabled selected>Select Department</option>
+
+
+
+                                </select>
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group row" id="CategoryDiv">
+
+
+
+                            <label class="col-md-3 control-label">Catagory<span class="text-danger"> * </span></label>
+                            <div class="col-md-7">
+                                <select class=" form-control" id="ddlCategoryID" name="ddlCategoryID">
+                                    <option disabled selected value="">Select Catagory</option>
+
+
+
+                                </select>
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        <div id="ItemDiv" class="form-group row">
+                            <label class="col-md-3 control-label"> Item<span class="text-danger"> * </span></label>
+                            <div class="col-md-7">
+
+                                <input class="form-control" type="hidden" id="txtRuleItemNum" />
+                                <input class="form-control" type="text" id="txtRuleItemDesc" disabled required />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnAddDepartment" class="btn btn-primary btn-sm">Add<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+            </form>
+        </div>
+
+
+
+
+
+    </div>
+
+</div>
+
+<div id="TagAlongItemsModal" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Search Inventory</span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="card">
+
+                <div class="card-body" style="margin-top: 10px;">
+
+                    <form id="ItemSearchForm">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+
+
+                                <label class="col-md-12 control-label">Catagory</label>
+                                <div class="col-md-12">
+                                    <select class=" form-control" id="ddlItemCategoryID" name="ddlItemCategoryID">
+                                        <option disabled selected>Select Catagory</option>
+
+
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label ">Department</label>
+                                <div class="col-md-12">
+                                    <select class=" form-control" id="ddlItemDepartmentID" name="ddlItemDepartmentID">
+                                        <option disabled selected>Select Department</option>
+
+
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label">Vendor</label>
+                                <div class="col-md-12">
+                                    <select class=" form-control" id="ddlVendorID" name="ddlVendorID">
+                                        <option disabled selected>Select Vendor</option>
+
+
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="float:right">
+                            <button type="submit" class="btn  btn-primary btn-sm mt-1" style="float:right;"><b>Search<i class="icon-search4 ml-2"></i></b></button>
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+
+
+
+            <div class="card">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                @*// add patient*@
+                <div class="card-header header-elements-inline">
+
+                    <h5 class="card-title">
+
+                        <span class="font-weight-semibold">Items Info</span>
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+                    <table class="table datatable-button-html5-columns dataTable no-footer" id="dtItemList">
+                        <thead>
+                            <tr>
+                                <th>Item #</th>
+                                <th> Description</th>
+                                <th> Price </th>
+                                <th> Stock </th>
+                                <th>Vendor Part # </th>
+                                <th></th>
+
+
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@section scripts
+{
+    <script src="~/Content/assets/js/dropzone.js"></script>
+
+    @*@Scripts.Render("~/bundles/Validation")*@
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+<script>
+    $(document).ready(function () {
+        SBInventory();
+            try {
+                $('.clsdtNoPagingInfo').DataTable({
+                    "paging": false, searching: false, ordering: false, info: false, buttons: { dom: { button: { className: 'btn btn-light' } }, buttons: [] }
+                });
+            } catch (e) { }
+            var ROwID = CreateGuid();
+            $('#txtRowID').val(ROwID);
+
+            $('#ddlVendorID,#ddlDayID,#ddlRuleTypeID,#ddlRuleID,#ddlResDepartmentID,#ddlItemDepartmentID,#ddlItemCategoryID,#ddlDepartmentID,#ddlCategoryID').select2();
+            GetAllDepartment();
+            GetAllCategories();
+            GetAllVendor();
+
+            debugger;
+            var EncryptedID = fnCheckIDForEditOnLoad();
+            if (EncryptedID != null && EncryptedID != undefined & EncryptedID != "") {
+                var ID = fnDecryptID(EncryptedID);
+                if (ID != null && ID != undefined && ID != "0") {
+                    debugger;
+
+                    LoadInventoryDetailsAll(ID);
+                }
+
+
+            }
+
+
+
+        });
+        function fnCheckIDForEditOnLoad() {
+            try {
+                var EncryptedID = "";
+                var wlss = window.location.search.substring(1);
+                if (wlss != null && wlss != undefined & wlss != "") {
+                    if (wlss.indexOf('&') != -1) {
+                        var wlsssplitam = wlss.split('&');
+                        if (wlsssplitam.length > 0) {
+                            $(wlsssplitam).each(function () {
+                                var KeyValue = this;
+                                if (KeyValue.indexOf('=') != -1) {
+                                    var ObjKeyValue = KeyValue.split(/=(.+)/);
+                                    if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                        EncryptedID = ObjKeyValue[1] != null && ObjKeyValue[1] != undefined ? ObjKeyValue[1] : '';
+                                        return EncryptedID;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        if (wlss.indexOf('=') != -1) {
+                            var ObjKeyValue = wlss.split(/=(.+)/);
+                            if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                EncryptedID = ObjKeyValue[1];
+                            }
+                        }
+                    }
+                }
+                return EncryptedID;
+            } catch (e) {
+                return "";
+            }
+        }
+        function fnDecryptID(id) {
+            try {
+                var decryptedID = '0';
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Decrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "" && result != "Error") {
+                            if (result != "") {
+                                decryptedID = result;
+                            }
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                return decryptedID;
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+            return '0';
+        }
+        function fnEncryptID(id) {
+            try {
+                var EncryptedID = '';
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Encrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "" && result != "Error") {
+                            EncryptedID = result;
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                return EncryptedID;
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+            return '';
+        }
+        function LoadInventoryDetailsAll(ItemNo) {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+            LoadInventoryData(ItemNo);
+            LoadInventoryCouponData(ItemNo);
+            LoadInventoryCouponRulesData(ItemNo);
+            LoadInventoryPricingData(ItemNo);
+            LoadInventoryImagesData(ItemNo);
+        }
+        function LoadInventoryData(ItemNo) {
+            debugger;
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Inventory/LoadInventoryData',
+                    type: 'POST',
+                    data: JSON.stringify({ ItemNo: ItemNo }),
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        debugger;
+                        if (result != null && result != "Error") {
+                            $.each(result, function (i, Data) {
+
+                                debugger;
+                                $('#btnsave').text('Update');
+                                $('#btnsaveandList').text('Update and Go to List');
+                                $('#txtItemNo').prop("disabled", true);
+                                $('#txtEdit').val(1);
+
+                                $('#txtItemType').val(Data.ItemType);
+                                $('#txtVendorNumber').val(Data.Vendor_Number);
+
+                                $('#txtItemNo').val(Data.ItemNum);
+                                $('#txtDescription').val(Data.ItemName);
+                                $('#ddlDepartmentID').val(Data.Dept_ID).change();
+                                $('#txtStoreID').val(Data.Store_ID);
+                                $('#txtDiscountAmount').val(Data.Price);
+                                $('#txtRowID').val(Data.RowID);
+
+
+
+
+                                if (Data.Tax_1 == true) {
+                                    $("#chkTax1").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax1").prop("checked", false)
+                                }
+                                if (Data.Tax_2 == true) {
+                                    $("#chkTax2").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax2").prop("checked", false)
+                                }
+                                if (Data.Tax_3 == true) {
+                                    $("#chkTax3").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax3").prop("checked", false)
+                                }
+                                if (Data.Tax_4 == true) {
+                                    $("#chkTax4").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax4").prop("checked", false)
+                                }
+                                if (Data.Tax_5 == true) {
+                                    $("#chkTax5").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax5").prop("checked", false)
+                                }
+                                if (Data.Tax_6 == true) {
+                                    $("#chkTax6").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax6").prop("checked", false)
+                                }
+
+                                if (Data.Special_Permission) {
+
+                                    $("#chkRequirePermission").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkRequirePermission").prop("checked", false);
+                                }
+                                if (Data.AllowOnDepositInvoices) {
+                                    $("#chkAllowOnDepositInvoices").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkAllowOnDepositInvoices").prop("checked", false);
+                                }
+
+
+
+
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function LoadInventoryCouponData(ItemNo) {
+            debugger;
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/CouponItems/GetInventoryCoupon',
+                    type: 'POST',
+                    data: JSON.stringify({ ItemNum: ItemNo }),
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        debugger;
+                        if (result != null && result != "Error") {
+                            $.each(result, function (i, Data) {
+
+                                debugger;
+                                $('#dtexpiration').val(Data.Exp_Date);
+                                if (Data.Enforce_Exp == true) {
+
+                                    $("#chkEnforceExpiry").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkEnforceExpiry").prop("checked", false)
+                                }
+                                if (Data.Include_All_Except == true) {
+
+                                    $("#chkIncludeAllExcept").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkIncludeAllExcept").prop("checked", false)
+                                }
+                                if (Data.Suppress_Bonus == true) {
+
+                                    $("#chkSuppressBonusPoints").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkSuppressBonusPoints").prop("checked", false)
+                                }
+
+                                if (Data.Apply_To_Parent == true) {
+
+                                    $("#chkApplyonlyonParantItems").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkApplyonlyonParantItems").prop("checked", false)
+                                }
+
+                                if (Data.Coupon_Bonus_Only == true) {
+
+                                    $("#chkOnlyAllowThroughBonusPlan").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkOnlyAllowThroughBonusPlan").prop("checked", false)
+                                }
+                                if (Data.ApplyOnDiscountedItems == true) {
+
+                                    $("#chkApplytoalreadyDiscountedItems").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkApplytoalreadyDiscountedItems").prop("checked", false)
+                                }
+                                if (Data.ApplyOnSpecialPricing == true) {
+
+                                    $("#chkApplyToItemsUsingSpecialPricing").prop("checked", true);
+                                }
+                                else {
+                                    $("#chkApplyToItemsUsingSpecialPricing").prop("checked", false)
+                                }
+                                if (Data.Coupon_Flat_Percent == 1) {
+
+                                    $("#rdbAmounttype").prop("checked", true);
+                                }
+                                else {
+                                    $("#rdbAmounttype").prop("checked", false)
+                                }
+
+                                $('#txtMinimumAmount').val(Data.Minimum_Amount_Restriction);
+                                $('#txtDaysBetweenUse').val(Data.NumDays_Restriction);
+                                $('#txtMinimumQuantityForBonusPlan').val(Data.Coupon_Bonus_MinimumQuantity);
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function LoadInventoryPricingData(ItemNum) {
+            debugger;
+            var table = $("#dtDaysValid").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Inventory/GetTableSummaryInventoryPricing",
+                data: JSON.stringify({ ItemNum: ItemNum }),
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+                    if (result != null && result != "Error") {
+                        table.clear();
+                        debugger;
+
+                        $.each(result, function (i, Data) {
+                            debugger;
+                            var DayDesc = "";
+                            if (Data.Criteria3 == "1") {
+                                DayDesc = "Sunday";
+                            } else if (Data.Criteria3 == "2") {
+                                DayDesc = "Monday";
+                            }
+                            else if (Data.Criteria3 == "3") {
+                                DayDesc = "Tuesday";
+                            }
+                            else if (Data.Criteria3 == "4") {
+                                DayDesc = "Wednesday";
+                            }
+                            else if (Data.Criteria3 == "5") {
+                                DayDesc = "Thursday";
+                            }
+                            else if (Data.Criteria3 == "6") {
+                                DayDesc = "Friday";
+                            }
+                            else if (Data.Criteria3 == "7") {
+                                DayDesc = "Saturday";
+                            }
+
+                            let Time = Data.StartTime + " - " + Data.EndTime;
+                            var newRow = "<tr><td hidden>" + Data.Criteria3 + "</td>" +
+                                "<td hidden>" + Data.PriceType + "</td>" +
+                                "<td hidden>" + Data.Price + "</td>" +
+                                "<td hidden>" + Data.StartTime + "</td>" +
+                                "<td hidden>" + Data.EndTime + "</td>" +
+                                "<td>" + DayDesc + "</td>" +
+                                "<td>" + Time + "</td>" +
+                                "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delTimeRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        function LoadInventoryCouponRulesData(ItemNum) {
+            var table = $("#dtRuleList").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/CouponItems/GetTableSummaryCouponRules",
+                data: JSON.stringify({ ItemNum: ItemNum }),
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+                            debugger;
+
+
+
+                            var newRow = "<tr><td>" + Data.RuleName + "</td>" +
+                                "<td>" + Data.RuleTypeName + "</td>" +
+                                "<td>" + Data.ItemName + "</td>" +
+                                "<td hidden>" + Data.Allow_Or_Disallow + "</td>" +
+                                "<td hidden>" + Data.Type + "</td>" +
+                                "<td hidden>" + Data.ID + "</td>" +
+
+                                "<td>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delRuleRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+         function LoadInventoryImagesData (ItemNum) {
+            var table = $("#dtInventoryImages").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Inventory/GetTableSummaryInventoryImages",
+                data: JSON.stringify({ ItemNum: ItemNum }),
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+                            debugger;
+
+
+
+                             var newRow = "<tr><td><input type='hidden' value='" + Data.ImageLocation + "'><div class='item'><img src='@ImagePath" + Data.ImageLocation + "?" + (new Date()).getTime()+"' class='img-responsive pic-bordered' alt=''  style='width:80px;height:px;'></div></td>" +
+                                 "<td hidden>"+Data.Position+"</td>"+
+                                 "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delIIRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        $('#btnEnableRestriction').click(function () {
+            $('#RuleDiv').show();
+            $('#DepartmentDiv').hide();
+            $('#CategoryDiv').hide();
+            $('#ItemDiv').hide();
+
+
+        });
+        $("#ddlRuleTypeID").on("change", () => {
+            debugger;
+            switch ($("#ddlRuleTypeID").val()) {
+                case "0":
+                    $('#DepartmentDiv').hide();
+                    $('#CategoryDiv').hide();
+                    $('#TagAlongItemsModal').modal('show');
+                    $('#ddlItemDepartmentID').val('').change();
+                    $('#ddlItemCategoryID').val('').change();
+                    $('#ddlVendorID').val('').change();
+                    $("#dtItemList").DataTable().clear().draw();
+                    $("#txtRuleItemNum").val("");
+                    $("#txtRuleItemDesc").val("");
+                    $('#ItemDiv').show();
+
+                    $('#btnAddDepartment').attr('disabled', true);
+                    $('#txtRuleItemDesc').attr('required', true);
+                    $('#ddlResDepartmentID').attr('required', false);
+                    $('#ddlCategoryID').attr('required', false);
+
+                    break;
+                case "1":
+                    $('#DepartmentDiv').show();
+                    $('#CategoryDiv').hide();
+                    $('#ItemDiv').hide();
+                    $('#txtRuleItemDesc').attr('required', false);
+                    $('#ddlResDepartmentID').attr('required', true);
+                    $('#ddlCategoryID').attr('required', false);
+                    $('#btnAddDepartment').attr('disabled', false);
+                    break;
+                case "2":
+                    $('#DepartmentDiv').hide();
+                    $('#CategoryDiv').show();
+                    $('#ItemDiv').hide();
+                    $('#txtRuleItemDesc').attr('required', false);
+                    $('#ddlResDepartmentID').attr('required', false);
+                    $('#ddlCategoryID').attr('required', true);
+                    $('#btnAddDepartment').attr('disabled', false);
+                    break;
+            }
+        })
+        $("#ItemSearchForm").submit(function (event) {
+            event.preventDefault();
+            GetItem();
+        });
+        $('#ddlDepartmentID').change(function () {
+
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Common/GetStoreID',
+                headers: headers,
+                data: JSON.stringify({ DepartmentID: $('#ddlDepartmentID').val() }),
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null) {
+
+                        $('#txtStoreID').val(result);
+                    }
+
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+        });
+        function GetAllDepartment() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetDepartmentAll',
+                    type: 'POST',
+                    headers: headers,
+                    async: false,
+
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlDepartmentID,#ddlResDepartmentID,#ddlItemDepartmentID").html("");
+                            $("#ddlDepartmentID,#ddlResDepartmentID,#ddlItemDepartmentID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Department"));
+
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlDepartmentID,#ddlResDepartmentID,#ddlItemDepartmentID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+
+        function GetAllCategories() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetCategoriesAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlCategoryID,#ddlItemCategoryID").html("");
+                            $("#ddlCategoryID,#ddlItemCategoryID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Category"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlCategoryID,#ddlItemCategoryID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetAllVendor() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetVendorAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlVendorID").html("");
+                            $("#ddlVendorID").append
+                                ($('<option  selected value="0"></option>').val('').html("Select Vendor"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlVendorID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetItem() {
+
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+            let VendorNo = $('#ddlVendorID').val();
+            let DepartmentID = $('#ddlItemDepartmentID').val();
+            let ItemCategory = $('#ddlItemCategoryID').val();
+            var table = $("#dtItemList").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Common/GetItemAll",
+                data: JSON.stringify({ "ItemCategory": ItemCategory, "DepartmentID": DepartmentID, "VendorNumber": VendorNo }),
+                dataType: "json",
+                success: function (result) {
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+
+                            debugger;
+                            var newRow = "<tr><td>" + Data.ItemNum + "</td>" +
+                                "<td>" + Data.ItemName + "</td>" +
+                                "<td>" + Data.Price + "</td>" +
+                                "<td>" + Data.In_Stock + "</td>" +
+                                "<td>" + Data.Vendor_Part_Num + "</td>" +
+                                "<td style='text-align:Right'>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Select Item'><button onclick='SelectItem(" + Data.ItemNum + "," + Data.Price + ",\"" + Data.ItemName + "\");'type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'>Select</button></span>" +
+                                "</td>" +
+                                "</tr>";
+
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        function SelectItem(itemNum, Price, ItemName) {
+            $("#txtRuleItemNum").val(itemNum);
+            $("#txtRuleItemDesc").val(ItemName);
+
+            $('#TagAlongItemsModal').modal('hide');
+            $('#btnAddDepartment').attr('disabled', false);
+        }
+        function ClearMessage() {
+            $("#message").html("");
+        };
+        function CheckAvailability() {
+
+
+            var ItemNo = $("#txtItemNo").val();
+            var IsEdit = $('#txtEdit').val();
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Inventory/CheckItemNo',
+                headers: headers,
+                data: JSON.stringify({ ItemNo: ItemNo, IsEdit: IsEdit }),
+
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var message = $("#message");
+                    if (result == true) {
+
+
+                        $("#IsValidID").val(result);
+                    }
+                    else if (result == false) {
+                        message.css("color", "red");
+                        message.html("Item Number already exists!");
+                        $("#IsValidID").val(result);
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+
+        }
+        function RedirectPage() {
+            window.location.replace("/InventoryList/Index");
+
+        }
+        $("#InventoryForm").submit(function (event) {
+            event.preventDefault();
+            SaveRecord();
+        });
+        function SaveRecord() {
+            try {
+
+
+                if ($('#IsValidID').val() != "true" && $('#IsValidID').val() != true) {
+
+                    swal("Warning", "Item Number already exists!", "error");
+                }
+                else {
+
+
+                    if ($('#btnsave').text() == 'Save') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Save this record ?";
+                        var ConfirmButtonText = "Confirm Save";
+                        var CancelButtonText = "Cancel";
+                    }
+                    if ($('#btnsave').text() == 'Update') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Update this record ?";
+                        var ConfirmButtonText = "Confirm Update";
+                        var CancelButtonText = "Cancel";
+                    }
+                    swal(
+                        {
+                            title: Title,
+                            text: Text,
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: ConfirmButtonText,
+                            cancelButtonText: CancelButtonText,
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        },
+                        function (isConfirm) {
+
+                            if (isConfirm) {
+                                var AjaxObj = InventoryObjCall();
+
+                                var headers = {};
+                                var token = $('input[name="__RequestVerificationToken"]').val();
+                                headers['__RequestVerificationToken'] = token;
+                                var Url = "";
+                                if ($('#btnsave').text() == 'Save') {
+                                    Url = "/CouponItems/Create";
+                                }
+                                else {
+                                    Url = "/CouponItems/Update";
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    headers: headers,
+                                    contentType: "application/json; charset=utf-8",
+                                    url: Url,
+                                    data: JSON.stringify({ "Obj": AjaxObj }),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+                                        if (result.Code == 200) {
+
+                                            SaveInventoryImages($("#txtItemNo").val());
+
+
+                                        }
+                                        else {
+                                            swal("", result.Message, result.Type);
+
+                                        }
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                        swal("", errorMessage, "error");
+                                    }
+
+                                });
+
+
+                            }
+                            else {
+
+                                swal("Cancelled", "Your operation Canceled :)", "error");
+                            }
+
+                        }
+                    );
+                }
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+        function isNumberKey(evt, obj) {
+
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            var value = obj.value;
+            var dotcontains = value.indexOf(".") != -1;
+            if (dotcontains)
+                if (charCode == 46) return false;
+            if (charCode == 46) return true;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function InventoryObjCall() {
+            debugger;
+            var AjaxObj = {
+                "ItemNum": "",
+                "ItemName": "",
+                "Store_ID": "",
+                "Cost": "",
+                "Price": "",
+                "Retail_Price": "",
+                "In_Stock": "",
+                "Reorder_Level": "",
+                "Reorder_Quantity": "",
+                "Tax_1": "",
+                "Tax_2": "",
+                "Tax_3": "",
+                "Vendor_Number": "",
+                "Dept_ID": "",
+                "IsKit": "",
+                "IsModifier": "",
+                "Kit_Override": "",
+                "Inv_Num_Barcode_Labels": "",
+                "Use_Serial_Numbers": "",
+                "Num_Bonus_Points": "",
+                "IsRental": "",
+                "Use_Bulk_Pricing": "",
+                "Print_Ticket": "",
+                "Print_Voucher": "",
+                "Num_Days_Valid": "",
+                "IsMatrixItem": "",
+                "Vendor_Part_Num": "",
+                "Location": "",
+                "AutoWeigh": "",
+                "numBoxes": "",
+                "Dirty": "",
+                "Tear": "",
+                "NumPerCase": "",
+                "FoodStampable": "",
+                "ReOrder_Cost": "",
+                "Helper_ItemNum": "",
+                "ItemName_Extra": "",
+                "Exclude_Acct_Limit": "",
+                "Check_ID": "",
+                "Old_InStock": "",
+                "Date_Created": "",
+                "ItemType": "",
+                "Prompt_Price": "",
+                "Prompt_Quantity": "",
+                "Inactive": "",
+                "Allow_BuyBack": "",
+                "Last_Sold": "",
+                "Unit_Type": "",
+                "Unit_Size": "",
+                "Fixed_Tax": "",
+                "DOB": "",
+                "Special_Permission": "",
+                "Prompt_Description": "",
+                "Check_ID2": "",
+                "Count_This_Item": "",
+                "Transfer_Cost_Markup": "",
+                "Print_On_Receipt": "",
+                "Transfer_Markup_Enabled": "",
+                "As_Is": "",
+                "InStock_Committed": "",
+                "RequireCustomer": "",
+                "PromptCompletionDate": "",
+                "PromptInvoiceNotes": "",
+                "Prompt_DescriptionOverDollarAmt": "",
+                "Exclude_From_Loyalty": "",
+                "BarTaxInclusive": "",
+                "ScaleSingleDeduct": "",
+                "GLNumber": "",
+                "ModifierType": "",
+                "Position": "",
+                "numberOfFreeToppings": "",
+                "ScaleItemType": "",
+                "DiscountType": "",
+                "AllowReturns": "",
+                "SuggestedDeposit": "",
+                "Liability": "",
+                "IsDeleted": "",
+                "ItemLocale": "",
+                "QuantityRequired": "",
+                "AllowOnDepositInvoices": "",
+                "Import_Markup": "",
+                "PricePerMeasure": "",
+                "UnitMeasure": "",
+                "ShipCompliantProductType": "",
+                "AlcoholContent": "",
+                "AvailableOnline": "",
+                "AllowOnFleetCard": "",
+                "DoughnutTax": "",
+                "DisplayTaxInPrice": "",
+                "NeverPrintInKitchen": "",
+                "RowID": "",
+                "Tax_4": "",
+                "Tax_5": "",
+                "Tax_6": "",
+                "DisableInventoryUpload": "",
+                "InvoiceLimitQty": "",
+                "ItemCategory": "",
+                "IsRestrictedPerInvoice": "",
+                "Inventory_Coupon": "",
+                "Inventory_Prices": [],
+                "Inventory_Coupon_Rules": []
+
+            };
+
+
+            var Inventory_Coupon = {
+
+                "Store_ID": "",
+                "ItemNum": "",
+                "Exp_Date": "",
+                "Enforce_Exp": "",
+                "Include_All_Except": "",
+                "Coupon_Flat_Percent": "",
+                "Coupon_Bonus_Only": "",
+                "Apply_To_Parent": "",
+                "Suppress_Bonus": "",
+                "Minimum_Amount_Restriction": "",
+                "NumDays_Restriction": "",
+                "ApplyOnDiscountedItems": "",
+                "ApplyOnSpecialPricing": "",
+                "Coupon_Bonus_MinimumQuantity": ""
+            }
+            var Inventory_Prices = {
+                "ItemNum": "", "Store_ID": "", "Criteria1": "", "Criteria2": "", "Criteria3": "", "Price": ""
+                , "PriceType": "", "Enabled": ""
+            };
+            var Inventory_Coupon_Rules = { "Store_ID": "", "ItemNum": "", "Type": "", "ID": "", "Allow_Or_Disallow": "" };
+
+
+            Inventory_Coupon.ItemNum = $('#txtItemNo').val();
+            Inventory_Coupon.Store_ID = $('#txtStoreID').val();
+            Inventory_Coupon.Exp_Date = $('#dtexpiration').val();
+            if ($("#chkEnforceExpiry").is(":checked")) {
+                Inventory_Coupon.Enforce_Exp = true;
+            }
+            else {
+                Inventory_Coupon.Enforce_Exp = false;
+            }
+            if ($("#chkIncludeAllExcept").is(":checked")) {
+                Inventory_Coupon.Include_All_Except = true;
+            }
+            else {
+                Inventory_Coupon.Include_All_Except = false;
+            }
+            if ($("#chkSuppressBonusPoints").is(":checked")) {
+                Inventory_Coupon.Suppress_Bonus = true;
+            }
+            else {
+                Inventory_Coupon.Suppress_Bonus = false;
+            }
+            if ($("#chkApplyonlyonParantItems").is(":checked")) {
+                Inventory_Coupon.Apply_To_Parent = true;
+            }
+            else {
+                Inventory_Coupon.Apply_To_Parent = false;
+            }
+
+            if ($("#chkOnlyAllowThroughBonusPlan").is(":checked")) {
+                Inventory_Coupon.Coupon_Bonus_Only = true;
+            }
+            else {
+                Inventory_Coupon.Coupon_Bonus_Only = false;
+            }
+            if ($("#chkOnlyAllowThroughBonusPlan").is(":checked")) {
+                Inventory_Coupon.Coupon_Bonus_Only = true;
+            }
+            else {
+                Inventory_Coupon.Coupon_Bonus_Only = false;
+            }
+
+
+
+            if ($("#chkApplytoalreadyDiscountedItems").is(":checked")) {
+                Inventory_Coupon.ApplyOnDiscountedItems = true;
+            }
+            else {
+                Inventory_Coupon.ApplyOnDiscountedItems = false;
+            }
+            if ($("#chkApplyToItemsUsingSpecialPricing").is(":checked")) {
+                Inventory_Coupon.ApplyOnSpecialPricing = true;
+            }
+            else {
+                Inventory_Coupon.ApplyOnSpecialPricing = false;
+            }
+            if ($("#rdbAmounttype").is(":checked")) {
+                Inventory_Coupon.Coupon_Flat_Percent = 1;
+            }
+            else {
+                Inventory_Coupon.Coupon_Flat_Percent = $('#txtDiscountAmount').val();
+            }
+
+            Inventory_Coupon.Minimum_Amount_Restriction = $('#txtMinimumAmount').val();
+            Inventory_Coupon.NumDays_Restriction = $('#txtDaysBetweenUse').val();
+            Inventory_Coupon.Coupon_Bonus_MinimumQuantity = $('#txtMinimumQuantityForBonusPlan').val();
+            AjaxObj.Inventory_Coupon = Inventory_Coupon;
+
+            var tblRuleDetail = $('#dtRuleList').DataTable(), tblRows = tblRuleDetail.rows().data();
+            if (tblRows.length > 0) {
+                $.each(tblRows, function (index, value) {
+                    debugger;
+                    Inventory_Coupon_Rules.ItemNum = $('#txtItemNo').val();
+                    Inventory_Coupon_Rules.Type = value[4];
+                    Inventory_Coupon_Rules.Store_ID = $('#txtStoreID').val();
+                    Inventory_Coupon_Rules.ID = value[5];
+                    Inventory_Coupon_Rules.Allow_Or_Disallow = value[3];
+
+
+                    AjaxObj.Inventory_Coupon_Rules.push(Inventory_Coupon_Rules);
+                    Inventory_Coupon_Rules = { "Store_ID": "", "ItemNum": "", "Type": "", "ID": "", "Allow_Or_Disallow": "" };
+                });
+            }
+
+
+            var tblTimeBasedDetail = $('#dtDaysValid').DataTable(), tblRows = tblTimeBasedDetail.rows().data();
+            if (tblRows.length > 0) {
+                $.each(tblRows, function (index, value) {
+                    debugger;
+                    Inventory_Prices.ItemNum = $('#txtItemNo').val();
+                    Inventory_Prices.PriceType = value[1];
+                    Inventory_Prices.Store_ID = $('#txtStoreID').val();
+                    Inventory_Prices.Price = value[2];
+                    Inventory_Prices.Criteria1 = value[3];//Start Time
+                    Inventory_Prices.Criteria2 = value[4];//En d time
+                    Inventory_Prices.Criteria3 = value[0]; //Day
+                    Inventory_Prices.Enabled = true;
+
+                    AjaxObj.Inventory_Prices.push(Inventory_Prices);
+                    Inventory_Prices = {
+                        "ItemNum": "", "Store_ID": "", "Criteria1": "", "Criteria2": "", "Criteria3": "", "Price": ""
+                        , "PriceType": "", "Enabled": ""
+                    };
+                });
+            }
+
+
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var EntryDate = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+
+            AjaxObj.IsDeleted = 0;
+            AjaxObj.RowID = $('#txtRowID').val();
+            AjaxObj.ItemType = $('#txtItemType').val();
+            AjaxObj.ItemCategory = 0;
+            AjaxObj.ItemNum = $('#txtItemNo').val();
+            AjaxObj.ItemName = $('#txtDescription').val();
+            AjaxObj.Store_ID = $('#txtStoreID').val();
+            AjaxObj.Cost = 0;
+
+
+
+            AjaxObj.Price = $('#txtDiscountAmount').val();
+            AjaxObj.Retail_Price = 0;
+            AjaxObj.In_Stock = 0;
+            AjaxObj.Reorder_Level = 0;
+            AjaxObj.Reorder_Quantity = 0;
+
+            AjaxObj.BarTaxInclusive = true;
+            AjaxObj.Transfer_Markup_Enabled = false;
+            AjaxObj.Import_Markup = false;
+            AjaxObj.PricePerMeasure = 0;
+            AjaxObj.AvailableOnline = false;
+            AjaxObj.DoughnutTax = 0;
+            AjaxObj.InvoiceLimitQty = 0;
+            AjaxObj.IsRestrictedPerInvoice = false;
+            if ($("#chkTax1").is(":checked")) {
+                AjaxObj.Tax_1 = true;
+            }
+            else {
+                AjaxObj.Tax_1 = false;
+            }
+            if ($("#chkTax2").is(":checked")) {
+                AjaxObj.Tax_2 = true;
+            }
+            else {
+                AjaxObj.Tax_2 = false;
+            }
+            if ($("#chkTax3").is(":checked")) {
+                AjaxObj.Tax_3 = true;
+            }
+            else {
+                AjaxObj.Tax_3 = false;
+            }
+            if ($("#chkTax4").is(":checked")) {
+                AjaxObj.Tax_4 = true;
+            }
+            else {
+                AjaxObj.Tax_4 = false;
+            }
+            if ($("#chkTax5").is(":checked")) {
+                AjaxObj.Tax_5 = true;
+            }
+            else {
+                AjaxObj.Tax_5 = false;
+            }
+            if ($("#chkTax6").is(":checked")) {
+                AjaxObj.Tax_6 = true;
+            }
+            else {
+                AjaxObj.Tax_6 = false;
+            }
+            if ($("#chkRequirePermission").is(":checked")) {
+                AjaxObj.Special_Permission = true;
+            }
+            else {
+                AjaxObj.Special_Permission = false;
+            }
+            if ($("#chkAllowOnDepositInvoices").is(":checked")) {
+                AjaxObj.AllowOnDepositInvoices = true;
+            }
+            else {
+                AjaxObj.AllowOnDepositInvoices = false;
+            }
+            AjaxObj.Dept_ID = $('#ddlDepartmentID').val();
+            AjaxObj.IsKit = false;
+            AjaxObj.IsModifier = false;
+            //   AjaxObj.Kit_Override = $('#txtFirstName').val();
+            AjaxObj.Inv_Num_Barcode_Labels = 0;
+
+            AjaxObj.Use_Serial_Numbers = false;
+            AjaxObj.Num_Bonus_Points = 0;
+            AjaxObj.Print_Ticket = false;
+            AjaxObj.Num_Days_Valid = 0;
+            AjaxObj.AutoWeigh = false;
+            AjaxObj.FoodStampable = false;
+            AjaxObj.ReOrder_Cost = 0;
+            AjaxObj.Exclude_Acct_Limit = false;
+            AjaxObj.Check_ID = false;
+            AjaxObj.Prompt_Price = false;
+            AjaxObj.Prompt_Quantity = false;
+            AjaxObj.Allow_BuyBack = false;
+            AjaxObj.Unit_Size = 0;
+
+            AjaxObj.Prompt_Description = false;
+            AjaxObj.Check_ID2 = false;
+            AjaxObj.Count_This_Item = true;
+            AjaxObj.Print_On_Receipt = true;
+            AjaxObj.RequireCustomer = false;
+            AjaxObj.PromptCompletionDate = false;
+            AjaxObj.PromptInvoiceNotes = false;
+            AjaxObj.NeverPrintInKitchen = false;
+            AjaxObj.Exclude_From_Loyalty = false;
+            AjaxObj.ScaleSingleDeduct = false;
+            AjaxObj.AllowReturns = true;
+            AjaxObj.Liability = false;
+            AjaxObj.AllowOnDepositInvoices = true;
+            AjaxObj.AllowOnFleetCard = false;
+            AjaxObj.DisplayTaxInPrice = false;
+            AjaxObj.DisableInventoryUpload = false;
+            AjaxObj.ItemName_Extra = $('#txtSecondDescription').val();
+            AjaxObj.As_Is = false;
+            AjaxObj.Date_Created = EntryDate;
+            AjaxObj.Num_Bonus_Points = 0;
+            AjaxObj.Date_Created = EntryDate;
+            AjaxObj.IsRental = 0;
+            AjaxObj.Use_Bulk_Pricing = 0;
+            AjaxObj.Print_Voucher = 0;
+            AjaxObj.IsMatrixItem = false;
+            AjaxObj.numBoxes = 0;
+            AjaxObj.Dirty = 1;
+            return AjaxObj;
+        }
+
+        function CreateGuid() {
+            function _p8(s) {
+                var p = (Math.random().toString(16) + "000000000").substr(2, 8);
+                return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
+            }
+            return _p8() + _p8(true) + _p8(true) + _p8();
+        }
+
+        function NewDayValidPricing() {
+            // $('#modalHeading').text(" New Record");
+
+            $('#DaysValidModal').modal('show');
+            $('#ddlDayID').val('').change();
+            $('#txtStartTime').val("");
+            $('#txtEndTime').val("");
+
+
+
+            $('#btnDetailsave').show();
+            $('#btnDetailsave').text('Add');
+
+        }
+        $("#DaysValidModalForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            AddTimeBasedPricingDetailRecord();
+        });
+
+        function AddTimeBasedPricingDetailRecord() {
+            try {
+                $('#DaysValidModal').modal('hide');
+
+                let DayID = $("#ddlDayID").val();
+                let DayIDDesc = $("#ddlDayID option:selected").text();
+                let Price = 0;
+                let PriceType = 3;//TimeBased
+
+
+                var d = new Date();
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+                var EntryDate = (('' + day).length < 2 ? '0' : '') + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + d.getFullYear();
+
+                let ST = EntryDate + " " + $("#txtStartTime").val();
+                let ET = EntryDate + " " + $("#txtEndTime").val();
+                let Time = $("#txtStartTime").val() + " - " + $("#txtEndTime").val();
+                var table = $('#dtDaysValid').DataTable();
+
+                var count = 1;
+                count += table.rows().count();
+
+
+                var newRow = "<tr><td hidden>" + DayID + "</td>" +
+                    "<td hidden>" + PriceType + "</td>" +
+                    "<td hidden>" + Price + "</td>" +
+                    "<td hidden>" + ST + "</td>" +
+                    "<td hidden>" + ET + "</td>" +
+                    "<td>" + DayIDDesc + "</td>" +
+                    "<td>" + Time + "</td>" +
+
+                    "<td>" +
+                    "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delTimeRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                    "</td></tr>";
+
+                table.row.add($(newRow));
+                table.draw();
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+        function delTimeRow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#dtDaysValid').DataTable();
+                table1.row(row).remove().draw(false);
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+        }
+
+
+
+        function NewRule() {
+            // $('#modalHeading').text(" New Record");
+
+            $('#RestrictionModal').modal('show');
+            $('#ddlRuleID').val('').change();
+            $('#ddlRuleTypeID').val('').change();
+            $('#ddlResDepartmentID').val('').change();
+            $('#ddlCategoryID').val('').change();
+            $('#txtRuleItemNum').val("");
+            $('#txtRuleItemDesc').val("");
+
+
+
+            $('#btnAddDepartment').show();
+            $('#btnAddDepartment').text('Add');
+
+        }
+        $("#RuleForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            AddRuleDetailRecord();
+        });
+
+        function AddRuleDetailRecord() {
+            try {
+                $('#RestrictionModal').modal('hide');
+
+                let RuleID = $("#ddlRuleID").val();
+                let RuleIDDesc = $("#ddlRuleID option:selected").text();
+                let RuleTypeID = $("#ddlRuleTypeID").val();
+                let RuleTypeIDDesc = $("#ddlRuleTypeID option:selected").text();
+                let ItemNum = "";
+                let ItemDesc = "";
+                if (RuleTypeID == "0") {
+                    ItemNum = $("#txtRuleItemNum").val();
+                    ItemDesc = $("#txtRuleItemDesc").val();
+                }
+                else if (RuleTypeID == "1") {
+                    ItemNum = $("#ddlResDepartmentID").val();
+                    ItemDesc = $("#ddlResDepartmentID option:selected").text();
+                }
+                else if (RuleTypeID == "2") {
+                    ItemNum = $("#ddlCategoryID").val();
+                    ItemDesc = $("#ddlCategoryID option:selected").text();
+                }
+
+
+                var table = $('#dtRuleList').DataTable();
+
+                var count = 1;
+                count += table.rows().count();
+
+
+                var newRow = "<tr><td>" + RuleIDDesc + "</td>" +
+                    "<td>" + RuleTypeIDDesc + "</td>" +
+                    "<td>" + ItemDesc + "</td>" +
+                    "<td hidden>" + RuleID + "</td>" +
+                    "<td hidden>" + RuleTypeID + "</td>" +
+                    "<td hidden>" + ItemNum + "</td>" +
+
+                    "<td>" +
+                    "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delRuleRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                    "</td></tr>";
+
+                table.row.add($(newRow));
+                table.draw();
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+        function delRuleRow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#dtRuleList').DataTable();
+                table1.row(row).remove().draw(false);
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+    }
+
+    function delIIRow(i) {
+        try {
+
+            var row = $(i).closest("tr");
+            var table1 = $('#dtInventoryImages').DataTable();
+            table1.row(row).remove().draw(false);
+
+        } catch (Exception) {
+            console.log("Exception Error in deleting option " + Exception);
+        }
+    }
+    var headers = {};
+    var token = $('input[name="__RequestVerificationToken"]').val();
+    headers['__RequestVerificationToken'] = token;
+    Dropzone.options.myAwesomeDropzone = {
+        //maxFiles: Number(ImageCount),
+        addRemoveLinks: true,
+        accept: function (file, done) {
+
+            var width = 0;
+            var height = 0;
+
+
+            // FileReader() asynchronously reads the contents of files (or raw data buffers) stored on the user's computer.
+            var reader = new FileReader();
+            reader.onload = (function (entry) {
+                // The Image() constructor creates a new HTMLImageElement instance.
+                var image = new Image();
+
+                image.src = entry.target.result;
+                image.onload = function () {
+                    width = this.width;
+                    height = this.height;
+                    console.log(this.width);
+                    console.log(this.height);
+                    console.log("width: " + width);
+                    console.log("height: " + height)
+                    //  if (width<400 || height<400)
+                    //  {
+                    //done("Invalid dimensions!");
+                    //  }
+                    //else { done(); }
+                };
+            });
+
+            reader.readAsDataURL(file);
+
+            done();
+
+            //  if (width)
+            //  {
+            //done("Invalid dimensions!");
+            //  }
+            //else { done(); }
+            //console.log("width: "+file.);
+            //console.log("height: "+file.height);
+            // done();
+        },
+        headers: headers
+            @* init: function () {
+        this.on("maxfilesexceeded", function (file) {
+            debugger;
+
+            $(".Pics").css("color", "red");
+            //    alert("You can Only Upload"+ @Model.AllowedPics+" Pictures!");
+
+        });
+    }*@
+        };
+    function Dropzonefunc() {
+
+        debugger;
+        $('.dropzone')[0].dropzone.options.maxFiles = ImageCount;
+
+    }
+    function SaveInventoryImages(ItemNum) {
+        var itemNo = ItemNum;
+        debugger;
+        // alert("my data");
+        var InventoryImages = [];
+        var urlUploadImage = "/Inventory/UploadImage?ItemNum=" + itemNo;
+        var c = 0;
+        var headers = {};
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        headers['__RequestVerificationToken'] = token;
+        c = $('table#dtInventoryImages tbody').find('tr:not(:has(th))');
+
+        //var tblCPDetail = $('#dtInventoryImages').DataTable(), tblRows = tblCPDetail.rows().data();
+        //if (tblRows.length > 0) {
+        //    $.each(tblRows, function (index, value) {
+        //        debugger;
+        //        var image = $(value[0]).find('input');
+
+        //        InventoryImages.push($(image).val());
+        //    });
+
+        if (c.length > 0) {
+            c.each(function (i, k) {
+                debugger;
+                var $td = $(this).find("td");
+                InventoryImages.push($td.eq(0).children().first().val());
+
+            });
+            debugger;
+            if (InventoryImages.length > 0 && InventoryImages != null) {
+                var urlStr = "/Inventory/UpdateImage";
+
+                $.ajax({
+                    url: urlStr,
+                    type: "POST",
+                    headers: headers,
+                    data: JSON.stringify({ ItemNum, InventoryImages }),
+                    contentType: 'application/json; charset=utf-8',
+                    //data: json,
+                    async: false,
+                    //cache: false,
+                    success: function (result) {
+                        debugger;
+                        if (result.Code == 200) {
+                            debugger;
+                            var myDropzone = Dropzone.forElement(".dropzone");
+
+                            debugger;
+                            var data = new FormData();
+
+                            debugger;
+                            var files = myDropzone.getAcceptedFiles();
+                            var ItemNum = ItemNum;
+                            if (files.length > 0) {
+                                for (var i = 0; i <= myDropzone.getAcceptedFiles().length; i++) {
+                                    data.append("MyImages" + i, files[i]);
+                                }
+
+
+                                debugger;
+                                $.ajax({
+
+
+                                    url: urlUploadImage,
+                                    type: "POST",
+                                    contentType: false, // Not to set any content header
+                                    processData: false, // Not to process data
+                                    data: data,
+                                    async: false,
+                                    headers: headers,
+                                    success: function (result) {
+                                        debugger;
+                                        if (result.Code == 200) {
+
+                                            swal({
+                                                title: "",
+                                                text: result.Message,
+                                                type: result.Type,
+                                                showCancelButton: false,
+                                                confirmButtonClass: "btn btn-success",
+                                                cancelButtonClass: "btn btn-primary",
+                                                confirmButtonText: "Ok",
+                                                cancelButtonText: "Cancel",
+                                                closeOnConfirm: true,
+                                                closeOnCancel: true
+                                            },
+                                                //debugger;
+                                                function (isConfirm) {
+                                                    if (isConfirm) {
+                                                        if ($("#txtRedirection").val() == 2) {
+                                                            window.location.replace("/InventoryList/Index");
+                                                        }
+                                                        else {
+                                                            $('#btnsave').text('Update');
+                                                            $('#btnsaveandList').text('Update and Go to List');
+                                                            $('#txtEdit').val(1);
+                                                            $('#txtItemNo').prop("disabled", true);
+                                                        }
+                                                    }
+                                                });
+                                        }
+                                        else if (result == "Error occurred.") {
+                                            alert("Error in uploading file.")
+                                        }
+
+
+
+
+                                    }
+
+                                });
+
+
+
+
+
+                            }
+                            else {
+                                swal({
+                                    title: "",
+                                    text: result.Message,
+                                    type: result.Type,
+                                    showCancelButton: false,
+                                    confirmButtonClass: "btn btn-success",
+                                    cancelButtonClass: "btn btn-primary",
+                                    confirmButtonText: "Ok",
+                                    cancelButtonText: "Cancel",
+                                    closeOnConfirm: true,
+                                    closeOnCancel: true
+                                },
+                                    //debugger;
+                                    function (isConfirm) {
+                                        if (isConfirm) {
+                                            if ($("#txtRedirection").val() == 2) {
+                                                window.location.replace("/InventoryList/Index");
+                                            }
+                                            else {
+                                                $('#btnsave').text('Update');
+                                                $('#btnsaveandList').text('Update and Go to List');
+                                                $('#txtEdit').val(1);
+                                                $('#txtItemNo').prop("disabled", true);
+                                            }
+                                        }
+                                    });
+                            }
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+            }
+        }
+        else {
+            debugger;
+            var myDropzone = Dropzone.forElement(".dropzone");
+
+            debugger;
+            var data = new FormData();
+
+            debugger;
+            var files = myDropzone.getAcceptedFiles();
+            var ItemNum = ItemNum;
+            if (files.length > 0) {
+                for (var i = 0; i <= myDropzone.getAcceptedFiles().length; i++) {
+                    data.append("MyImages" + i, files[i]);
+                }
+
+
+                debugger;
+                $.ajax({
+
+
+                    url: urlUploadImage,
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: data,
+                    headers: headers,
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        if (result.Code == 200) {
+
+                            swal({
+                                title: "",
+                                text: result.Message,
+                                type: result.Type,
+                                showCancelButton: false,
+                                confirmButtonClass: "btn btn-success",
+                                cancelButtonClass: "btn btn-primary",
+                                confirmButtonText: "Ok",
+                                cancelButtonText: "Cancel",
+                                closeOnConfirm: true,
+                                closeOnCancel: true
+                            },
+                                //debugger;
+                                function (isConfirm) {
+                                    if (isConfirm) {
+                                        if ($("#txtRedirection").val() == 2) {
+                                            window.location.replace("/InventoryList/Index");
+                                        }
+                                        else {
+                                            $('#btnsave').text('Update');
+                                            $('#btnsaveandList').text('Update and Go to List');
+                                            $('#txtEdit').val(1);
+                                            $('#txtItemNo').prop("disabled", true);
+                                        }
+                                    }
+                                });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+
+
+
+
+                }
+
+                );
+
+
+
+
+
+            }
+            else {
+                swal({
+                    title: "",
+                    text: result.Message,
+                    type: result.Type,
+                    showCancelButton: false,
+                    confirmButtonClass: "btn btn-success",
+                    cancelButtonClass: "btn btn-primary",
+                    confirmButtonText: "Ok",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                    //debugger;
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            if ($("#txtRedirection").val() == 2) {
+                                window.location.replace("/InventoryList/Index");
+                            }
+                            else {
+                                $('#btnsave').text('Update');
+                                $('#btnsaveandList').text('Update and Go to List');
+                                $('#txtEdit').val(1);
+                                $('#txtItemNo').prop("disabled", true);
+                            }
+                        }
+                    });
+            }
+        }
+
+    }
+    function SetRedirection(type) {
+        //1 for save 2 for save and goto list
+        $("#txtRedirection").val(type);
+    }
+</script>
+}

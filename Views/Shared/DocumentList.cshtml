@@ -1,0 +1,590 @@
+﻿
+<div class="col-md-12">
+    <!-- BEGIN EXAMPLE TABLE PORTLET
+    <form id="TJERPFormDocumentView">
+        @@Html.AntiForgeryToken()
+    </form>-->
+    <div class="card">
+        <div class="card-header header-elements-inline bg-orange-800">
+            <h5 class="card-title">
+                <button class='btn btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' onclick="fnNewRecordDocument()" id="btnNewRecordDocument" type='button' style="background-color:#FFB30B;">
+                    <b><i class="icon-plus3"></i></b>Add New
+                </button>
+                <span class="font-weight-semibold">Attachment</span>
+            </h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-bordered table-hover clsdtNoPagingInfoDoc clsdtNoPagingInfo" id="dtDocumentRecords">
+                <thead style="background-color:#B2B7C4; font-weight:bold">
+                    <tr>
+                        <th hidden>ID</th>
+                        <th hidden>ModuleID</th>
+                        <th hidden>SubModuleID</th>
+                        <th hidden>UniqueID</th>
+                        <th hidden>GUID</th>
+                        <th>Sr. </th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Size(MB)</th>
+                        <th>Tags</th>
+                        <th> Entry Date</th>
+                        <th style="text-align:right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+    &nbsp;&nbsp;&nbsp;
+</div>
+
+<!-- Document modal start-->
+<div class="modal fade " id="ModalDocument">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- BEGIN FORM-->
+            <form id="TJERPFormDocument">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-file-o"></i><span id="modalHeadingDocument" class="caption-subject font-green bold uppercase">Document Management</span></h4>
+                    <button type="button" class="close" data-toggle='modal' data-target='#ModalDocument'>&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="txtDocumentID" name="DocumentID" value="0" style="display:none;" />
+                    <input type="text" id="txtDocumentUniqueID" name="DocumentUniqueID" value="0" style="display:none;" />
+                    <input type="text" id="txtDocumentGUID" name="DocumentGUID" value="" style="display:none;" />
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2">Description <span class="text-danger">*</span></label>
+                        <div class="col-md-4">
+                            <input type="text" id="txtDocumentDescription" required maxlength="250" name="DocumentDescription" autocomplete="off" class="form-control" />
+                        </div>
+                        <label class="col-form-label col-md-2">Document Type <span class="text-danger">*</span></label>
+                        <div class="col-md-4">
+                            <select id="ddlDocumentType" required class="form-control"><option selected value="">Select Type</option></select>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none !important;">
+                        <label class="col-md-2 col-form-label">File Source</label>
+                        <div class="col-md-4">
+                            <input type="radio" id="rdoFileSourceDisk" name="FileSource" value="true" checked /> Select From Disk
+                            <input type="radio" id="rdoFileSourceScan" name="FileSource" value="false" /> Scan
+                        </div>
+                        <label class="col-form-label col-md-2">File Tags</label>
+                        <div class="col-md-4">
+                            <div class="form-control tags" id="divTagsInput">
+                                <input type="text" class="form-control" id="txtDocumentTags" name="DocumentTags" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="divDocumentDisk">
+                        <label class="col-form-label col-md-2">Select File <span class="text-danger">*</span></label>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control" id="txtDocumentFile" name="DocumentFile" required />
+                        </div>
+                    </div>
+                    <div class="form-group row" id="divDocumentScan" style="display:none">
+                        <label class="col-form-label col-md-2">Scan Document </label>
+                        <div class="col-md-4">
+                            <button onclick="SetScannerForDocumentScan();" class="btn bg-success-600  btn-sm" style="color:white" type="button">
+                                Scan <i class="mi-scanner"></i>
+                            </button>
+                        </div>
+                        <label class="col-form-label col-md-2"> </label>
+                        <div class="col-md-4">
+                            <input type="hidden" id="ScanedFile" value="" />
+                            <!-- width="200px" height="250px"<asp:Image ID="Image1" ImageUrl="\\DESKTOP-58E9ISF\KashifScan\ERP\ScanDocuments\TempImages\0aab7b33-749a-49c8-8910-9b1ac2ee0e22.tiff" runat="server" />-->
+                            <input type="image" id="imgScanFile" src="" style="border:thin !important; width:200px;height:250px;" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-toggle='modal' data-target='#ModalDocument'><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDocumentUpload" class="btn btn-primary btn-sm">Upload<b><i class="icon-upload ml-2"></i></b></button>
+                </div>
+
+            </form>
+            <!-- END FORM-->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- Document modal end-->
+<script>
+
+    $(document).ready(function () {
+        try {
+            //$('.clsdtNoPagingInfoDoc').DataTable({
+            //    "paging": false, searching: false, ordering: false, info: false, buttons: { dom: { button: { className: 'btn btn-light' } }, buttons: [] }
+                 //});
+        } catch (e) { }
+
+        GetDocumentTypeAll();
+        $('#ddlDocumentType').select2();
+        try { $('#divTagsInput').tagsinput({ labelClass: "badge badge-success" }); } catch (e) { }
+        try {
+            $('#rdoFileSourceDisk').change(function () {
+                if ($(this).is(":checked")) {
+                    $("#divDocumentDisk").show();
+                    $('#imgScanFile').removeAttr('required', false);
+                    $('#txtDocumentFile').attr('required', true);
+                    $("#divDocumentScan").hide();
+                }
+            });
+        } catch (e) {
+
+        }
+        try {
+            $('#rdoFileSourceScan').change(function () {
+                if ($(this).is(":checked")) {
+                    $("#divDocumentDisk").hide();
+                    $('#txtDocumentFile').removeAttr('required', false);
+                    $('#imgScanFile').attr('required', true);
+                    $('#imgScanFile').attr('src', '');
+                    $("#divDocumentScan").show();
+                }
+            });
+        } catch (e) {
+
+        }
+        $("#TJERPFormDocument").submit(function (event) {
+            event.preventDefault();
+            var IsDocumentDisk = $('#rdoFileSourceDisk').is(':checked');
+            var IsDocumentScan = $('#rdoFileSourceScan').is(':checked');
+            if (IsDocumentDisk) {
+                fnUploadDocumentDisk();
+            }
+            else if (IsDocumentScan) {
+                fnUploadDocumentScanned();
+            }
+        });
+        try {
+            $("#ModalDocument").on("hidden.bs.modal", function () {
+                var CurrentFormPKID = '@Session["SubModuleID"]' != null ? '@Session["SubModuleID"]' : '0'; //formidQ
+                if (CurrentFormPKID.toString() == "90733" || CurrentFormPKID.toString() == "90731" || CurrentFormPKID.toString() == "90727" || CurrentFormPKID.toString() == "90728") { }
+                else { $('body').addClass('modal-open'); }
+            });
+        } catch (e) {
+
+        }
+    });
+
+
+    function GetDocumentTypeAll() {
+        try {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                url: '/CoreSuite/GetDocumentTypeAll',
+                type: 'POST',
+                headers: headers,
+                //data: JSON.stringify({ ID: 0 }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result != null && result != "" && result != "Error") {
+                        $("#ddlDocumentType").html("<option selected value=''>Select Type</option>");
+                        $.each($.parseJSON(result), function (i, ptc) {
+                            $("#ddlDocumentType").append($('<option></option>').val(ptc.ID).html(ptc.Description));
+                        });
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+            });
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+    }
+    function LoadDocumentTableData() {
+        try {
+            fnRefreshDocument();
+            var UniqueID = $('#txtDocumentUniqueID').val();
+            var DocumentGUID = $('#txtDocumentGUID').val();
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+            var dtDocumentRecords = $("#dtDocumentRecords").DataTable();
+            dtDocumentRecords.clear().draw();
+            DocumentGUID = UniqueID > 0 ? '' : DocumentGUID;
+            if (UniqueID > 0 || (DocumentGUID != null && DocumentGUID != undefined && DocumentGUID.trim() != '')) {
+                var dtDocumentRecordscount = 1;
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/CoreSuite/GetDocumentTableSummary",
+                    data: JSON.stringify({
+                        'UniqueID': UniqueID, 'DocumentGUID': DocumentGUID
+                    }),
+                    dataType: "json",
+                    success: function (result) {
+                        if (result != null && result != "Error") {
+                            $.each(result, function (i, Data) {
+                                var EntryDateInfo = "<a href='#'><span class='red-tooltip' data-toggle='tooltip' title='" + Data.EntryUserName + "'>" + Data.EntryDate + "</span></a>";
+                                var DocActionData = "";
+                                DocActionData = "<span class='red-tooltip' data-toggle='tooltip' title='View Document'><a  target='_blank' href='/Uploads/" + Data.NewFileName + "' class='btn btn-warning'><i class='icon-eye'></i></a></span>";
+
+                                DocActionData += "<span class='red-tooltip' data-toggle='tooltip' title='Download Document'><a download href='/Uploads/" + Data.NewFileName + "' class='btn btn-success'><i class='icon-download'></i></a></span>";
+
+                                 DocActionData += "<span class='red-tooltip' data-toggle='tooltip' title='Delete Document'><button type='button' onclick='fnDeleteDocument(this)' class='btn btn-danger' style='color:white'><i class='icon-trash'></i></button></span>";
+
+                                var DocumentSize = Data.SizeOfFile;
+                                var mbDocumentSize = (DocumentSize / 1024) / 1024;
+                                var mbDocumentSizeRound = Math.round(mbDocumentSize * 100) / 100;
+                                var DocumentTags = '';
+                                if (Data.TagList != null && Data.TagList != undefined && Data.TagList.length > 0) {
+                                    $(Data.TagList).each(function (ii, TagData) {
+                                        if (DocumentTags == '') { DocumentTags = TagData.Description; }
+                                        else { DocumentTags += ', ' + TagData.Description; }
+                                    });
+                                }
+                                var newRow = "<tr>"
+                                    + "<td hidden>" + Data.ID + "</td>"
+                                    + "<td hidden>" + Data.ModuleID + "</td>"
+                                    + "<td hidden>" + Data.SubModuleID + "</td>"
+                                    + "<td hidden>" + Data.UniqueID + "</td>"
+                                    + "<td hidden>" + Data.DocumentGUID + "</td>"
+                                    + "<td>" + dtDocumentRecordscount++ + "</td>"
+                                    + "<td>" + Data.DocumentName + "</td>"
+                                    + "<td>" + Data.DocumentTypeName + "</td>"
+                                    + "<td>" + Data.ExtensionName + "</td>"
+                                    + "<td>" + mbDocumentSizeRound + "</td>"
+                                    + "<td>" + DocumentTags + "</td>"
+                                    + "<td>" + EntryDateInfo + "</td>"
+                                    + "<td style='text-align:Right'>" + DocActionData + "</td>"
+                                    + "</tr>";
+
+                                dtDocumentRecords.row.add($(newRow));
+                            });
+                            dtDocumentRecords.draw();
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+            }
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+    }
+    function fnDeleteDocument(btn) {
+        try {
+            swal({
+                title: "",
+                text: "Are you sure you want to Delete this record?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Confirm Delete",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var btnrow = $(btn).closest("tr");
+                        var dtDocumentRecords = $("#dtDocumentRecords").DataTable();
+                        var dtDocumentRecordsRow = dtDocumentRecords.row(btnrow).data();
+                        var ID = dtDocumentRecordsRow[0];
+                        ID = ID != null && ID != undefined && ID > 0 ? ID : 0;
+                        if (ID > 0) {
+                            var headers = {};
+                            var token = $('input[name="__RequestVerificationToken"]').val();
+                            headers['__RequestVerificationToken'] = token;
+                            $.ajax({
+                                type: "POST",
+                                headers: headers,
+                                contentType: "application/json; charset=utf-8",
+                                url: "/CoreSuite/DeleteDocument",
+                                data: JSON.stringify({ ID: ID }),
+                                dataType: "json",
+                                //async: false,
+                                success: function (result) {
+                                    if (result.Code == 200) {
+                                        swal("", result.Message, result.Type);
+                                        //Load DocumentTableData(UniqueID, DocumentGUID);//NOTE:;- row directly not deleted as Sr. number then must be refreshed
+
+                                        var rowdelete = $(btn).closest("tr");
+                                        var dtDocumentRecords1 = $("#dtDocumentRecords").DataTable();
+                                        dtDocumentRecords1.row(rowdelete).remove().draw(false);
+
+                                        fnRefreshDocumentRecordsDTSr();
+                                    }
+                                    else {
+                                        swal("", result.Message, result.Type);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                    swal("", errorMessage, "error");
+                                }
+                            });
+                        } else {
+                            swal("", "Record not found", "error");
+                        }
+
+                    } else {
+                        swal("Cancelled", "Your operation Canceled :)", "error");
+                    }
+                });
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+    }
+    function fnRefreshDocumentRecordsDTSr() {
+        try {
+            var dtDocumentRecords = $('#dtDocumentRecords').DataTable();
+            var dtDocumentRecordsRows = dtDocumentRecords.rows().data();
+            if (dtDocumentRecordsRows.length > 0) {
+                $.each(dtDocumentRecordsRows, function (index, value) {
+                    let SrNo = Number(index) + 1;
+                    value[5] = SrNo;
+                    dtDocumentRecords.row(index).data(value);
+                });
+            }
+        } catch (err) {
+            swal("", "Error while Refreshing Document data table Sr.", "error");
+        }
+    }
+    function fnCreateNewDocumentGUID() {
+        if ($('#txtDocumentGUID').val() == '') {
+            var dt = new Date().getTime();
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = (dt + Math.random() * 16) % 16 | 0;
+                dt = Math.floor(dt / 16);
+                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+            $('#txtDocumentGUID').val(uuid);
+        }
+    }
+    function fnSetScannerForDocumentScan() {
+        try {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                url: '/CoreSuite/SetScannerForDocumentScan',
+                type: 'POST',
+                headers: headers,
+                //data: JSON.stringify({ ID: 0 }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result != null && result != "" && result != "Error") {
+                        //$("#ddlDocumentType").html("<option selected value=''>Select Type</option>");
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+            });
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+    }
+
+    function fnUploadDocumentDisk() {
+        try {
+            var data = new FormData();
+            var files = $("#txtDocumentFile").get(0).files;
+            var DocumentGUID = $('#txtDocumentGUID').val();
+
+            if (files.length > 0) {
+                var Title = "";
+                var Text = "";
+                var ConfirmButtonText = "";
+                var CancelButtonText = "";
+
+                if ($('#btnDocumentUpload').text().trim() == 'Upload') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Upload this document ?";
+                    var ConfirmButtonText = "Confirm Upload";
+                    var CancelButtonText = "Cancel";
+                }
+                swal({
+                    title: Title, text: Text, type: "warning", showCancelButton: true, confirmButtonText: ConfirmButtonText, cancelButtonText: CancelButtonText, closeOnConfirm: false, closeOnCancel: true
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            //var AjaxObj = AjaxObjCallMemberNextOfKin();
+                            var headers = {};
+                            var token = $('input[name="__RequestVerificationToken"]').val();
+                            headers['__RequestVerificationToken'] = token;
+                            var Url = "";
+                            var DocumentUniqueID = $('#txtDocumentUniqueID').val(), DocumentGUID = $('#txtDocumentGUID').val()
+                                , DocumentName = $('#txtDocumentDescription').val(), DocumentTypeID = $('#ddlDocumentType').val(), DocumentTags = $('#divTagsInput').val().toString(); //$('#').val()
+                            if ($('#btnDocumentUpload').text().trim() == 'Upload') {
+                                Url = "/CoreSuite/UploadDocument?DocumentUniqueID=" + DocumentUniqueID + "&DocumentGUID=" + DocumentGUID
+                                    + "&DocumentName=" + DocumentName + "&DocumentTypeID=" + DocumentTypeID + "&DocumentTags=" + DocumentTags;
+                            }
+                            else {
+                            }
+                            data.append("TJERPDocument", files[0]);
+
+                            $.ajax({
+                                type: "POST",
+                                headers: headers,
+                                contentType: "application/json; charset=utf-8",
+                                url: Url,
+                                contentType: false, // Not to set any content header
+                                processData: false, // Not to process data
+                                data: data,//JSON.stringify({ "ID": D }),
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result.Code == 200) {
+                                        swal("", result.Message, result.Type);
+                                        //NOTE*:-
+                                        LoadDocumentTableData();
+                                        $('#ModalDocument').modal('hide');
+                                    }
+                                    else {
+                                        swal("", result.Message, result.Type);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                    swal("", errorMessage, "error");
+                                }
+
+                            });
+
+                        }
+                        else {
+                            swal("Cancelled", "Your operation Canceled :)", "error");
+                        }
+                    });
+            } else {
+                swal("", "Please select or scan Document".toString(), "error");
+            }
+
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+    }
+    function fnUploadDocumentScanned() {
+        try {
+            var data = new FormData();
+            var imgScanFile = $('#imgScanFile').attr('src')
+            var DocumentGUID = $('#txtDocumentGUID').val();
+
+            if (imgScanFile != null && imgScanFile != "") {
+                var Title = "";
+                var Text = "";
+                var ConfirmButtonText = "";
+                var CancelButtonText = "";
+
+                if ($('#btnDocumentUpload').text().trim() == 'Upload') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Upload this document ?";
+                    var ConfirmButtonText = "Confirm Upload";
+                    var CancelButtonText = "Cancel";
+                }
+                swal({
+                    title: Title, text: Text, type: "warning", showCancelButton: true, confirmButtonText: ConfirmButtonText, cancelButtonText: CancelButtonText, closeOnConfirm: false, closeOnCancel: true
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            //var AjaxObj = AjaxObjCallMemberNextOfKin();
+                            var headers = {};
+                            var token = $('input[name="__RequestVerificationToken"]').val();
+                            headers['__RequestVerificationToken'] = token;
+                            var Url = "";
+                            var DocumentUniqueID = $('#txtDocumentUniqueID').val(), DocumentGUID = $('#txtDocumentGUID').val()
+                                , DocumentName = $('#txtDocumentDescription').val(), DocumentTypeID = $('#ddlDocumentType').val(), DocumentTags = $('#divTagsInput').val().toString(); //$('#').val()
+
+                            if ($('#btnDocumentUpload').text().trim() == 'Upload') {
+                                Url = "/CoreSuite/UploadDocument?DocumentUniqueID=" + DocumentUniqueID + "&DocumentGUID=" + DocumentGUID
+                                    + "&DocumentName=" + DocumentName + "&DocumentTypeID=" + DocumentTypeID + "&DocumentTags=" + DocumentTags;
+                            }
+                            else {
+                            }
+                            data.append("TJERPDocument", files[0]);
+
+                            $.ajax({
+                                type: "POST",
+                                headers: headers,
+                                contentType: "application/json; charset=utf-8",
+                                url: Url,
+                                contentType: false, // Not to set any content header
+                                processData: false, // Not to process data
+                                data: data,//JSON.stringify({ "ID": D }),
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result.Code == 200) {
+                                        swal("", result.Message, result.Type);
+                                        //NOTE*:-
+                                        LoadDocumentTableData();
+                                        $('#ModalDocument').modal('hide');
+                                    }
+                                    else {
+                                        swal("", result.Message, result.Type);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                    swal("", errorMessage, "error");
+                                }
+
+                            });
+
+                        }
+                        else {
+                            swal("Cancelled", "Your operation Canceled :)", "error");
+                        }
+                    });
+            } else {
+                swal("", "Please select or scan Document".toString(), "error");
+            }
+
+        }
+        catch (err) {
+            swal("Cancelled", err.toString(), "error");
+        }
+    }
+    function fnRefreshDocument() {
+        $('#txtDocumentDescription').val('');
+        $('#ddlDocumentType').val('').change();
+        $('#txtDocumentFile').val('');
+
+        $('#rdoFileSourceDisk').prop('checked', true);
+        $('#rdoFileSourceDisk').val('').change();
+        $('#divTagsInput').parent().find('.bootstrap-tagsinput>span').remove();
+        $('#imgScanFile').attr('src', '');
+        //$('#').val('');
+    }
+    function fnNewRecordDocument() {
+        fnRefreshDocument();
+        $('#ModalDocument').modal('show');
+    }
+</script>

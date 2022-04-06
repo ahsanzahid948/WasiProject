@@ -1,0 +1,700 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Simplicity Enterprise</title>
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Select2")
+    @Scripts.Render("~/bundles/SweetAlertsJs")
+    @Scripts.Render("~/bundles/DataTableScripts")
+    <link href="~/Content/assets/assets/css/NCCustom.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+</head>
+<body class="">
+    <div id="coverScreen" class="LockOn display-hide">
+    </div>
+    <!-- Main navbar -->
+    <div class="navbar navbar-expand-md navbar-dark fixed-top">
+        <div class="navbar-brand">
+            @{
+                //var logo = Session["CompanyID"].ToString() + ".png";
+                //var logo = companyid.ToString() + ".png";
+
+                var logo = "";
+
+
+                long UserID = 0;
+
+            }
+            <a href="#" class="d-inline-block" id="LogoDiv">
+
+                <img src="~/Content/Images/LogoI.png" />
+            </a>
+        </div>
+        <div class="d-md-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+                <i class="icon-tree5"></i>
+            </button>
+            <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
+                <i class="icon-paragraph-justify3"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-mobile">
+
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+                    <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block" onclick="ChangeImage();">
+                        <i class="icon-paragraph-justify3"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+
+
+            <ul class="navbar-nav ml-auto">
+
+
+                <li class="nav-item dropdown">
+                    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">
+                        <i class="icon-bell2"></i>
+                        <span class="d-md-none ml-2">Notifications</span>
+
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350">
+                        <div class="dropdown-content-header">
+                            <span class="font-weight-semibold">Un Read Notifications</span>
+                        </div>
+
+                        <div class="dropdown-content-body dropdown-scrollable">
+                            <ul class="media-list">
+                            </ul>
+                        </div>
+                        <div class="dropdown-content-footer justify-content-center p-0">
+                            <a href="/UserManagement/SystemNotification/Index" target="_blank" class="bg-light text-grey w-100 py-2" data-popup="tooltip" title="" data-original-title="Load more"><i class="icon-menu7 d-block top-0"></i></a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown dropdown-user">
+                    <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown" id="UserPic">
+
+
+                        <span>@Session["FirstName"].ToString() </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+
+                        <!--<a href="~/UserManagement/ChangePassword/Index?FID=@@CPFID&ModuleID=@@CPMID" class="dropdown-item"><i class="icon-cog5"></i>Change Password</a>-->
+                        <a href="#" onclick="fnChangePassword()" class="dropdown-item"><i class="icon-cog5"></i>Change Password</a>
+                        <a href="/Login/LogOff" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        @{Html.RenderPartial("_Sidebar");}
+
+        <div class="content-wrapper">
+            @RenderBody()
+            <div class="navbar navbar-expand-lg navbar-light">
+                <div class="text-center d-lg-none w-100">
+                    <button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-footer">
+                        <i class="icon-unfold mr-2"></i>
+                        Footer
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-footer">
+                    <span class="navbar-text" id="FooterShow" style="color:white !important;">
+                        @{
+                            var yyyyfooter = DateTime.Today.Year;
+                        }
+                        Designed & Developed by<a style="color:white !important;" href="" target="_blank"> Wasi & Javad </a> &copy; @yyyyfooter.
+                    </span>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="ModalChangePassword" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--FormChPwd BEGIN FORM form-horizontal  action="/UserManagement/ChangePassword/Index"-->
+                <form id="ERPFormChangePassword" class="formvalidatejqueryChPass" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Change Password</span></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-4"> Old Password <span class="required"> * </span> </label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <!--   autocomplete="off"    -->
+                                    <input type="password" id="txtpasswordOld" name="PasswordOld" class="form-control" maxlength="20" autocomplete="new-password" />
+                                    <span class="input-group-prepend"><button type="button" class="input-group-text toggle-password" toggle="#txtpasswordOld" id="clearBtn1"><i class="icon-eye2"></i></button></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-4">New Password<span class="required"> * </span></label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input type="password" id="txtpasswordNew" name="PasswordNew" class="form-control" maxlength="20" onkeyup="CheckPasswordStrength(this.value)" autocomplete="off" />
+                                    <span class="input-group-prepend"><button type="button" class="input-group-text toggle-password" toggle="#txtpasswordNew" id="clearBtn2"><i class="icon-eye2"></i></button></span>
+
+                                </div>
+                                <label id="txtpasswordNew-info" class="" for="txtpasswordNew">Password Strength: <strong id="password_strength"></strong></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-4">Confirm New Password<span class="text-danger"> * </span></label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input type="password" id="txtpasswordConfirm" name="PasswordConfirm" maxlength="20" class="form-control" autocomplete="off" />
+                                    <span class="input-group-prepend"><button type="button" class="input-group-text toggle-password" toggle="#txtpasswordConfirm" id="clearBtn3"><i class="icon-eye2"></i></button></span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="resetChPass" data-dismiss="modal" style="color:white"><b><i class="icon-cross2"></i></b>Close</button>
+                        <button type="submit" id="" class="btn btn-primary btn-sm">Update<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                    </div>
+
+                </form>
+                <!-- END FORM-->
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+    <script src="~/Content/global_assets/js/plugins/forms/validation/validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/inputs/inputmask.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            try {
+                FormValidationFormChPwd.init();
+            } catch (e) { console.log("FormValidation exception"); console.log(e); }
+
+            //fnChangePassword();
+        });
+
+        function fnChangePassword() {
+            $('#ModalChangePassword').modal('show');
+            $('#txtpasswordOld').val('');
+            $('#txtpasswordNew').val('');
+            $('#txtpasswordConfirm').val('');
+            $('#password_strength').text('');
+        }
+        //$("#ERPFormChangePassword").submit(function (event) {
+        //    event.preventDefault();
+        //    SaveRecord();
+        //});
+        function SaveRecordChangePassword() {
+            try {
+                var Title = "";
+                var Text = "";
+                var ConfirmButtonText = "";
+                var CancelButtonText = "";
+                if ($('#btnSavePersonalData').text() == 'Save and Next') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Save this record ?";
+                    var ConfirmButtonText = "Confirm Save";
+                    var CancelButtonText = "Cancel";
+                }
+                if ($('#btnSavePersonalData').text() == 'Update and Next') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Update this record ?";
+                    var ConfirmButtonText = "Confirm Update";
+                    var CancelButtonText = "Cancel";
+                }
+                //swal({
+                //    title: Title, text: Text, type: "warning", showCancelButton: true, confirmButtonText: ConfirmButtonText, cancelButtonText: CancelButtonText, closeOnConfirm: false, closeOnCancel: true
+                //}, function (isConfirm) {
+                //if (isConfirm) {
+
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                var Url = "";
+
+                Url = "/Login/ChangePassword";
+
+                let PasswordOld = $('#txtpasswordOld').val();
+                let PasswordNew = $('#txtpasswordNew').val();
+                let PasswordConfirm = $('#txtpasswordConfirm').val();
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: Url,
+                    data: JSON.stringify({
+                        'PasswordOld': PasswordOld,
+                        'PasswordNew': PasswordNew, //
+                        'PasswordConfirm': PasswordConfirm
+                    }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result==1) {
+                        
+                            swal("", "Password Has been changed successfully");
+                           
+                            $("#ModalChangePassword").modal('hide');
+                        }
+                        if (result == 0) {
+                            
+                            swal("", "Please Enter Valid old Password  ", result.Type);
+                        }
+                        if (result == 5) {
+
+                            swal("", "Conform Password not matched ", result.Type);
+                        }
+                       
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                //}
+                //else { swal("Cancelled", "Your operation Canceled :)", "error"); }
+                //});
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+
+        function CheckPasswordStrength(password) {
+            var password_strength = document.getElementById("password_strength");
+
+            //TextBox left blank.
+            if (password.length == 0) {
+                password_strength.innerHTML = "";
+                return;
+            }
+
+            //Regular Expressions.
+            var regex = new Array();
+            regex.push("[A-Z]"); //Uppercase Alphabet.
+            regex.push("[a-z]"); //Lowercase Alphabet.
+            regex.push("[0-9]"); //Digit.
+            regex.push("[$@@$!%*#?&]"); //Special Character.
+
+            var passed = 0;
+
+            //Validate for each Regular Expression.
+            for (var i = 0; i < regex.length; i++) {
+                if (new RegExp(regex[i]).test(password)) {
+                    passed++;
+                }
+            }
+
+            //Display status.
+            var color = "";
+            var strength = "";
+            switch (passed) {
+                case 0:
+                case 1:
+                case 2:
+                    strength = "Weak";
+                    color = "red";
+                    break;
+                case 3:
+                    strength = "Medium";
+                    color = "orange";
+                    break;
+                case 4:
+                    strength = "Strong";
+                    color = "green";
+                    break;
+
+            }
+
+
+            password_strength.innerHTML = strength;
+            password_strength.style.color = color;
+
+            //if (passed <= 2) {
+            //    document.getElementById('show').disabled = true;
+            //} else {
+            //    document.getElementById('show').disabled = false;
+            //}
+
+        }
+        $(".toggle-password").click(function () {
+
+            if ($(this).find("i").hasClass("icon-eye2")) {
+                $(this).find("i").removeClass("icon-eye2");
+                $(this).find("i").addClass("icon-eye-blocked");
+            }
+            else {
+                $(this).find("i").removeClass("icon-eye-blocked");
+                $(this).find("i").addClass("icon-eye2");
+            }
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+
+        function fnPutValidationError(error, element) {
+            let tagname = element.length > 0 && element[0].tagName != null && element[0].tagName != undefined ? element[0].tagName : "";
+            if (element.parent().hasClass("input-icon") || element.parent().hasClass("input-group")) {
+                error.insertAfter(element.parent().last());//
+            } else if (tagname.toLowerCase() == "select") {
+                error.insertAfter(element.parent().children().last());//
+            } else {
+                error.insertAfter(element);//.parent().last()
+            }
+        }
+
+        var FormValidationFormChPwd = function () {
+            // Validation config
+            jQuery.validator.addMethod("notEqual", function (value, element, param) {
+                debugger;
+                return value != $(param).val();//this.optional(element) ||
+            }, 'New Password must not be equal to Old.');
+            jQuery.validator.addMethod("equalToStrong", function (value, element, param) {
+                debugger;
+                return "Strong" == $(param).text();//this.optional(element) ||
+            }, 'New Password Strength must be Strong.');
+            var _componentValidationFormChPwd = function () {
+                if (!$().validate) {
+                    console.warn('Warning - validate.min.js is not loaded.');
+                    return;
+                }
+
+                // Initialize
+                let validatorChPass = $('.formvalidatejqueryChPass').validate({
+                    ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
+                    errorClass: 'validation-invalid-label',
+                    successClass: 'validation-valid-label',
+                    validClass: 'validation-valid-label',
+                    highlight: function (element, errorClass) { $(element).removeClass(errorClass); },
+                    unhighlight: function (element, errorClass) { $(element).removeClass(errorClass); },
+                    success: function (label) { $(label).remove(); }, // Different components require proper error label placement
+                    errorPlacement: function (error, element) {
+                        let tagname = element.length > 0 && element[0].tagName != null && element[0].tagName != undefined ? element[0].tagName : "";
+                        if (element.parent().hasClass("input-icon") || element.parent().hasClass("input-group")) {
+                            error.insertAfter(element.parent().last());//
+                        } else if (tagname.toLowerCase() == "select") {
+                            error.insertAfter(element.parent().children().last());//
+                        } else {
+                            error.insertAfter(element);//.parent().last()
+                        }
+                    },
+                    rules: {
+                        PasswordOld: { required: true }, PasswordNew: { required: true, notEqual: '#txtpasswordOld', equalToStrong: '#password_strength' }, PasswordConfirm: { required: true, equalTo: '#txtpasswordNew' }
+                    },
+                    messages: {
+                        PasswordOld: { required: 'Old Password is Required!.' },
+                        PasswordNew: { required: 'New Password is Required!.' },//, notEqual: 'New Password must not be equal to Old.'
+                        PasswordConfirm: { required: 'Confirm Password is Required!.', equalTo: 'Confirm Password must be equal to New.' }
+                    }
+                            /**/, submitHandler: function (form) {
+                        debugger;
+                        try {
+                            var password_strength = document.getElementById("password_strength");
+                            if (password_strength.innerHTML == "Strong") {
+                                //form.submit(); //$('.form-validate-jquery').submit();
+                                SaveRecordChangePassword();
+                            }
+                            else {
+                                //alert("Password Strength Should be Strong");
+                                let objCat = $("#txtpasswordNew");
+                                //let errorObj = '<label id="txtpasswordNew-error" class="validation-invalid-label" for="txtpasswordNew">New Password Strength must be Strong.</label>';
+                                //fnPutValidationError($(errorObj), objCat);
+                                $("#txtpasswordNew").focus();
+                                event.preventDefault();
+                            }
+
+                        } catch (exhrval) {
+                            debugger;
+                        }
+                    }
+                });
+
+                // Reset form
+                $('#resetChPass').on('click', function () {
+                    validatorChPass.resetForm();
+                });
+            };
+            return { init: function () { _componentValidationFormChPwd(); } }
+        }();
+    </script>
+</body>
+</html>
+
+
+
+
+
+<script>
+    /*NOTE:***: CODE TO IMPLEMENT ROLE RIGHTS ON SAVE UPDATE DELETE*/
+    var AjaxErrorMessage = "There was an error while Processing your Request. Kindly make sure that you are connected to the Internet.";
+    let isViewAllowed = false, isInsertAllowed = false, isUpdateAllowed = false, isDeleteAllowed = false;
+    $(document).ready(function () {
+        try {
+
+            if (localStorage.getItem('SideBarChangeValue') == "1") {
+
+               $('body').addClass('navbar-top sidebar-xs');
+
+            }
+            if (localStorage.getItem('SideBarChangeValue') == "0") {
+
+                $('body').addClass('navbar-top');
+
+            }
+
+
+                $('#FooterShow').show();
+                $('#TJLogoShow').show();
+
+
+
+            $("#AllCat").text("All Categories");
+            $("#TxtSearchTypeID").text(0);
+              $('.authorizeOrNotUpdate').css('background-color', 'gray');
+
+        } catch (e) { }
+    });
+   
+    document.addEventListener("visibilitychange", function () {
+        var furl = window.location.href;
+        if (document.hidden) {
+            console.log("Browser tab is hidden" + furl);
+        } else {
+            console.log("Browser tab is visible" + furl);
+            //SetModuleIDFormID();
+        }
+    });
+    function ChangeImage() {
+
+        if (localStorage.getItem('SideBarChangeValue') == "1") {
+
+            localStorage.setItem('SideBarChangeValue', '0');
+
+        }
+        else if (localStorage.getItem('SideBarChangeValue') == "0") {
+
+            localStorage.setItem('SideBarChangeValue', '1');
+
+        }
+        //$("#TJImage").attr('src').indexOf('Small');
+        //if ($("#TJImage").attr('src').indexOf('Small') == -1) {
+        //    $("#TJImage").attr('src', '/Content/global_assets/images/TJSmall1.png');
+        //    $("#TJImage").attr('width', '40');
+        //    $("#TJImage").attr('height', '40');
+        //}
+        //else {
+        //    $("#TJImage").attr('src', '/Content/global_assets/images/TJ.png');
+        //    $("#TJImage").attr('width', '180');
+        //    $("#TJImage").attr('height', '40');
+        //}
+
+    }
+    function showSessionTimoutMessage(MessageTitle, MsgText, ALType, BtnClass) {
+        swal({
+            title: MessageTitle, text: MsgText, allowOutsideClick: false, type: ALType,
+            showCancelButton: false, confirmButtonClass: BtnClass, confirmButtonText: "Re Log In", allowOutsideClick: false
+        }, function (isConfirm) {
+            var url = '/Login/LogOff';
+            window.location.href = url;
+        });
+    }
+    /*NOTE:***: CODE TO IMPLEMENT ROLE RIGHTS ON SAVE UPDATE DELETE*/
+</script>
+<script>
+
+    let formidQ = 0;
+    function fnUpdateUnReadNotificationStatus(ths) {
+
+        try {
+            let NotificationID = $(ths).prev().val();//idnotpk
+            let thshref = "#liMediaID_" + NotificationID.toString();//"#liMediaID_"+NotificationID.toString()
+            let unreadnot = $("#spunreadnotificationcount").text();
+            if ($.isNumeric(unreadnot) && Number(unreadnot) > 0) {
+                _unreadnot = Number(unreadnot) - 1;
+            }
+            else {
+                unreadnot = 0;
+            }
+            /**/
+            $.ajax({
+                url: "/UserManagement/SystemNotification/UpdateNotification",
+                type: "POST",
+                data: JSON.stringify({ "NotificationID": NotificationID }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result.Success == "1") {
+                        // showCRUDMessage("Success", "Successfully Saved", "success", "btn btn-success");
+                        //window.location.href = "/UserManagement/SystemNotification/index";
+                        $("#spunreadnotificationcount").text(_unreadnot);
+                        $(thshref).remove();
+                    }
+                    else {
+                        // window.location.href = "/PropertySalesManagement/Deal/index";
+                        //alert(result.ex);
+                    }
+                },
+                error: function () {
+                    //alert("Whooaaa! Something went wrong..")
+                    console.log("error while reading status updating of notification");
+                },
+            });
+
+        } catch (e) {
+            console.log("error while reading status updating of notification");
+        }
+    }
+    $("#SearchModal").on("hidden.bs.modal", function () {
+
+        $("#ResultSetID").html("");
+        $("#TxtKeywordid").val("");
+    });
+
+    $(document).ajaxSend(function (event, jqxhr, settings) {
+        //alert(settings.url);
+        if (settings.url != "/Notification/GetNotifications?{}") {
+            $('#coverScreen').show();
+        }
+    });
+    $(document).bind("ajaxStop.mine", function () {
+        $('#coverScreen').hide();
+    });
+
+
+
+    function fnChangeSearchType(srhTypeID, srhTypeIDName) {
+        try {
+
+            $("#TxtSearchTypeID").val(srhTypeID);
+            $("#AllCat").text(srhTypeIDName);
+        }
+        catch (e) {
+
+        }
+    }
+    function SearchCallFunction() {
+
+        var TxtKeyWordId = $("#TxtKeywordid").val();
+        var TxtSearchTypeId = $("#TxtSearchTypeID").val();
+
+
+
+        $.ajax
+            ({
+
+                url: '/SearchEngine/KeywordSearch',
+                type: "POST",
+                data: {
+                    KeyWord1: TxtKeyWordId,
+                    SearchType: TxtSearchTypeId
+                },
+                dataType: 'json',
+
+
+                success: function (data) {
+
+                    if (data != 0) {
+                        let htmActual = "";
+                        $.each(data, function (id, option) {
+                            var value = option.ID;
+
+
+                            let htm = "<h6 class='media-title'><a href=" + option.URL + "?" + option.ID + "><strong>" + option.ResultType + "</strong> - " + option.Info1 + "</a></h6>";
+                            let htm1 = "<ul class='list-inline list-inline-dotted text-muted mb-2'> <li class='list-inline-item'><a href=" + option.URL + " class='text-success'>Click Here for Details...</a></li><li class='list-inline-item'><i class='icon-star-full2 font-size-base text-warning-300'></i> <i class='icon-star-full2 font-size-base text-warning-300'></i><i class='icon-star-full2 font-size-base text-warning-300'></i><i class='icon-star-full2 font-size-base text-warning-300'></i><i class='icon-star-full2 font-size-base text-warning-300'></i>  5 stars</li><li class='list-inline-item'>" + option.MatchPercentage + "%  Match Percentage</li></ul>";
+                            let htm2 = option.Info2 + "&nbsp;&nbsp;";
+                            let htm3 = option.Info3 + "&nbsp;&nbsp;";
+                            let htm4 = option.Info4;
+                            htmActual += htm + htm1 + htm2 + htm3 + htm4 + "<br/><h6>&nbsp;</h6>";
+
+                        });
+                        $("#ResultSetID").html(htmActual);
+                    }
+                    else {
+
+                    }
+                },
+                error: function () {
+                    alert("! Something went wrong..")
+                },
+            });
+
+    }
+
+
+
+    $("#DocumentModal").on("hidden.bs.modal", function () {
+
+        if (formidQ.toString() == "90733" || formidQ.toString() == "90731" || formidQ.toString() == "90727" || formidQ.toString() == "90728") {
+
+
+        }
+        else {
+            //alert("add Class NC");
+            $('body').addClass('modal-open');
+        }
+
+    });
+
+
+    $('.Modal').modal({ backdrop: 'static', keyboard: false })
+
+    $("#ActivityModal").on("hidden.bs.modal", function () {
+
+
+
+    });
+</script>
+<script>
+    // redirect ajax requests that are redirected, not found (404), or forbidden (403.)
+    $(document).ajaxError(function (e, xhr, settings, exception) {
+        //debugger; //e.stopPropagation(); if (jqxhr != null) { alert(jqxhr.responseText); }&& errMsg == "The client's session has expired and must log in again."
+        let errMsg = xhr != null && xhr != undefined && xhr.responseJSON != null && xhr.responseJSON != undefined ? xhr.responseJSON : "";
+        let errStatusCode = xhr != null && xhr != undefined && xhr.status != null && xhr.status != undefined ? xhr.status : "";
+        if (errStatusCode == 440) {
+            let errMsgQ = "Your session has expired. Please log in again to proceed.";
+            showSessionTimoutMessage(errMsgQ, "", "warning", "btn-danger");
+        } else { /*showCRUDMessage("Error occured, unable to proceed", "", "warning", "btn-danger");*/ }
+
+    });
+</script>
+
+
+
+
+

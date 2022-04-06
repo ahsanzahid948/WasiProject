@@ -1,0 +1,183 @@
+﻿@{
+    long moduleid = 4;
+    moduleid =  4;
+
+}
+
+
+
+
+<div class="sidebar sidebar-dark sidebar-main sidebar-fixed sidebar-expand-md">
+    <!-- Sidebar mobile toggler -->
+    <div class="sidebar-mobile-toggler text-center">
+        <a href="#" class="sidebar-mobile-main-toggle">
+            <i class="icon-arrow-left8"></i>
+        </a>
+        Navigation
+        <a href="#" class="sidebar-mobile-expand">
+            <i class="icon-screen-full"></i>
+            <i class="icon-screen-normal"></i>
+        </a>
+    </div>
+
+    <div class="sidebar-content">
+
+        <!-- Main navigation -->
+        <div class="card card-sidebar-mobile" id="sidebarlist">
+
+            <ul class="nav nav-sidebar" data-nav-type="accordion" id="ParentPart">
+
+
+
+                <li class="nav-item">
+
+                    <a href="/UserList/Index" class="nav-link">
+                        <i class="icon-users"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+
+                    <a href="/GRN/Index" class="nav-link">
+                        <i class="icon-stats-growth"></i>
+                        <span>GRN</span>
+                    </a>
+                </li>
+               
+
+                <!-- /main -->
+            </ul>
+        </div>
+        @*<div class="sidebar-user">
+            <div class="card-body">
+                <div class="media">
+                    <div class="mr-3" id="TJLogoShow">
+                        <a href="#">
+                           
+                            <img src="~/CompanyLogos/1.png"   alt="">
+                        </a>
+                       
+
+                    </div>
+                
+                </div>
+            </div>
+        </div>*@
+        <!-- /main navigation -->
+    </div>
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        try {
+
+                GetSubModuleAll();
+
+
+
+        } catch (e) { }
+    });
+    function GetSubModuleAll() {
+
+        var ModuleID = "1";
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: "/CoreSuite/GetSubModulesAll",
+            data: { ModuleID: ModuleID },
+            dataType: "json",
+            success: function (result) {
+                if (result != null && result != undefined && result != "Error")
+                {
+
+                    var ParentPartHtml = "";
+                    var ChildPartHtml = "";
+                    var HomePart = "";
+                     var RoleName = '@Session["UserRoleName"]' != null ? '@Session["UserRoleName"]' :'';
+
+                    var flag = 0;
+                    $.each(result, function (i, Data) {
+                        var dhrf = "";
+                        var hrf = "";
+
+                        //dhrf = Data.Description == "dashboard" ? Data.Url : "javascript:;";
+                        if (Data.IsParent == 1) {
+
+
+                                let nvSubMenu = Data.Description != null && Data.Description != undefined
+                                    && (Data.Description.toLocaleLowerCase() == "dashboard"
+                                    || Data.Description.toLocaleLowerCase() == "report dashboard"
+                                    || Data.Description.toLocaleLowerCase() == "organization chart") ? "" : "nav-item-submenu";
+                                let DataUrl = Data.Url != null && Data.Url != undefined ? Data.Url + "?FID=" + (Data.EncodedID != null && Data.EncodedID != undefined ? Data.EncodedID : "") : "";
+                                DataUrl += DataUrl != null && DataUrl != undefined ? "&ModuleID=" + (Data.EncodedModuleID != null && Data.EncodedModuleID != undefined ? Data.EncodedModuleID : "") : "";
+                                dhrf = Data.Description != null && Data.Description != undefined
+                                    && (Data.Description.toLocaleLowerCase() == "dashboard"
+                                        || Data.Description.toLocaleLowerCase() == "report dashboard"
+                                        || Data.Description.toLocaleLowerCase() == "organization chart") ? DataUrl : "javascript:;";
+                                ParentPartHtml += "<li class='nav-item " + nvSubMenu + "'><a href='" + dhrf + "' class='nav-link'><i class='" + Data.IconClass + "'></i> <span>" + Data.Description + "</span></a>";
+                             var ID = Data.ID;
+
+
+
+                            $.each(result, function (i, Data) {
+                                if (Data.ParentID == ID) {
+                                    if (flag == 0) { ChildPartHtml += "<ul id='my' class='nav nav-group-sub'>"; }
+                                    var Url = "";
+
+
+                                    if (Data.ModuleID == 1) {
+
+                                        Url = "/";
+                                    }
+
+                                        Url += Data.Url + "?FID=" + Data.EncodedID + "&ModuleID=" + Data.EncodedModuleID;
+
+
+
+                                    ChildPartHtml += "<li class='nav-item'>" +
+                                        "<a href='" + Url + "' id = '" + Data.ID + "' class='nav-link' > " +
+                                        "<input type='hidden' value='" + Url + "' /> " + Data.Description + " </a></li>";
+
+
+                                    flag++;
+                                }
+                            });
+
+
+
+                            if (flag == 0) {
+                            }
+                            else { ChildPartHtml += "</ul></li>"; }
+
+                            ParentPartHtml += ChildPartHtml;
+                            ChildPartHtml = "";
+
+                            flag = 0;
+                        }
+
+
+                    });
+
+                        //HomePart += "<li class='nav-item'> <a href='/UserManagement/Dashboard?FID=97r0cqe6AWdQkjxlNqU0Cg==&ModuleID=8s+T84Du8ZQdNuCFnstn9Q==' class='nav-link'><i class='icon-home4'></i><span>Home</span></a></li>";
+
+                    HomePart += "<li class='nav-item'> <a href='/UserManagement/Dashboard?FID=TdoxJ7hlJcibo2JLOUGjzg==&ModuleID=91FpbxeZE6wRBNwo3IbAoQ==' class='nav-link'><i class='icon-home4'></i><span>Home</span></a></li>";
+
+                    HomePart += ParentPartHtml;
+                    $("#ParentPart").html(HomePart);
+
+                        App.initNavigations();
+
+                }
+            },
+            error: function (result) {
+                console.log("error");
+                console.log(result);
+            }
+
+        }
+        );
+    }
+</script>

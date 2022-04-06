@@ -1,0 +1,677 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="page-header page-header-light">
+
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="~/Dashboard/Index" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Dashboard</a>
+                <span class="breadcrumb-item active">Department</span>
+            </div>
+
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+
+</div>
+<div class="card">
+    <div class="card-header header-elements-inline search-header" style="color:white">
+        <h5 class="card-title">
+            <a class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' href="#" onclick="NewRecord();" data-toggle='modal' data-target='#SaveModal' style="text-decoration:none;background-color:white;">
+                <b><i class="icon-plus3"></i></b>
+                Add New
+            </a>
+            <span class="font-weight-semibold">Department</span>
+            <a class='btn   btn-labeled btn-labeled-left btn-sm ml-2' href="/Category/Index" target="_blank" style="text-decoration:none;background-color:white;">
+                <b><i class="icon-plus3"></i></b>
+                Add New
+            </a>
+            <span class="font-weight-semibold">Category</span>
+        </h5>
+    </div>
+    <div class="card-body">
+        <table class="table datatable-button-html5-columns dataTable no-footer" id="dtDepartment">
+            <thead>
+                <tr>
+                    <th>Sr.</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    @*<th>Type</th>*@
+                    @*<th>Entry Date</th>*@
+
+                    <th style="text-align:right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+<div id="SaveModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="DepartmentForm">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Department</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+
+
+                        
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-4">
+                                Category
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <select class=" form-control" id="ddlCategoryID" required>
+                                    <option value="" selected>Select Category</option>
+                                   
+
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-4">
+                                Department ID
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" value="" id="txtDepartmentNo" name="txtItemNo" maxlength="20" class="form-control" required onkeyup="ClearMessage()" onchange="CheckAvailability();" />
+                                <span id="message"></span>
+                                <input type="hidden" id="IsValidID" value="true">
+                                <input type="hidden" id="txtEdit" value="0">
+                                @*<input id="txtDescription" type="text" class="form-control" name="Description" maxlength="50" required />*@
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-4">
+                                Description
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <input id="txtDescription" type="text" class="form-control" name="Description" maxlength="50" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-4">
+                                Type
+                                @*<span class="text-danger"> * </span>*@
+                            </label>
+                            <div class="col-md-7">
+                                <input type="radio" id="type1" name="rd" value="0"> Regular
+                                <input type="radio" id="type2" name="rd" value="1"> Rental
+                                <input type="radio" id="type3" name="rd" value="2"> Employee
+                                @*<input id="txtDescription" type="text" class="form-control" name="Description" maxlength="50" required />*@
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnsave" class="btn btn-primary btn-sm">Save<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    <script>
+        $(document).ready(function () {
+            SBDepartment();
+            $("#ddlCategoryID").select2();
+            GetAllCategories();
+            //GetAllDepartment();
+            LoadTableData();
+        });
+        //$('#dtDepartment').on('draw.dt', function () {
+        //    EnableDisableRights();
+        //});
+        function LoadTableData() {
+            debugger;
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+            //let ID = $("#txtID").val();
+
+            var table = $("#dtDepartment").DataTable();
+            //var table = $("#dtDepartment").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Department/GetTableSummary",
+                data: JSON.stringify({ "ID": "" }),
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null && result != "Error") {
+                        table.clear();
+                        $.each(result, function (i, Data) {
+                            //var EntryDateInfo = "<a href='#'><span class='red-tooltip' data-toggle='tooltip' title='" + Data.EntryUserName + "'>" + Data.EntryDate + "</span></a>";
+
+                            var newRow = "<tr><td hidden>" + Data.Dept_ID + "</td>" +
+                                "<td  style='text-align:left'>" + count++ + "</td>" +
+                                
+                                "<td>" + Data.SubType + "</td>" +
+                                "<td>" + Data.Description + "</td>" +
+                                //"<td>" + Data.DDescriptionLocal + "</td>" +
+                                //"<td>" + EntryDateInfo + "</td>" +
+
+                                "<td style='text-align:Right'>" +
+                                "<div class='list-icons'><div class='dropdown hide'><a href='#' class='btn  actionbtn btn-sm' data-toggle='dropdown' aria-expanded='true'>" +
+                                "<i class='icon-menu9'></i></a>" +
+                                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='ModifyRecord(\"" + Data.Dept_ID + "\");'type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='icon-pencil'></i></b></button></span>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='DeleteRecord(\"" + Data.Dept_ID + "\");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</div></div></div></td>"
+
+                                /*"<td style='text-align:Right'>" +
+                                " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn  bg-orange btn-sm' data-toggle='dropdown' aria-expanded='true'>" +
+                                "<i class='fas fa-th'></i></a>" +
+                                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='ModifyRecord(" + Data.Dept_ID + ");'type='button' class='btn   btn-sm authorizeOrNotUpdate'  style='color:white;background-color:Blue;'><b><i class='fas fa-edit'></i></b></button></span>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='DeleteRecord(" + Data.Dept_ID + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='fas fa-trash'></i></b></button></span>" +
+                                "</div ></div ></div></td>"*/
+                            "</tr > ";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+
+        function ModifyRecord(ID) {
+            debugger;
+
+            $('#modalHeading').text(" Modify Department");
+
+            $('#txtDepartmentNo').val(ID);
+            LoadModifyData(ID);
+            $('#SaveModal').modal('show');
+            $('#btnsave').show();
+            $('#btnsave').text('Update');
+
+
+        }
+        function LoadModifyData(ID) {
+            if (ID > 0 && ID <= 9) { ID="0"+ID}
+            debugger;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Department/GetTableSummary",
+                data: JSON.stringify({ ID: ID }),
+                dataType: "json",
+                success: function (result) {
+                    if (result != null && result != "Error") {
+                        debugger;
+                        $.each(result, function (i, Data) {
+                            //$('#txtDepartmentNo').val("");
+                            $('#txtDepartmentNo').val(Data.Dept_ID);
+                            $('#txtDescription').val("");
+                            $('#txtDescription').val(Data.Description);
+                            $('#txtDepartmentNo').prop("disabled", true);
+                            debugger;
+                            $('#ddlCategoryID').val(Data.Cat_ID).change();
+                            if (Data.Type == 0) {
+                                $("#type1").prop("checked", true);
+                                $("#type2").prop("checked", false);
+                                $("#type3").prop("checked", false);
+                            }
+                            else if (Data.Type == 1) {
+                                $("#type1").prop("checked", false);
+                                $("#type2").prop("checked", true);
+                                $("#type3").prop("checked", false);
+                            }
+                            else {
+                                $("#type3").prop("checked", true);
+                            }
+                            
+                         
+                        });
+                    }
+                    else {
+                        //var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        var errorMessage = ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+
+                    //var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    var errorMessage = '(Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+            });
+        }
+        function GetAllCategories() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetCategoriesAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlCategoryID").html("");
+                            $("#ddlCategoryID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Category"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlCategoryID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+
+                        //if (result != null && result != "" && result != "Error") {
+                        //    $("#ddlItemCategoryID,#ddlRecipeItemCategoryID").html("");
+                        //    $("#ddlItemCategoryID,#ddlRecipeItemCategoryID").append
+                        //        ($('<option  selected value="0"></option>').val('0').html("Select Category"));
+                        //    $.each($.parseJSON(result), function (i, Data) {
+                        //        $("#ddlItemCategoryID,#ddlRecipeItemCategoryID").append
+                        //            ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                        //    });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+
+        function GetAllDepartment() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetDepartmentAll',
+                    type: 'POST',
+                    headers: headers,
+                    async: false,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlDepartmentID,#ddlRecipeItemDepartmentID").html("");
+                            $("#ddlDepartmentID,#ddlRecipeItemDepartmentID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Department"));
+                            $("#ddlItemDepartmentID").html("");
+                            $("#ddlItemDepartmentID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Department"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlItemDepartmentID,#ddlRecipeItemDepartmentID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+                                $("#ddlDepartmentID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function NewRecord() {
+            debugger;
+            $('#modalHeading').text(" Add Department");
+
+            $('#SaveModal').modal('show');
+            $("#type1").prop("checked", false);
+            $("#type2").prop("checked", false);
+            $("#type3").prop("checked", false);
+            $('#txtDescription').val('');
+            $('#txtDepartmentNo').prop("disabled", false);
+            $('#ddlCategoryID').val('').change();
+            //$('#txtDescriptionLocal').val('');
+            $('#txtDepartmentNo').val('');
+            $('#btnsave').show();
+            $('#btnsave').text('Save');
+
+        }
+        $("#DepartmentForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            SaveRecord();
+        });
+        function SaveRecord() {
+            try {
+                debugger;
+
+                if ($('#IsValidID').val() != "true" && $('#IsValidID').val() != true) {
+
+                    swal("Warning", "Department Number already exists!", "error");
+                }
+                else {
+
+
+                    if ($('#btnsave').text() == 'Save') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Save this record ?";
+                        var ConfirmButtonText = "Confirm Save";
+                        var CancelButtonText = "Cancel";
+                    }
+                    if ($('#btnsave').text() == 'Update') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Update this record ?";
+                        var ConfirmButtonText = "Confirm Update";
+                        var CancelButtonText = "Cancel";
+                    }
+                    swal(
+                        {
+                            title: Title,
+                            text: Text,
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: ConfirmButtonText,
+                            cancelButtonText: CancelButtonText,
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        },
+                        function (isConfirm) {
+                            debugger;
+                            if (isConfirm) {
+                                var AjaxObj = AjaxObjCall();//InventoryObjCall();
+
+                                var headers = {};
+                                var token = $('input[name="__RequestVerificationToken"]').val();
+                                headers['__RequestVerificationToken'] = token;
+                                var Url = "";
+                                if ($('#btnsave').text() == 'Save') {
+                                    Url = "/Department/Create";
+                                }
+                                else {
+                                    Url = "/Department/Update";
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    headers: headers,
+                                    contentType: "application/json; charset=utf-8",
+                                    url: Url,
+                                    data: JSON.stringify(AjaxObj),
+                                    //data: JSON.stringify({ "Obj": AjaxObj }),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+                                        debugger;
+                                        if (result.Code == 200) {
+                                            debugger;
+                                            $('#SaveModal').modal('hide');
+                                            LoadTableData();
+                                            swal("", result.Message, result.Type);
+                                            //SaveInventoryImages($("#txtDepartmentNo").val());
+                                        }
+                                        else {
+                                            swal("", result.Message, result.Type);
+
+                                        }
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                        swal("", errorMessage, "error");
+                                    }
+
+                                });
+
+
+                            }
+                            else {
+
+                                swal("Cancelled", "Your operation Canceled :)", "error");
+                            }
+
+                        }
+                    );
+                }
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+        
+        function AjaxObjCall() {
+            debugger;
+            var AjaxObj = { "Dept_ID": "", "Description": "", "Type": "", "SubType": "" };//, SubType
+            AjaxObj.Dept_ID = $("#txtDepartmentNo").val();
+            AjaxObj.Description = $("#txtDescription").val();   
+            AjaxObj.Type = $("input[name='rd']:checked").val();
+            AjaxObj.SubType = $("#ddlCategoryID").val();
+            //alert(AjaxObj.Type);
+           
+           
+            return AjaxObj;
+        }
+        function DeleteRecord(ID) {
+            debugger;
+            if (ID > 0 && ID <= 9) { ID = "0" + ID }
+            swal({
+                title: "",
+                text: "Are you sure you want to Delete this record?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Confirm Delete",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var headers = {};
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+                        $.ajax({
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: "/Department/Delete",
+                            data: JSON.stringify({ ID: ID }),
+                            dataType: "json",
+                            success: function (result) {
+                                debugger;
+                                if (result.Code == 200) {
+                                    LoadTableData();
+                                    swal("", result.Message, result.Type);
+                                }
+                                else {
+                                    swal("", result.Message, result.Type);
+
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                swal("", errorMessage, "error");
+                            }
+
+                        });
+
+
+                    } else {
+
+                        swal("Cancelled", "Your operation Canceled :)", "error");
+                    }
+                });
+
+        }
+
+
+        function ClearMessage() {
+            $("#message").html("");
+        };
+        function CheckAvailability() {
+
+            debugger;
+            var ItemNo = $("#txtDepartmentNo").val();
+            var IsEdit = $('#txtEdit').val();
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Department/CheckDeptNo',
+                headers: headers,
+                data: JSON.stringify({ DeptNo: ItemNo, IsEdit: IsEdit }),
+
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var message = $("#message");
+                    if (result == true) {
+
+
+                        $("#IsValidID").val(result);
+                    }
+                    else if (result == false) {
+                        message.css("color", "red");
+                        message.html("Deptment No. already exists!");
+                        $("#IsValidID").val(result);
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+
+        }
+
+        function encrypt(id) {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: '/Common/Encrypt/',
+                data: JSON.stringify({ ID: id }),
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result != null && result != "" && result != "Error") {
+                        setValues(result, id)
+
+
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+            });
+
+
+
+
+
+
+
+        }
+        function setValues(type, id) {
+            window.open("/Department/Index?ID=" + type, '_self');// _blank
+        }
+    </script>
+}
+

@@ -1,0 +1,2150 @@
+﻿
+@using System.Configuration;
+
+@{string ImagePath = ConfigurationManager.AppSettings["ImageLocationURL"].ToString();}
+
+
+
+<head>
+    <title>Kit Item</title>
+
+
+
+</head>
+
+@section styles {
+
+    <link href="~/Content/assets/css/dropzone.css" rel="stylesheet" />
+    <style>
+
+
+        .dz-max-files-reached {
+            border-color: red;
+        }
+    </style>
+}
+
+
+
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="dashboard.cshtml" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Kit Item</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header header-elements-inline search-header">
+        <h5 class="card-title">
+            <i class=""></i>Kit Item
+        </h5>
+
+    </div>
+
+
+
+    <div class="card-body">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="#Items" class="nav-link active show" data-toggle="tab">Items </a></li>
+
+            <li class="nav-item"><a href="#Image" class="nav-link" data-toggle="tab">Image </a></li>
+
+
+
+
+        </ul>
+        <form id="InventoryForm">
+            @Html.AntiForgeryToken()
+            <div class="tab-content">
+
+
+
+                <div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Department
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-8">
+                                    <select class=" form-control" id="ddlDepartmentID" name="ddlDepartmentID" required>
+                                        <option>Select Department</option>
+                                    </select>
+                                    <input type="hidden" id="txtStoreID" value="0">
+                                    <input type="hidden" id="txtItemType" value="2">
+                                    <input type="hidden" id="txtRedirection" value="1">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Item Number
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtItemNo" name="txtItemNo" maxlength="20" class="form-control" required onkeyup="ClearMessage()" onchange="CheckAvailability();" />
+                                    <span id="message"></span>
+                                    <input type="hidden" id="IsValidID" value="true">
+                                    <input type="hidden" id="txtEdit" value="0">
+                                    <input type="hidden" id="txtRowID" value="">
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Description
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="text" value="" id="txtDescription" name="txtDescription" maxlength="30" class="form-control" required />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Calculated Price        <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtCalculatedPrice" name="nbrCalculatedPrice" class="form-control" maxlength="25" disabled />
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Override Price     <span class="text-danger"> * </span>
+
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="text" value="0" id="txtOverridePrice" name="nbrOverridePrice" maxlength="25" class="form-control" onkeypress="return isNumberKey(event,this)" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Second Description
+
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="text" value="" id="txtSeconDescription" name="txtSecondDescription" class="form-control" maxlength="30" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 1
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax1" value="true" checked name="chkTax1">
+                                        <input type="hidden" value="false" name="chkTax1" />
+                                        <label class="custom-control-label" for="chkTax1"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 2
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax2" value="true" name="chkTax2">
+                                        <input type="hidden" value="false" name="chkTax2" />
+                                        <label class="custom-control-label" for="chkTax2"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 3
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax3" value="true" name="chkTax3">
+                                        <input type="hidden" value="false" name="chkTax3" />
+                                        <label class="custom-control-label" for="chkTax3"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 4
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax4" value="true" name="chkTax4">
+                                        <input type="hidden" value="false" name="chkTax4" />
+                                        <label class="custom-control-label" for="chkTax4"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 5
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax5" value="true" name="chkTax5">
+                                        <input type="hidden" value="false" name="chkTax5" />
+                                        <label class="custom-control-label" for="chkTax5"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Tax 6
+
+                                </label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline col-md-7" style="margin-left: 9px;">
+                                        <input type="checkbox" class="custom-control-input" id="chkTax6" value="true" name="chkTax6">
+                                        <input type="hidden" value="false" name="chkTax6" />
+                                        <label class="custom-control-label" for="chkTax6"></label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+
+
+                <div class="tab-pane fade in active show" id="Items">
+
+                    <h3 class="MyCustomHeader mt-4"><i class="fa fa-list-alt"></i> Combo Pricing</h3>
+
+                    <div class="row">
+
+                        <div class="col-md-9">
+
+                            <div class="row">
+                                <div class="col-3"><label class="radio"> <input type="radio" name="ComboPricing" id="rdbComboPricing1" checked /> Use Calculated Price </label>  </div>
+                                <div class="col-3"><label class="radio"> <input type="radio" name="ComboPricing" id="rdbComboPricing2" /> Use Override Price </label>  </div>
+                                <div class="col-3"><label class="radio"> <input type="radio" name="ComboPricing" id="rdbComboPricing3" /> Use Grid Pricing </label>  </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-group" style="float:right">
+
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="chkCheckIDBeforeSelling" value="true" name="chkCheckIDBeforeSelling">
+                                    <input type="hidden" value="false" name="chkCheckIDBeforeSelling" />
+                                    <label class="custom-control-label" for="chkCheckIDBeforeSelling">Check ID Before Selling</label>
+
+                                </div>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+                                <button type='button' id="btnAddKitItemDetails" class='btn   btn-labeled btn-labeled-left btn-sm' data-toggle='modal' data-target='#ItemsModal' onclick="NewItemRecord();" style="background-color:white;">
+                                    <b><i class="icon-plus3"></i></b>
+                                    Add
+                                </button>
+                                <span> New Item</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body">
+                            <table class="table   dataTable no-footer clsdtNoPagingInfo" id="dtKitItemsList">
+                                <thead>
+                                    <tr>
+
+                                        <th>Item No</th>
+                                        <th>Description</th>
+                                        <th>Quantity</th>
+                                        <th>Price </th>
+
+                                        <th> </th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+
+                <div class="tab-pane fade in" id="Image">
+                    <div class="card  mt-4">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+
+                                <span> Inventory Images</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+                            <table class="table  dataTable no-footer  clsdtNoPagingInfo" id="dtInventoryImages">
+                                <thead>
+
+                                    <tr>
+                                        <th>Image</th>
+                                        <th hidden>Position</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @*<span style="color:cornflowerblue" class="Pics">
+                            You can Upload upto <span style="color:cornflowerblue" class="Pics" id="ImageCount">@Model.AllowedPics</span> Pictures .
+                        </span>*@
+
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <div action="#" class="dropzone" id="my-awesome-dropzone">
+                                @Html.AntiForgeryToken()
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple id="InventoryImages" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-lg" style="color:white" onclick="RedirectPage();"><b><i class="icon-cross2"></i></b>Cancel</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsave" onclick="SetRedirection(1);">Save</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
+            </div>
+        </form>
+
+
+
+    </div>
+</div>
+
+<!--modal area-->
+
+
+
+<div id="ItemsModal" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Search Inventory</span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="card">
+
+                <div class="card-body" style="margin-top: 10px;">
+
+                    <form id="ItemSearchForm">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+
+
+                                <label class="col-md-12 control-label">Catagory</label>
+                                <div class="col-md-12">
+                                    <select class=" form-control" id="ddlItemCategoryID" name="ddlItemCategoryID">
+                                        <option disabled selected>Select Catagory</option>
+
+
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label ">Department</label>
+                                <div class="col-md-12">
+                                    <select class=" form-control" id="ddlItemDepartmentID" name="ddlItemDepartmentID">
+                                        <option disabled selected>Select Department</option>
+
+
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label">Vendor</label>
+                                <div class="col-md-12">
+                                    <select class=" form-control" id="ddlVendorID" name="ddlVendorID">
+                                        <option disabled selected>Select Vendor</option>
+
+
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="float:right">
+                            <button type="submit" class="btn  btn-primary btn-sm mt-1" style="float:right;"><b>Search<i class="icon-search4 ml-2"></i></b></button>
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+
+
+
+            <div class="card">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                @*// add patient*@
+                <div class="card-header header-elements-inline">
+
+                    <h5 class="card-title">
+
+                        <span class="font-weight-semibold">Items Info</span>
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+                    <table class="table datatable-button-html5-columns dataTable no-footer" id="dtItemList">
+                        <thead>
+                            <tr>
+                                <th>Item #</th>
+                                <th> Description</th>
+                                <th> Price </th>
+                                <th> Stock </th>
+                                <th>Vendor Part # </th>
+                                <th></th>
+
+
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@section scripts
+{
+    <script src="~/Content/assets/js/dropzone.js"></script>
+
+    @*@Scripts.Render("~/bundles/Validation")*@
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+<script>
+    $(document).ready(function () {
+        SBInventory();
+            try {
+                $('.clsdtNoPagingInfo').DataTable({
+                    "paging": false, searching: false, ordering: false, info: false, buttons: { dom: { button: { className: 'btn btn-light' } }, buttons: [] }
+                });
+            } catch (e) { }
+            $('#ddlVendorID,#ddlItemDepartmentID,#ddlItemCategoryID,#ddlDepartmentID,#ddlCategoryID').select2();
+            var ROwID = CreateGuid();
+            $('#txtRowID').val(ROwID);
+
+            GetAllDepartment();
+            GetAllCategories();
+            GetAllVendor();
+
+            debugger;
+            var EncryptedID = fnCheckIDForEditOnLoad();
+            if (EncryptedID != null && EncryptedID != undefined & EncryptedID != "") {
+                var ID = fnDecryptID(EncryptedID);
+                if (ID != null && ID != undefined && ID != "0") {
+                    debugger;
+
+                    LoadInventoryDetailsAll(ID);
+                }
+
+
+            }
+
+
+        });
+        function fnCheckIDForEditOnLoad() {
+            try {
+                var EncryptedID = "";
+                var wlss = window.location.search.substring(1);
+                if (wlss != null && wlss != undefined & wlss != "") {
+                    if (wlss.indexOf('&') != -1) {
+                        var wlsssplitam = wlss.split('&');
+                        if (wlsssplitam.length > 0) {
+                            $(wlsssplitam).each(function () {
+                                var KeyValue = this;
+                                if (KeyValue.indexOf('=') != -1) {
+                                    var ObjKeyValue = KeyValue.split(/=(.+)/);
+                                    if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                        EncryptedID = ObjKeyValue[1] != null && ObjKeyValue[1] != undefined ? ObjKeyValue[1] : '';
+                                        return EncryptedID;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        if (wlss.indexOf('=') != -1) {
+                            var ObjKeyValue = wlss.split(/=(.+)/);
+                            if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                EncryptedID = ObjKeyValue[1];
+                            }
+                        }
+                    }
+                }
+                return EncryptedID;
+            } catch (e) {
+                return "";
+            }
+        }
+        function fnDecryptID(id) {
+            try {
+                var decryptedID = '0';
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Decrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "" && result != "Error") {
+                            if (result != "") {
+                                decryptedID = result;
+                            }
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                return decryptedID;
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+            return '0';
+        }
+        function fnEncryptID(id) {
+            try {
+                var EncryptedID = '';
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Encrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "" && result != "Error") {
+                            EncryptedID = result;
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                return EncryptedID;
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+            return '';
+        }
+        function LoadInventoryDetailsAll(ItemNo) {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+            debugger;
+            LoadInventoryData(ItemNo);
+            LoadKitItemsData(ItemNo);
+            LoadInventoryKitComboSpecificData(ItemNo);
+            LoadInventoryImagesData(ItemNo);
+        }
+        function LoadInventoryData(ItemNo) {
+            debugger;
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Inventory/LoadInventoryData',
+                    type: 'POST',
+                    data: JSON.stringify({ ItemNo: ItemNo }),
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        debugger;
+                        if (result != null && result != "Error") {
+                            $.each(result, function (i, Data) {
+
+                                debugger;
+                                $('#btnsave').text('Update');
+                                $('#btnsaveandList').text('Update and Go to List');
+                                $('#txtItemNo').prop("disabled", true);
+                                $('#txtEdit').val(1);
+
+                                $('#txtItemType').val(Data.ItemType);
+                                $('#txtVendorNumber').val(Data.Vendor_Number);
+
+                                $('#txtItemNo').val(Data.ItemNum);
+                                $('#txtDescription').val(Data.ItemName);
+                                $('#ddlDepartmentID').val(Data.Dept_ID).change();
+                                $('#txtStoreID').val(Data.Store_ID);
+
+                                $('#txtRowID').val(Data.RowID);
+                                $('#txtOverridePrice').val(Data.Kit_Override);
+
+
+                                if (Data.BarTaxInclusive == true) {
+                                    $("#chkBarTax").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkBarTax").prop("checked", false)
+                                }
+                                if (Data.Tax_1 == true) {
+                                    $("#chkTax1").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax1").prop("checked", false)
+                                }
+                                if (Data.Tax_2 == true) {
+                                    $("#chkTax2").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax2").prop("checked", false)
+                                }
+                                if (Data.Tax_3 == true) {
+                                    $("#chkTax3").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax3").prop("checked", false)
+                                }
+                                if (Data.Tax_4 == true) {
+                                    $("#chkTax4").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax4").prop("checked", false)
+                                }
+                                if (Data.Tax_5 == true) {
+                                    $("#chkTax5").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax5").prop("checked", false)
+                                }
+                                if (Data.Tax_6 == true) {
+                                    $("#chkTax6").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkTax6").prop("checked", false)
+                                }
+
+
+                                if (Data.Check_ID == true) {
+                                    $("#chkCheckIDBeforeSelling").prop("checked", true)
+                                }
+                                else {
+                                    $("#chkCheckIDBeforeSelling").prop("checked", false)
+                                }
+
+
+
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function LoadKitItemsData(ItemNum) {
+            var table = $("#dtKitItemsList").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/KitItems/GetTableSummaryKitItem",
+                data: JSON.stringify({ ItemNum: ItemNum }),
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+
+                            var newRow = "<tr><td>" + Data.CItemNum + "</td>" +
+                                "<td>" + Data.Description + "</td>" +
+                                "<td>" + Data.Quantity + "</td>" +
+                                "<td>" + Data.Price + "</td>" +
+
+                                "<td>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delTARow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                        fnCalculatePrice();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        function LoadInventoryKitComboSpecificData(ItemNo) {
+            debugger;
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/KitItems/GetKitComboSpecific',
+                    type: 'POST',
+                    data: JSON.stringify({ ItemNum: ItemNo }),
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        debugger;
+                        if (result != null && result != "Error") {
+                            $.each(result, function (i, Data) {
+
+                                debugger;
+                                if (Data.ComboPricingCalculation == 0) {
+                                    $("#rdbComboPricing1").prop("checked", true);
+                                }
+                                else if (Data.ComboPricingCalculation == 1) {
+
+                                    $("#rdbComboPricing2").prop("checked", true);
+                                }
+                                else if (Data.ComboPricingCalculation == 2) {
+
+                                    $("#rdbComboPricing3").prop("checked", true);
+                                }
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+         function LoadInventoryImagesData (ItemNum) {
+            var table = $("#dtInventoryImages").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Inventory/GetTableSummaryInventoryImages",
+                data: JSON.stringify({ ItemNum: ItemNum }),
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+                            debugger;
+
+
+
+                             var newRow = "<tr><td><input type='hidden' value='" + Data.ImageLocation + "'><div class='item'><img src='@ImagePath" + Data.ImageLocation + "?" + (new Date()).getTime()+"' class='img-responsive pic-bordered' alt=''  style='width:80px;height:px;'></div></td>" +
+                                 "<td hidden>"+Data.Position+"</td>"+
+                                 "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delIIRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        $('#rdbComboPricing1').click(function () {
+            $('#txtCalculatedPrice').prop("disabled", true);
+            $('#txtOverridePrice').prop("disabled", true);
+
+
+        });
+        $('#rdbComboPricing1').click(function () {
+
+            $('#txtOverridePrice').prop("disabled", false);
+
+
+        });
+        $('#rdbComboPricing3').click(function () {
+            $('#txtCalculatedPrice').prop("disabled", true);
+            $('#txtOverridePrice').prop("disabled", true);
+
+
+        });
+        $("#ItemSearchForm").submit(function (event) {
+            event.preventDefault();
+            GetItem();
+        });
+        $('#ddlDepartmentID').change(function () {
+
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Common/GetStoreID',
+                headers: headers,
+                data: JSON.stringify({ DepartmentID: $('#ddlDepartmentID').val() }),
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null) {
+
+                        $('#txtStoreID').val(result);
+                    }
+
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+        });
+        function GetAllDepartment() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetDepartmentAll',
+                    type: 'POST',
+                    headers: headers,
+                    async: false,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlDepartmentID,#ddlResDepartmentID,#ddlItemDepartmentID").html("");
+                            $("#ddlDepartmentID,#ddlResDepartmentID,#ddlItemDepartmentID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Department"));
+
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlDepartmentID,#ddlResDepartmentID,#ddlItemDepartmentID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function NewItemRecord() {
+
+
+            $('#ItemsModal').modal('show');
+            $('#ddlItemDepartmentID').val('').change();
+            $('#ddlItemCategoryID').val('').change();
+            $('#ddlVendorID').val('').change();
+            $("#dtItemList").DataTable().clear().draw();
+        }
+        function GetAllCategories() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetCategoriesAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlCategoryID,#ddlItemCategoryID").html("");
+                            $("#ddlCategoryID,#ddlItemCategoryID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Category"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlCategoryID,#ddlItemCategoryID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetAllVendor() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetVendorAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlVendorID").html("");
+                            $("#ddlVendorID").append
+                                ($('<option  selected value="0"></option>').val('').html("Select Vendor"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlVendorID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetItem() {
+            debugger;
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+            let VendorNo = $('#ddlVendorID').val();
+            let DepartmentID = $('#ddlItemDepartmentID').val();
+            let ItemCategory = $('#ddlItemCategoryID').val();
+            var table = $("#dtItemList").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Common/GetItemAll",
+                data: JSON.stringify({ "ItemCategory": ItemCategory, "DepartmentID": DepartmentID, "VendorNumber": VendorNo }),
+                dataType: "json",
+                success: function (result) {
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+
+                            debugger;
+                            var newRow = "<tr><td>" + Data.ItemNum + "</td>" +
+                                "<td>" + Data.ItemName + "</td>" +
+                                "<td>" + Data.Price + "</td>" +
+                                "<td>" + Data.In_Stock + "</td>" +
+                                "<td>" + Data.Vendor_Part_Num + "</td>" +
+                                "<td style='text-align:Right'>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Select Item'><button onclick='SelectItem(" + Data.ItemNum + "," + Data.Price + ",\"" + Data.ItemName + "\");'type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'>Select</button></span>" +
+                                "</td>" +
+                                "</tr>";
+
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        function SelectItem(itemNum, Price, ItemName) {
+            AddKitItemDetailRecord(itemNum, Price, ItemName);
+        }
+        function AddKitItemDetailRecord(ItemNum, Price, ItemName) {
+            try {
+                var IsAlreadyExists = fnCheckItemAlreadyExist(ItemNum)
+                $('#ItemsModal').modal('hide');
+                if (!IsAlreadyExists) {
+
+
+
+                    var Quantity = 1;
+
+                    var table = $('#dtKitItemsList').DataTable();
+
+                    var count = 1;
+                    count += table.rows().count();
+
+
+                    var newRow = "<tr><td>" + ItemNum + "</td>" +
+                        "<td>" + ItemName + "</td>" +
+                        "<td>" + Quantity + "</td>" +
+                        "<td>" + Price + "</td>" +
+
+                        "<td>" +
+                        "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delTARow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                        "</td></tr>";
+
+                    table.row.add($(newRow));
+                    table.draw();
+                    fnCalculatePrice();
+                }
+
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+        function delTARow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#dtKitItemsList').DataTable();
+                table1.row(row).remove().draw(false);
+                fnCalculatePrice();
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+        }
+        function fnCheckItemAlreadyExist(ItemNUm) {
+
+            var dtIsExists = 0;
+            if (ItemNUm != null) {
+                var dtTAitem = $('#dtKitItemsList').DataTable();
+                var dtTARows = dtTAitem.rows().data();
+                if (dtTARows.length > 0) {
+                    $.each(dtTARows, function (index, value) {
+                        debugger;
+                        dtIsExists += value[0] != null && value[0] == ItemNUm ? 1 : 0;
+                        if (dtIsExists > 0) {
+                            debugger;
+                            var Quantity = parseFloat(value[2]) + parseFloat(1);
+                            var price = value[3] * Quantity;
+                            let dtKitDetail = $('#dtKitItemsList').DataTable();
+                            var dtKitDetailRowvalue = dtKitDetail.row(index).data();
+                            dtKitDetailRowvalue[2] = Quantity;
+                            dtKitDetailRowvalue[3] = price;
+                            dtKitDetail.row(index).data(dtKitDetailRowvalue);
+                            dtKitDetail.draw();
+                            fnCalculatePrice();
+                        }
+
+                    });
+                }
+            }
+            if (dtIsExists > 0) {
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        function fnCalculatePrice() {
+            var dtTAitem = $('#dtKitItemsList').DataTable();
+            var CalculatedPrice = 0;
+            var dtTARows = dtTAitem.rows().data();
+            if (dtTARows.length > 0) {
+                $.each(dtTARows, function (index, value) {
+                    debugger;
+
+                    CalculatedPrice = CalculatedPrice + parseFloat(value[3]);
+                });
+            }
+            $("#txtCalculatedPrice").val(CalculatedPrice.toFixed(2));
+        }
+        function ClearMessage() {
+            $("#message").html("");
+        };
+        function CheckAvailability() {
+
+
+            var ItemNo = $("#txtItemNo").val();
+            var IsEdit = $('#txtEdit').val();
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Inventory/CheckItemNo',
+                headers: headers,
+                data: JSON.stringify({ ItemNo: ItemNo, IsEdit: IsEdit }),
+
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var message = $("#message");
+                    if (result == true) {
+
+
+                        $("#IsValidID").val(result);
+                    }
+                    else if (result == false) {
+                        message.css("color", "red");
+                        message.html("Item Number already exists!");
+                        $("#IsValidID").val(result);
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+
+        }
+        function RedirectPage() {
+            window.location.replace("/InvnetoryList/Index");
+
+        }
+        $("#InventoryForm").submit(function (event) {
+            event.preventDefault();
+            SaveRecord();
+        });
+        function SaveRecord() {
+            try {
+
+
+                if ($('#IsValidID').val() != "true" && $('#IsValidID').val() != true) {
+
+                    swal("Warning", "Item Number already exists!", "error");
+                }
+                else {
+
+
+                    if ($('#btnsave').text() == 'Save') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Save this record ?";
+                        var ConfirmButtonText = "Confirm Save";
+                        var CancelButtonText = "Cancel";
+                    }
+                    if ($('#btnsave').text() == 'Update') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Update this record ?";
+                        var ConfirmButtonText = "Confirm Update";
+                        var CancelButtonText = "Cancel";
+                    }
+                    swal(
+                        {
+                            title: Title,
+                            text: Text,
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: ConfirmButtonText,
+                            cancelButtonText: CancelButtonText,
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        },
+                        function (isConfirm) {
+
+                            if (isConfirm) {
+                                var AjaxObj = InventoryObjCall();
+                                var CIAjaxObj = KitComboObjCall();
+                                var headers = {};
+                                var token = $('input[name="__RequestVerificationToken"]').val();
+                                headers['__RequestVerificationToken'] = token;
+                                var Url = "";
+                                if ($('#btnsave').text() == 'Save') {
+                                    Url = "/KitItems/Create";
+                                }
+                                else {
+                                    Url = "/KitItems/Update";
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    headers: headers,
+                                    contentType: "application/json; charset=utf-8",
+                                    url: Url,
+                                    data: JSON.stringify({ "Obj": AjaxObj, "KitComboObj": CIAjaxObj }),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+                                        if (result.Code == 200) {
+
+                                            SaveInventoryImages($("#txtItemNo").val());
+
+                                        }
+                                        else {
+                                            swal("", result.Message, result.Type);
+
+                                        }
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                        swal("", errorMessage, "error");
+                                    }
+
+                                });
+
+
+                            }
+                            else {
+
+                                swal("Cancelled", "Your operation Canceled :)", "error");
+                            }
+
+                        }
+                    );
+                }
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+        function isNumberKey(evt, obj) {
+
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            var value = obj.value;
+            var dotcontains = value.indexOf(".") != -1;
+            if (dotcontains)
+                if (charCode == 46) return false;
+            if (charCode == 46) return true;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function InventoryObjCall() {
+            debugger;
+            var AjaxObj = {
+                "ItemNum": "",
+                "ItemName": "",
+                "Store_ID": "",
+                "Cost": "",
+                "Price": "",
+                "Retail_Price": "",
+                "In_Stock": "",
+                "Reorder_Level": "",
+                "Reorder_Quantity": "",
+                "Tax_1": "",
+                "Tax_2": "",
+                "Tax_3": "",
+                "Vendor_Number": "",
+                "Dept_ID": "",
+                "IsKit": "",
+                "IsModifier": "",
+                "Kit_Override": "",
+                "Inv_Num_Barcode_Labels": "",
+                "Use_Serial_Numbers": "",
+                "Num_Bonus_Points": "",
+                "IsRental": "",
+                "Use_Bulk_Pricing": "",
+                "Print_Ticket": "",
+                "Print_Voucher": "",
+                "Num_Days_Valid": "",
+                "IsMatrixItem": "",
+                "Vendor_Part_Num": "",
+                "Location": "",
+                "AutoWeigh": "",
+                "numBoxes": "",
+                "Dirty": "",
+                "Tear": "",
+                "NumPerCase": "",
+                "FoodStampable": "",
+                "ReOrder_Cost": "",
+                "Helper_ItemNum": "",
+                "ItemName_Extra": "",
+                "Exclude_Acct_Limit": "",
+                "Check_ID": "",
+                "Old_InStock": "",
+                "Date_Created": "",
+                "ItemType": "",
+                "Prompt_Price": "",
+                "Prompt_Quantity": "",
+                "Inactive": "",
+                "Allow_BuyBack": "",
+                "Last_Sold": "",
+                "Unit_Type": "",
+                "Unit_Size": "",
+                "Fixed_Tax": "",
+                "DOB": "",
+                "Special_Permission": "",
+                "Prompt_Description": "",
+                "Check_ID2": "",
+                "Count_This_Item": "",
+                "Transfer_Cost_Markup": "",
+                "Print_On_Receipt": "",
+                "Transfer_Markup_Enabled": "",
+                "As_Is": "",
+                "InStock_Committed": "",
+                "RequireCustomer": "",
+                "PromptCompletionDate": "",
+                "PromptInvoiceNotes": "",
+                "Prompt_DescriptionOverDollarAmt": "",
+                "Exclude_From_Loyalty": "",
+                "BarTaxInclusive": "",
+                "ScaleSingleDeduct": "",
+                "GLNumber": "",
+                "ModifierType": "",
+                "Position": "",
+                "numberOfFreeToppings": "",
+                "ScaleItemType": "",
+                "DiscountType": "",
+                "AllowReturns": "",
+                "SuggestedDeposit": "",
+                "Liability": "",
+                "IsDeleted": "",
+                "ItemLocale": "",
+                "QuantityRequired": "",
+                "AllowOnDepositInvoices": "",
+                "Import_Markup": "",
+                "PricePerMeasure": "",
+                "UnitMeasure": "",
+                "ShipCompliantProductType": "",
+                "AlcoholContent": "",
+                "AvailableOnline": "",
+                "AllowOnFleetCard": "",
+                "DoughnutTax": "",
+                "DisplayTaxInPrice": "",
+                "NeverPrintInKitchen": "",
+                "RowID": "",
+                "Tax_4": "",
+                "Tax_5": "",
+                "Tax_6": "",
+                "DisableInventoryUpload": "",
+                "InvoiceLimitQty": "",
+                "ItemCategory": "",
+                "IsRestrictedPerInvoice": "",
+                "Kit_Index": []
+
+
+            };
+
+
+            var Kit_Index = {
+                "Kit_ID": "", "Store_ID": "", "ItemNum": "", "Quantity": "", "Description": "", "Price": "", "[Index]": "", "Discount": "", "InvoiceMethodToUse": "", "ChoiceLockdown": ""
+            }
+            var tblAMDetail = $('#dtKitItemsList').DataTable(), tblARows = tblAMDetail.rows().data();
+            if (tblARows.length > 0) {
+
+                $.each(tblARows, function (index, value) {
+                    debugger;
+
+                    Kit_Index.Kit_ID = $('#txtItemNo').val();
+                    Kit_Index.ItemNum = value[0];
+                    Kit_Index.Description = value[1];
+                    Kit_Index.Quantity = value[2];
+                    Kit_Index.Store_ID = $('#txtStoreID').val();
+                    Kit_Index.Index = 0;
+                    Kit_Index.Discount = 0;
+                    Kit_Index.Price = value[3];
+                    Kit_Index.InvoiceMethodToUse = 0;
+                    Kit_Index.ChoiceLockdown = 0
+                    AjaxObj.Kit_Index.push(Kit_Index);
+                    Kit_Index = {
+                        "Kit_ID": "", "Store_ID": "", "ItemNum": "", "Quantity": "", "Description": "", "Price": "", "Index": "", "Discount": "", "InvoiceMethodToUse": "", "ChoiceLockdown": ""
+                    };
+
+
+                });
+            }
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var EntryDate = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+
+            AjaxObj.IsDeleted = 0;
+            AjaxObj.RowID = $('#txtRowID').val();
+            AjaxObj.ItemType = $('#txtItemType').val();
+            AjaxObj.ItemCategory = 0;
+            AjaxObj.ItemNum = $('#txtItemNo').val();
+            AjaxObj.ItemName = $('#txtDescription').val();
+            AjaxObj.Store_ID = $('#txtStoreID').val();
+            AjaxObj.Cost = 0;
+
+
+
+            AjaxObj.Price = 0;
+            AjaxObj.Retail_Price = 0;
+            AjaxObj.In_Stock = 0;
+            AjaxObj.Reorder_Level = 0;
+            AjaxObj.Reorder_Quantity = 0;
+
+            AjaxObj.BarTaxInclusive = true;
+            AjaxObj.Transfer_Markup_Enabled = false;
+            AjaxObj.Import_Markup = false;
+            AjaxObj.PricePerMeasure = 0;
+            AjaxObj.AvailableOnline = false;
+            AjaxObj.DoughnutTax = 0;
+            AjaxObj.InvoiceLimitQty = 0;
+            AjaxObj.IsRestrictedPerInvoice = false;
+            if ($("#chkTax1").is(":checked")) {
+                AjaxObj.Tax_1 = true;
+            }
+            else {
+                AjaxObj.Tax_1 = false;
+            }
+            if ($("#chkTax2").is(":checked")) {
+                AjaxObj.Tax_2 = true;
+            }
+            else {
+                AjaxObj.Tax_2 = false;
+            }
+            if ($("#chkTax3").is(":checked")) {
+                AjaxObj.Tax_3 = true;
+            }
+            else {
+                AjaxObj.Tax_3 = false;
+            }
+            if ($("#chkTax4").is(":checked")) {
+                AjaxObj.Tax_4 = true;
+            }
+            else {
+                AjaxObj.Tax_4 = false;
+            }
+            if ($("#chkTax5").is(":checked")) {
+                AjaxObj.Tax_5 = true;
+            }
+            else {
+                AjaxObj.Tax_5 = false;
+            }
+            if ($("#chkTax6").is(":checked")) {
+                AjaxObj.Tax_6 = true;
+            }
+            else {
+                AjaxObj.Tax_6 = false;
+            }
+            if ($("#chkCheckIDBeforeSelling").is(":checked")) {
+
+                AjaxObj.Check_ID = true;
+            }
+            else {
+                AjaxObj.Check_ID = false;
+            }
+            AjaxObj.Special_Permission = false;
+
+            AjaxObj.Dept_ID = $('#ddlDepartmentID').val();
+            AjaxObj.IsKit = true;
+            AjaxObj.IsModifier = false;
+            AjaxObj.Kit_Override = $('#txtOverridePrice').val();
+            AjaxObj.Inv_Num_Barcode_Labels = 0;
+
+            AjaxObj.Use_Serial_Numbers = false;
+            AjaxObj.Num_Bonus_Points = 0;
+            AjaxObj.Print_Ticket = false;
+            AjaxObj.Num_Days_Valid = 0;
+            AjaxObj.AutoWeigh = false;
+            AjaxObj.FoodStampable = false;
+            AjaxObj.ReOrder_Cost = 0;
+            AjaxObj.Exclude_Acct_Limit = false;
+
+            AjaxObj.Prompt_Price = false;
+            AjaxObj.Prompt_Quantity = false;
+            AjaxObj.Allow_BuyBack = false;
+            AjaxObj.Unit_Size = 0;
+
+            AjaxObj.Prompt_Description = false;
+            AjaxObj.Check_ID2 = false;
+            AjaxObj.Count_This_Item = false;
+            AjaxObj.Print_On_Receipt = true;
+            AjaxObj.RequireCustomer = false;
+            AjaxObj.PromptCompletionDate = false;
+            AjaxObj.PromptInvoiceNotes = false;
+            AjaxObj.NeverPrintInKitchen = false;
+            AjaxObj.Exclude_From_Loyalty = false;
+            AjaxObj.ScaleSingleDeduct = false;
+            AjaxObj.AllowReturns = true;
+            AjaxObj.Liability = false;
+            AjaxObj.AllowOnDepositInvoices = true;
+            AjaxObj.AllowOnFleetCard = false;
+            AjaxObj.DisplayTaxInPrice = false;
+            AjaxObj.DisableInventoryUpload = false;
+            AjaxObj.ItemName_Extra = $('#txtSecondDescription').val();
+            AjaxObj.As_Is = false;
+            AjaxObj.Date_Created = EntryDate;
+            AjaxObj.Num_Bonus_Points = 0;
+            AjaxObj.Date_Created = EntryDate;
+            AjaxObj.IsRental = 0;
+            AjaxObj.Use_Bulk_Pricing = 0;
+            AjaxObj.Print_Voucher = 0;
+            AjaxObj.IsMatrixItem = false;
+            AjaxObj.numBoxes = 0;
+            AjaxObj.Dirty = 1;
+            return AjaxObj;
+        }
+        function KitComboObjCall() {
+
+
+            var Inventory_KitComboSpecific = { "Store_ID": "", "ItemNum": "", "ComboPricingCalculation": "" };
+            Inventory_KitComboSpecific.Store_ID = $('#txtStoreID').val();
+            Inventory_KitComboSpecific.ItemNum = $('#txtItemNo').val();
+
+            if ($("#rdbComboPricing1").is(":checked")) {
+                Inventory_KitComboSpecific.ComboPricingCalculation = 0;
+            }
+            else if ($("#rdbComboPricing2").is(":checked")) {
+                Inventory_KitComboSpecific.ComboPricingCalculation = 1;
+            }
+            else if ($("#rdbComboPricing3").is(":checked")) {
+                Inventory_KitComboSpecific.ComboPricingCalculation = 2;
+            }
+
+
+
+
+
+
+            return Inventory_KitComboSpecific;
+        }
+        function CreateGuid() {
+            function _p8(s) {
+                var p = (Math.random().toString(16) + "000000000").substr(2, 8);
+                return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
+            }
+            return _p8() + _p8(true) + _p8(true) + _p8();
+        }
+
+    function delIIRow(i) {
+        try {
+
+            var row = $(i).closest("tr");
+            var table1 = $('#dtInventoryImages').DataTable();
+            table1.row(row).remove().draw(false);
+
+        } catch (Exception) {
+            console.log("Exception Error in deleting option " + Exception);
+        }
+    }
+    var headers = {};
+    var token = $('input[name="__RequestVerificationToken"]').val();
+    headers['__RequestVerificationToken'] = token;
+    Dropzone.options.myAwesomeDropzone = {
+        //maxFiles: Number(ImageCount),
+        addRemoveLinks: true,
+        accept: function (file, done) {
+
+            var width = 0;
+            var height = 0;
+
+
+            // FileReader() asynchronously reads the contents of files (or raw data buffers) stored on the user's computer.
+            var reader = new FileReader();
+            reader.onload = (function (entry) {
+                // The Image() constructor creates a new HTMLImageElement instance.
+                var image = new Image();
+
+                image.src = entry.target.result;
+                image.onload = function () {
+                    width = this.width;
+                    height = this.height;
+                    console.log(this.width);
+                    console.log(this.height);
+                    console.log("width: " + width);
+                    console.log("height: " + height)
+                    //  if (width<400 || height<400)
+                    //  {
+                    //done("Invalid dimensions!");
+                    //  }
+                    //else { done(); }
+                };
+            });
+
+            reader.readAsDataURL(file);
+
+            done();
+
+            //  if (width)
+            //  {
+            //done("Invalid dimensions!");
+            //  }
+            //else { done(); }
+            //console.log("width: "+file.);
+            //console.log("height: "+file.height);
+            // done();
+        },
+        headers: headers
+            @* init: function () {
+        this.on("maxfilesexceeded", function (file) {
+            debugger;
+
+            $(".Pics").css("color", "red");
+            //    alert("You can Only Upload"+ @Model.AllowedPics+" Pictures!");
+
+        });
+    }*@
+        };
+    function Dropzonefunc() {
+
+        debugger;
+        $('.dropzone')[0].dropzone.options.maxFiles = ImageCount;
+
+    }
+    function SaveInventoryImages(ItemNum) {
+        var itemNo = ItemNum;
+        debugger;
+        // alert("my data");
+        var InventoryImages = [];
+        var urlUploadImage = "/Inventory/UploadImage?ItemNum=" + itemNo;
+        var c = 0;
+        var headers = {};
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        headers['__RequestVerificationToken'] = token;
+        c = $('table#dtInventoryImages tbody').find('tr:not(:has(th))');
+
+        //var tblCPDetail = $('#dtInventoryImages').DataTable(), tblRows = tblCPDetail.rows().data();
+        //if (tblRows.length > 0) {
+        //    $.each(tblRows, function (index, value) {
+        //        debugger;
+        //        var image = $(value[0]).find('input');
+
+        //        InventoryImages.push($(image).val());
+        //    });
+
+        if (c.length > 0) {
+            c.each(function (i, k) {
+                debugger;
+                var $td = $(this).find("td");
+                InventoryImages.push($td.eq(0).children().first().val());
+
+            });
+            debugger;
+            if (InventoryImages.length > 0 && InventoryImages != null) {
+                var urlStr = "/Inventory/UpdateImage";
+
+                $.ajax({
+                    url: urlStr,
+                    type: "POST",
+                    headers: headers,
+                    data: JSON.stringify({ ItemNum, InventoryImages }),
+                    contentType: 'application/json; charset=utf-8',
+                    //data: json,
+                    async: false,
+                    //cache: false,
+                    success: function (result) {
+                        debugger;
+                        if (result.Code == 200) {
+                            debugger;
+                            var myDropzone = Dropzone.forElement(".dropzone");
+
+                            debugger;
+                            var data = new FormData();
+
+                            debugger;
+                            var files = myDropzone.getAcceptedFiles();
+                            var ItemNum = ItemNum;
+                            if (files.length > 0) {
+                                for (var i = 0; i <= myDropzone.getAcceptedFiles().length; i++) {
+                                    data.append("MyImages" + i, files[i]);
+                                }
+
+
+                                debugger;
+                                $.ajax({
+
+
+                                    url: urlUploadImage,
+                                    type: "POST",
+                                    contentType: false, // Not to set any content header
+                                    processData: false, // Not to process data
+                                    data: data,
+                                    async: false,
+                                    headers: headers,
+                                    success: function (result) {
+                                        debugger;
+                                        if (result.Code == 200) {
+
+                                            swal({
+                                                title: "",
+                                                text: result.Message,
+                                                type: result.Type,
+                                                showCancelButton: false,
+                                                confirmButtonClass: "btn btn-success",
+                                                cancelButtonClass: "btn btn-primary",
+                                                confirmButtonText: "Ok",
+                                                cancelButtonText: "Cancel",
+                                                closeOnConfirm: true,
+                                                closeOnCancel: true
+                                            },
+                                                //debugger;
+                                                function (isConfirm) {
+                                                    if (isConfirm) {
+                                                        if ($("#txtRedirection").val() == 2) {
+                                                            window.location.replace("/InventoryList/Index");
+                                                        }
+                                                        else {
+                                                            $('#btnsave').text('Update');
+                                                            $('#btnsaveandList').text('Update and Go to List');
+                                                            $('#txtEdit').val(1);
+                                                            $('#txtItemNo').prop("disabled", true);
+                                                        }
+                                                    }
+                                                });
+                                        }
+                                        else if (result == "Error occurred.") {
+                                            alert("Error in uploading file.")
+                                        }
+
+
+
+
+                                    }
+
+                                });
+
+
+
+
+
+                            }
+                            else {
+                                swal({
+                                    title: "",
+                                    text: result.Message,
+                                    type: result.Type,
+                                    showCancelButton: false,
+                                    confirmButtonClass: "btn btn-success",
+                                    cancelButtonClass: "btn btn-primary",
+                                    confirmButtonText: "Ok",
+                                    cancelButtonText: "Cancel",
+                                    closeOnConfirm: true,
+                                    closeOnCancel: true
+                                },
+                                    //debugger;
+                                    function (isConfirm) {
+                                        if (isConfirm) {
+                                            if ($("#txtRedirection").val() == 2) {
+                                                window.location.replace("/InventoryList/Index");
+                                            }
+                                            else {
+                                                $('#btnsave').text('Update');
+                                                $('#btnsaveandList').text('Update and Go to List');
+                                                $('#txtEdit').val(1);
+                                                $('#txtItemNo').prop("disabled", true);
+                                            }
+                                        }
+                                    });
+                            }
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+            }
+        }
+        else {
+            debugger;
+            var myDropzone = Dropzone.forElement(".dropzone");
+
+            debugger;
+            var data = new FormData();
+
+            debugger;
+            var files = myDropzone.getAcceptedFiles();
+            var ItemNum = ItemNum;
+            if (files.length > 0) {
+                for (var i = 0; i <= myDropzone.getAcceptedFiles().length; i++) {
+                    data.append("MyImages" + i, files[i]);
+                }
+
+
+                debugger;
+                $.ajax({
+
+
+                    url: urlUploadImage,
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: data,
+                    headers: headers,
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        if (result.Code == 200) {
+
+                            swal({
+                                title: "",
+                                text: result.Message,
+                                type: result.Type,
+                                showCancelButton: false,
+                                confirmButtonClass: "btn btn-success",
+                                cancelButtonClass: "btn btn-primary",
+                                confirmButtonText: "Ok",
+                                cancelButtonText: "Cancel",
+                                closeOnConfirm: true,
+                                closeOnCancel: true
+                            },
+                                //debugger;
+                                function (isConfirm) {
+                                    if (isConfirm) {
+                                        if ($("#txtRedirection").val() == 2) {
+                                            window.location.replace("/InventoryList/Index");
+                                        }
+                                        else {
+                                            $('#btnsave').text('Update');
+                                            $('#btnsaveandList').text('Update and Go to List');
+                                            $('#txtEdit').val(1);
+                                            $('#txtItemNo').prop("disabled", true);
+                                        }
+                                    }
+                                });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+
+
+
+
+                }
+
+                );
+
+
+
+
+
+            }
+            else {
+                swal({
+                    title: "",
+                    text: result.Message,
+                    type: result.Type,
+                    showCancelButton: false,
+                    confirmButtonClass: "btn btn-success",
+                    cancelButtonClass: "btn btn-primary",
+                    confirmButtonText: "Ok",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                    //debugger;
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            if ($("#txtRedirection").val() == 2) {
+                                window.location.replace("/InventoryList/Index");
+                            }
+                            else {
+                                $('#btnsave').text('Update');
+                                $('#btnsaveandList').text('Update and Go to List');
+                                $('#txtEdit').val(1);
+                                $('#txtItemNo').prop("disabled", true);
+                            }
+                        }
+                    });
+            }
+        }
+
+    }
+    function SetRedirection(type) {
+        //1 for save 2 for save and goto list
+        $("#txtRedirection").val(type);
+    }
+</script>
+}

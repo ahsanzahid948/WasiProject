@@ -1,0 +1,1519 @@
+﻿
+@using System.Configuration;
+
+@{string ImagePath = ConfigurationManager.AppSettings["ImageLocationURL"].ToString();}
+
+
+
+<head>
+    <title>Inventry</title>
+
+
+
+</head>
+
+@section styles {
+
+    <link href="~/Content/assets/css/dropzone.css" rel="stylesheet" />
+    <style>
+
+
+        .dz-max-files-reached {
+            border-color: red;
+        }
+    </style>
+}
+
+
+
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="dashboard.cshtml" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Modifier Group</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header header-elements-inline search-header">
+        <h5 class="card-title">
+            <i class=""></i>Modifier Group
+        </h5>
+
+    </div>
+
+
+
+    <div class="card-body">
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="#ItemInfo" class="nav-link active show" data-toggle="tab">Item Info </a></li>
+
+
+
+            <li class="nav-item"><a href="#Image" class="nav-link" data-toggle="tab">Image </a></li>
+
+
+
+        </ul>
+
+
+
+
+
+
+
+        <form id="InventoryForm">
+            <div class="tab-content">
+
+                <div class="tab-pane fade in active  show" id="ItemInfo" style="padding-top:50px">
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="col-form-label ">
+                                    Department
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-8">
+                                    <select class=" form-control" id="ddlDepartmentID">
+                                        <option>Select Department</option>
+
+
+
+                                    </select>
+                                    <input type="hidden" id="txtStoreID" value="0">
+                                    <input type="hidden" id="txtItemType" value="4">
+                                    <input type="hidden" id="txtRedirection" value="1">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Item Number
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text" value="" id="txtItemNo" name="txtItemNo" maxlength="20" class="form-control" required onkeyup="ClearMessage()" onchange="CheckAvailability();" />
+                                    <span id="message"></span>
+                                    <input type="hidden" id="IsValidID" value="true">
+                                    <input type="hidden" id="txtEdit" value="0">
+                                    <input type="hidden" id="txtRowID" value="">
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Description
+                                    <span class="text-danger"> * </span>
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="text" value="" id="txtDescription" name="txtDescription" maxlength="30" class="form-control" required />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+                    <div class="row">
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Second Description
+
+                                </label>
+
+                                <div class="col-md-8">
+
+                                    <input type="text" value="" id="txtSecondDescription" name="txtSecondDescription" maxlength="30" class="form-control" />
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                    <div class="card">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+                                <button type='button' id="btnAddIndividualModifierDetails" class='btn   btn-labeled btn-labeled-left btn-sm' data-toggle='modal' data-target='#IndividualModal' onclick="NewIndividualModifier()" style="background-color:white;">
+                                    <b><i class="icon-plus3"></i></b>
+                                    Add
+                                </button>
+                                <span>  Modifier</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+
+
+                            <table class="table  dataTable no-footer clsdtNoPagingInfo" id="tblModifier">
+                                <thead>
+                                    <tr>
+
+                                        <th> Item No</th>
+                                        <th>Description</th>
+                                        <th>Quantity</th>
+                                        <th>Price </th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="Image">
+                    <div class="card  mt-4">
+                        <div class="card-header header-elements-inline search-header">
+                            <h5 class="card-title">
+
+
+                                <span> Inventory Images</span>
+
+                            </h5>
+
+
+                        </div>
+                        <div class="card-body cardNoPaging">
+                            <table class="table  dataTable no-footer  clsdtNoPagingInfo" id="dtInventoryImages">
+                                <thead>
+
+                                    <tr>
+                                        <th>Image</th>
+                                        <th hidden>Position</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @*<span style="color:cornflowerblue" class="Pics">
+                            You can Upload upto <span style="color:cornflowerblue" class="Pics" id="ImageCount">@Model.AllowedPics</span> Pictures .
+                        </span>*@
+
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <div action="#" class="dropzone" id="my-awesome-dropzone">
+                                @Html.AntiForgeryToken()
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple id="InventoryImages" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-lg" style="color:white" onclick="RedirectPage();"><b><i class="icon-cross2"></i></b>Cancel</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsave" onclick="SetRedirection(1);">Save</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+<div id="IndividualModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="IndividualModifierForm">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Individual Modifier</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Modifier
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7 ">
+                                <select class="form-control" id="ddlItemModifierID" name="ddlItemModifierID" required><option>Select Modifier</option></select>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Add<b><i class="icon-paperplane ml-2"></i></b></button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@section scripts
+{
+
+    <script src="~/Content/assets/js/dropzone.js"></script>
+
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+<script>
+        $(document).ready(function () {
+            SBInventory();
+            try {
+                $('.clsdtNoPagingInfo').DataTable({
+                    "paging": false, searching: false, ordering: false, info: false, buttons: { dom: { button: { className: 'btn btn-light' } }, buttons: [] }
+                });
+            } catch (e) { }
+            var ROwID = CreateGuid();
+            $('#txtRowID').val(ROwID);
+
+            $('#ddlDepartmentID').select2();
+            $('#ddlItemModifierID').select2();
+            $('#Individualdivinfo').hide();
+
+
+
+            GetAllDepartment();
+            GetAllModifier();
+
+            var EncryptedID = fnCheckIDForEditOnLoad();
+            if (EncryptedID != null && EncryptedID != undefined & EncryptedID != "") {
+                var ID = fnDecryptID(EncryptedID);
+                if (ID != null && ID != undefined && ID != "0") {
+                    debugger;
+                    LoadInventoryDetailsAll(ID);
+                }
+
+
+            }
+        });
+        function fnCheckIDForEditOnLoad() {
+            try {
+                var EncryptedID = "";
+                var wlss = window.location.search.substring(1);
+                if (wlss != null && wlss != undefined & wlss != "") {
+                    if (wlss.indexOf('&') != -1) {
+                        var wlsssplitam = wlss.split('&');
+                        if (wlsssplitam.length > 0) {
+                            $(wlsssplitam).each(function () {
+                                var KeyValue = this;
+                                if (KeyValue.indexOf('=') != -1) {
+                                    var ObjKeyValue = KeyValue.split(/=(.+)/);
+                                    if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                        EncryptedID = ObjKeyValue[1] != null && ObjKeyValue[1] != undefined ? ObjKeyValue[1] : '';
+                                        return EncryptedID;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        if (wlss.indexOf('=') != -1) {
+                            var ObjKeyValue = wlss.split(/=(.+)/);
+                            if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                EncryptedID = ObjKeyValue[1];
+                            }
+                        }
+                    }
+                }
+                return EncryptedID;
+            } catch (e) {
+                return "";
+            }
+        }
+        function fnDecryptID(id) {
+            try {
+                var decryptedID = '0';
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Decrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != undefined && result != "" && result != "Error") {
+                            if (result != "") {
+                                decryptedID = result;
+                            }
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+                });
+                return decryptedID;
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+            return '0';
+        }
+
+        function LoadInventoryDetailsAll(ItemNo) {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+            LoadInventoryData(ItemNo);
+            LoadModifierGroupData(ItemNo);
+            LoadInventoryImagesData(ItemNo);
+        }
+        function LoadInventoryData(ItemNo) {
+
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Inventory/LoadInventoryData',
+                    type: 'POST',
+                    data: JSON.stringify({ ItemNo: ItemNo }),
+                    headers: headers,
+                    async: false,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $.each(result, function (i, Data) {
+
+                                debugger;
+                                $('#btnsave').text('Update');
+                                $('#btnsaveandList').text('Update and Go to List');
+                                $('#txtEdit').val(1);
+                                $('#txtItemNo').val(Data.ItemNum);
+                                $('#txtItemNo').prop("disabled", true);
+                                $('#txtItemType').val(Data.ItemType);
+                                $('#txtSecondDescription').val(Data.ItemName_Extra);
+                                $('#txtDescription').val(Data.ItemName);
+                                $('#ddlDepartmentID').val(Data.Dept_ID).change();
+                                $('#txtStoreID').val(Data.Store_ID);
+                                $('#txtRowID').val(Data.RowID);
+
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function LoadModifierGroupData(ItemNum) {
+            var table = $("#tblModifier").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/ModifierItems/GetTableSummaryModifierGroup",
+                data: JSON.stringify({ ItemNum: ItemNum }),
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+
+
+                            count += table.rows().count();
+
+
+                            var newRow = "<tr><td>" + Data.CItemNum + "</td>" +
+                                "<td>" + Data.Description + "</td>" +
+                                "<td>" + Data.Quantity + "</td>" +
+                                "<td>" + Data.Price + "</td>" +
+                                "<td>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delModifierRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+         function LoadInventoryImagesData (ItemNum) {
+            var table = $("#dtInventoryImages").DataTable();
+            var count = 1;
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                headers: headers,
+                contentType: "application/json; charset=utf-8",
+                url: "/Inventory/GetTableSummaryInventoryImages",
+                data: JSON.stringify({ ItemNum: ItemNum }),
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+                    if (result != null && result != "Error") {
+                        table.clear();
+
+
+                        $.each(result, function (i, Data) {
+                            debugger;
+
+
+
+                             var newRow = "<tr><td><input type='hidden' value='" + Data.ImageLocation + "'><div class='item'><img src='@ImagePath" + Data.ImageLocation + "?" + (new Date()).getTime()+"' class='img-responsive pic-bordered' alt=''  style='width:80px;height:px;'></div></td>" +
+                                 "<td hidden>"+Data.Position+"</td>"+
+                                 "<td><span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delIIRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                        table.draw();
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                }
+
+
+            });
+        }
+        $("#IndividualModifierForm").submit(function (event) {
+            debugger;
+            event.preventDefault();
+            AddIndividualModifierRecord();
+        });
+        $('#ddlDepartmentID').change(function () {
+
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Common/GetStoreID',
+                headers: headers,
+                data: JSON.stringify({ DepartmentID: $('#ddlDepartmentID').val() }),
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    if (result != null) {
+
+                        $('#txtStoreID').val(result);
+                    }
+
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+        });
+        function AddIndividualModifierRecord() {
+            debugger;
+            try {
+                let ID = $("#ddlItemModifierID").val();
+                var IsAlreadyExists = fnCheckModifierItemAlreadyExist(ID)
+
+                if (!IsAlreadyExists) {
+                    $('#IndividualModal').modal('hide');
+
+                    let Desc = $("#ddlItemModifierID option:selected").text();
+
+
+
+                    var table = $('#tblModifier').DataTable();
+
+                    var count = 1;
+                    count += table.rows().count();
+
+
+                    var newRow = "<tr><td>" + ID + "</td>" +
+                        "<td>" + Desc + "</td>" +
+                        "<td>" + 1 + "</td>" +
+                        "<td>" + 0.00 + "</td>" +
+                        "<td>" +
+                        "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='delModifierRow(this);'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                        "</td></tr>";
+
+                    table.row.add($(newRow));
+                    table.draw();
+                }
+                else {
+                    swal("", "Selected Modifier already assigned to this inventory item.", "error");
+                }
+            }
+            catch (err) {
+                swal("Error", err.toString(), "error");
+            }
+        }
+        function delModifierRow(i) {
+            try {
+
+                var row = $(i).closest("tr");
+                var table1 = $('#tblModifier').DataTable();
+                table1.row(row).remove().draw(false);
+
+            } catch (Exception) {
+                console.log("Exception Error in deleting option " + Exception);
+            }
+        }
+        function NewIndividualModifier() {
+
+            $('#IndividualModal').modal('show');
+            $('#ddlIndividualModifier').val('').change();
+
+        }
+        function CreateGuid() {
+            function _p8(s) {
+                var p = (Math.random().toString(16) + "000000000").substr(2, 8);
+                return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
+            }
+            return _p8() + _p8(true) + _p8(true) + _p8();
+        }
+        function GetAllDepartment() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetDepartmentAll',
+                    type: 'POST',
+                    headers: headers,
+                    async: false,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlDepartmentID").html("");
+                            $("#ddlDepartmentID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Department"));
+
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlDepartmentID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetAllModifier() {
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetModifierAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            $("#ddlItemModifierID").html("");
+                            $("#ddlItemModifierID").append
+                                ($('<option  selected value=""></option>').val('').html("Select Modifier"));
+
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlItemModifierID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+
+        function fnCheckModifierItemAlreadyExist(ItemNUm) {
+
+            var dtIsExists = 0;
+            if (ItemNUm != null) {
+                var dtTAitem = $('#tblModifier').DataTable();
+                var dtTARows = dtTAitem.rows().data();
+                if (dtTARows.length > 0) {
+                    $.each(dtTARows, function (index, value) {
+                        dtIsExists += value[0] != null && value[0] == ItemNUm ? 1 : 0;
+
+                    });
+                }
+            }
+            if (dtIsExists > 0) {
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        $("#InventoryForm").submit(function (event) {
+            event.preventDefault();
+            SaveRecord();
+        });
+        function SaveRecord() {
+            try {
+
+
+                if ($('#IsValidID').val() != "true" && $('#IsValidID').val() != true) {
+
+                    swal("Warning", "Item Number already exists!", "error");
+                }
+                else {
+
+
+                    if ($('#btnsave').text() == 'Save') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Save this record ?";
+                        var ConfirmButtonText = "Confirm Save";
+                        var CancelButtonText = "Cancel";
+                    }
+                    if ($('#btnsave').text() == 'Update') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Update this record ?";
+                        var ConfirmButtonText = "Confirm Update";
+                        var CancelButtonText = "Cancel";
+                    }
+                    swal(
+                        {
+                            title: Title,
+                            text: Text,
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: ConfirmButtonText,
+                            cancelButtonText: CancelButtonText,
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        },
+                        function (isConfirm) {
+
+                            if (isConfirm) {
+                                var AjaxObj = InventoryObjCall();
+
+                                var headers = {};
+                                var token = $('input[name="__RequestVerificationToken"]').val();
+                                headers['__RequestVerificationToken'] = token;
+                                var Url = "";
+                                if ($('#btnsave').text() == 'Save') {
+                                    Url = "/ModifierItems/Create";
+                                }
+                                else {
+                                    Url = "/ModifierItems/Update";
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    headers: headers,
+                                    contentType: "application/json; charset=utf-8",
+                                    url: Url,
+                                    data: JSON.stringify({ "Obj": AjaxObj }),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+                                        if (result.Code == 200) {
+
+                                            SaveInventoryImages($("#txtItemNo").val());
+
+                                        }
+                                        else {
+                                            swal("", result.Message, result.Type);
+
+                                        }
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                        swal("", errorMessage, "error");
+                                    }
+
+                                });
+
+
+                            }
+                            else {
+
+                                swal("Cancelled", "Your operation Canceled :)", "error");
+                            }
+
+                        }
+                    );
+                }
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+        function InventoryObjCall() {
+            debugger;
+            var AjaxObj = {
+                "ItemNum": "",
+                "ItemName": "",
+                "Store_ID": "",
+                "Cost": "",
+                "Price": "",
+                "Retail_Price": "",
+                "In_Stock": "",
+                "Reorder_Level": "",
+                "Reorder_Quantity": "",
+                "Tax_1": "",
+                "Tax_2": "",
+                "Tax_3": "",
+                "Vendor_Number": "",
+                "Dept_ID": "",
+                "IsKit": "",
+                "IsModifier": "",
+                "Kit_Override": "",
+                "Inv_Num_Barcode_Labels": "",
+                "Use_Serial_Numbers": "",
+                "Num_Bonus_Points": "",
+                "IsRental": "",
+                "Use_Bulk_Pricing": "",
+                "Print_Ticket": "",
+                "Print_Voucher": "",
+                "Num_Days_Valid": "",
+                "IsMatrixItem": "",
+                "Vendor_Part_Num": "",
+                "Location": "",
+                "AutoWeigh": "",
+                "numBoxes": "",
+                "Dirty": "",
+                "Tear": "",
+                "NumPerCase": "",
+                "FoodStampable": "",
+                "ReOrder_Cost": "",
+                "Helper_ItemNum": "",
+                "ItemName_Extra": "",
+                "Exclude_Acct_Limit": "",
+                "Check_ID": "",
+                "Old_InStock": "",
+                "Date_Created": "",
+                "ItemType": "",
+                "Prompt_Price": "",
+                "Prompt_Quantity": "",
+                "Inactive": "",
+                "Allow_BuyBack": "",
+                "Last_Sold": "",
+                "Unit_Type": "",
+                "Unit_Size": "",
+                "Fixed_Tax": "",
+                "DOB": "",
+                "Special_Permission": "",
+                "Prompt_Description": "",
+                "Check_ID2": "",
+                "Count_This_Item": "",
+                "Transfer_Cost_Markup": "",
+                "Print_On_Receipt": "",
+                "Transfer_Markup_Enabled": "",
+                "As_Is": "",
+                "InStock_Committed": "",
+                "RequireCustomer": "",
+                "PromptCompletionDate": "",
+                "PromptInvoiceNotes": "",
+                "Prompt_DescriptionOverDollarAmt": "",
+                "Exclude_From_Loyalty": "",
+                "BarTaxInclusive": "",
+                "ScaleSingleDeduct": "",
+                "GLNumber": "",
+                "ModifierType": "",
+                "Position": "",
+                "numberOfFreeToppings": "",
+                "ScaleItemType": "",
+                "DiscountType": "",
+                "AllowReturns": "",
+                "SuggestedDeposit": "",
+                "Liability": "",
+                "IsDeleted": "",
+                "ItemLocale": "",
+                "QuantityRequired": "",
+                "AllowOnDepositInvoices": "",
+                "Import_Markup": "",
+                "PricePerMeasure": "",
+                "UnitMeasure": "",
+                "ShipCompliantProductType": "",
+                "AlcoholContent": "",
+                "AvailableOnline": "",
+                "AllowOnFleetCard": "",
+                "DoughnutTax": "",
+                "DisplayTaxInPrice": "",
+                "NeverPrintInKitchen": "",
+                "RowID": "",
+                "Tax_4": "",
+                "Tax_5": "",
+                "Tax_6": "",
+                "DisableInventoryUpload": "",
+                "InvoiceLimitQty": "",
+                "ItemCategory": "",
+                "IsRestrictedPerInvoice": "",
+                //"Inventory_SKUS": [],
+                "Kit_Index": []
+
+            };
+
+
+            var Kit_Index = {
+                "Kit_ID": "", "Store_ID": "", "ItemNum": "", "Quantity": "", "Description": "", "Price": "", "[Index]": "", "Discount": "", "InvoiceMethodToUse": "", "ChoiceLockdown": ""
+            }
+            var tblAMDetail = $('#tblModifier').DataTable(), tblARows = tblAMDetail.rows().data();
+            if (tblARows.length > 0) {
+
+                $.each(tblARows, function (index, value) {
+                    debugger;
+
+                    Kit_Index.Kit_ID = $('#txtItemNo').val();
+                    Kit_Index.ItemNum = value[0];
+                    Kit_Index.Description = value[1];
+                    Kit_Index.Quantity = value[2];
+                    Kit_Index.Store_ID = $('#txtStoreID').val();
+                    Kit_Index.Index = index;
+                    Kit_Index.Discount = 0;
+                    Kit_Index.Price = value[3];
+                    Kit_Index.InvoiceMethodToUse = 0;
+                    Kit_Index.ChoiceLockdown = 0
+                    AjaxObj.Kit_Index.push(Kit_Index);
+                    Kit_Index = {
+                        "Kit_ID": "", "Store_ID": "", "ItemNum": "", "Quantity": "", "Description": "", "Price": "", "Index": "", "Discount": "", "InvoiceMethodToUse": "", "ChoiceLockdown": ""
+                    };
+
+
+                });
+            }
+
+
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var EntryDate = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+
+            AjaxObj.IsDeleted = 0;
+            AjaxObj.RowID = $('#txtRowID').val();
+            AjaxObj.ItemType = $('#txtItemType').val();
+            AjaxObj.ItemCategory = 0;
+            AjaxObj.ItemNum = $('#txtItemNo').val();
+            AjaxObj.ItemName = $('#txtDescription').val();
+            AjaxObj.Store_ID = $('#txtStoreID').val();
+            AjaxObj.Cost = 0;
+            AjaxObj.Price = 0;
+            AjaxObj.Retail_Price = 0;
+            AjaxObj.In_Stock = 0;
+            AjaxObj.Reorder_Level = 0;
+            AjaxObj.Reorder_Quantity = 0;
+
+            AjaxObj.BarTaxInclusive = false;
+            AjaxObj.Transfer_Markup_Enabled = false;
+            AjaxObj.Import_Markup = false;
+            AjaxObj.PricePerMeasure = 0;
+            AjaxObj.AvailableOnline = false;
+            AjaxObj.DoughnutTax = 0;
+            AjaxObj.InvoiceLimitQty = 0;
+            AjaxObj.IsRestrictedPerInvoice = false;
+            AjaxObj.Tax_1 = true;
+
+
+            AjaxObj.Tax_2 = false;
+
+            AjaxObj.Tax_3 = false;
+
+            AjaxObj.Tax_4 = false;
+
+            AjaxObj.Tax_5 = false;
+
+            AjaxObj.Tax_6 = false;
+
+            AjaxObj.Dept_ID = $('#ddlDepartmentID').val();
+            AjaxObj.IsKit = false;
+            AjaxObj.IsModifier = false;
+            //   AjaxObj.Kit_Override = $('#txtFirstName').val();
+            AjaxObj.Inv_Num_Barcode_Labels = 0;
+
+            AjaxObj.Use_Serial_Numbers = false;
+            AjaxObj.Num_Bonus_Points = 0;
+            AjaxObj.Print_Ticket = false;
+            AjaxObj.Num_Days_Valid = 0;
+            AjaxObj.AutoWeigh = false;
+            AjaxObj.FoodStampable = false;
+            AjaxObj.ReOrder_Cost = 0;
+            AjaxObj.Exclude_Acct_Limit = false;
+            AjaxObj.Check_ID = false;
+            AjaxObj.Prompt_Price = false;
+            AjaxObj.Prompt_Quantity = false;
+            AjaxObj.Allow_BuyBack = false;
+            AjaxObj.Unit_Size = 0;
+            AjaxObj.Special_Permission = false;
+            AjaxObj.Prompt_Description = false;
+            AjaxObj.Check_ID2 = false;
+            AjaxObj.Count_This_Item = true;
+            AjaxObj.Print_On_Receipt = true;
+            AjaxObj.RequireCustomer = false;
+            AjaxObj.PromptCompletionDate = false;
+            AjaxObj.PromptInvoiceNotes = false;
+            AjaxObj.NeverPrintInKitchen = false;
+            AjaxObj.Exclude_From_Loyalty = false;
+            AjaxObj.ScaleSingleDeduct = false;
+            AjaxObj.AllowReturns = true;
+            AjaxObj.Liability = false;
+            AjaxObj.AllowOnDepositInvoices = false;
+            AjaxObj.AllowOnFleetCard = false;
+            AjaxObj.DisplayTaxInPrice = false;
+            AjaxObj.DisableInventoryUpload = false;
+            AjaxObj.ItemName_Extra = $('#txtSecondDescription').val();
+            AjaxObj.As_Is = false;
+            AjaxObj.Date_Created = EntryDate;
+            AjaxObj.Num_Bonus_Points = 0;
+            AjaxObj.Date_Created = EntryDate;
+            AjaxObj.IsRental = 0;
+            AjaxObj.Use_Bulk_Pricing = 0;
+            AjaxObj.Print_Voucher = 0;
+            AjaxObj.IsMatrixItem = false;
+            AjaxObj.numBoxes = 0;
+            AjaxObj.Dirty = 1;
+            return AjaxObj;
+        }
+        function ClearMessage() {
+            $("#message").html("");
+        };
+        function CheckAvailability() {
+
+
+            var ItemNo = $("#txtItemNo").val();
+            var IsEdit = $('#txtEdit').val();
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax({
+                type: "POST",
+                url: '/Inventory/CheckItemNo',
+                headers: headers,
+                data: JSON.stringify({ ItemNo: ItemNo, IsEdit: IsEdit }),
+
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var message = $("#message");
+                    if (result == true) {
+
+
+                        $("#IsValidID").val(result);
+                    }
+                    else if (result == false) {
+                        message.css("color", "red");
+                        message.html("Item Number already exists!");
+                        $("#IsValidID").val(result);
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+
+
+
+            });
+
+        }
+        function RedirectPage() {
+            window.location.replace("/InventoryList/Index");
+
+    }
+    function delIIRow(i) {
+        try {
+
+            var row = $(i).closest("tr");
+            var table1 = $('#dtInventoryImages').DataTable();
+            table1.row(row).remove().draw(false);
+
+        } catch (Exception) {
+            console.log("Exception Error in deleting option " + Exception);
+        }
+    }
+    var headers = {};
+    var token = $('input[name="__RequestVerificationToken"]').val();
+    headers['__RequestVerificationToken'] = token;
+    Dropzone.options.myAwesomeDropzone = {
+        //maxFiles: Number(ImageCount),
+        addRemoveLinks: true,
+        accept: function (file, done) {
+
+            var width = 0;
+            var height = 0;
+
+
+            // FileReader() asynchronously reads the contents of files (or raw data buffers) stored on the user's computer.
+            var reader = new FileReader();
+            reader.onload = (function (entry) {
+                // The Image() constructor creates a new HTMLImageElement instance.
+                var image = new Image();
+
+                image.src = entry.target.result;
+                image.onload = function () {
+                    width = this.width;
+                    height = this.height;
+                    console.log(this.width);
+                    console.log(this.height);
+                    console.log("width: " + width);
+                    console.log("height: " + height)
+                    //  if (width<400 || height<400)
+                    //  {
+                    //done("Invalid dimensions!");
+                    //  }
+                    //else { done(); }
+                };
+            });
+
+            reader.readAsDataURL(file);
+
+            done();
+
+            //  if (width)
+            //  {
+            //done("Invalid dimensions!");
+            //  }
+            //else { done(); }
+            //console.log("width: "+file.);
+            //console.log("height: "+file.height);
+            // done();
+        },
+        headers: headers
+            @* init: function () {
+        this.on("maxfilesexceeded", function (file) {
+            debugger;
+
+            $(".Pics").css("color", "red");
+            //    alert("You can Only Upload"+ @Model.AllowedPics+" Pictures!");
+
+        });
+    }*@
+        };
+    function Dropzonefunc() {
+
+        debugger;
+        $('.dropzone')[0].dropzone.options.maxFiles = ImageCount;
+
+    }
+    function SaveInventoryImages(ItemNum) {
+        var itemNo = ItemNum;
+        debugger;
+        // alert("my data");
+        var InventoryImages = [];
+        var urlUploadImage = "/Inventory/UploadImage?ItemNum=" + itemNo;
+        var c = 0;
+        var headers = {};
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        headers['__RequestVerificationToken'] = token;
+        c = $('table#dtInventoryImages tbody').find('tr:not(:has(th))');
+
+        //var tblCPDetail = $('#dtInventoryImages').DataTable(), tblRows = tblCPDetail.rows().data();
+        //if (tblRows.length > 0) {
+        //    $.each(tblRows, function (index, value) {
+        //        debugger;
+        //        var image = $(value[0]).find('input');
+
+        //        InventoryImages.push($(image).val());
+        //    });
+
+        if (c.length > 0) {
+            c.each(function (i, k) {
+                debugger;
+                var $td = $(this).find("td");
+                InventoryImages.push($td.eq(0).children().first().val());
+
+            });
+            debugger;
+            if (InventoryImages.length > 0 && InventoryImages != null) {
+                var urlStr = "/Inventory/UpdateImage";
+
+                $.ajax({
+                    url: urlStr,
+                    type: "POST",
+                    headers: headers,
+                    data: JSON.stringify({ ItemNum, InventoryImages }),
+                    contentType: 'application/json; charset=utf-8',
+                    //data: json,
+                    async: false,
+                    //cache: false,
+                    success: function (result) {
+                        debugger;
+                        if (result.Code == 200) {
+                            debugger;
+                            var myDropzone = Dropzone.forElement(".dropzone");
+
+                            debugger;
+                            var data = new FormData();
+
+                            debugger;
+                            var files = myDropzone.getAcceptedFiles();
+                            var ItemNum = ItemNum;
+                            if (files.length > 0) {
+                                for (var i = 0; i <= myDropzone.getAcceptedFiles().length; i++) {
+                                    data.append("MyImages" + i, files[i]);
+                                }
+
+
+                                debugger;
+                                $.ajax({
+
+
+                                    url: urlUploadImage,
+                                    type: "POST",
+                                    contentType: false, // Not to set any content header
+                                    processData: false, // Not to process data
+                                    data: data,
+                                    async: false,
+                                    headers: headers,
+                                    success: function (result) {
+                                        debugger;
+                                        if (result.Code == 200) {
+
+                                            swal({
+                                                title: "",
+                                                text: result.Message,
+                                                type: result.Type,
+                                                showCancelButton: false,
+                                                confirmButtonClass: "btn btn-success",
+                                                cancelButtonClass: "btn btn-primary",
+                                                confirmButtonText: "Ok",
+                                                cancelButtonText: "Cancel",
+                                                closeOnConfirm: true,
+                                                closeOnCancel: true
+                                            },
+                                                //debugger;
+                                                function (isConfirm) {
+                                                    if (isConfirm) {
+                                                        debugger;
+                                                        if ($("#txtRedirection").val() == 2) {
+                                                            window.location.replace("/InventoryList/Index");
+                                                        }
+                                                        else {
+                                                            $('#btnsave').text('Update');
+                                                            $('#btnsaveandList').text('Update and Go to List');
+                                                            $('#txtEdit').val(1);
+                                                            $('#txtItemNo').prop("disabled", true);
+                                                        }
+                                                    }
+                                                });
+                                        }
+                                        else if (result == "Error occurred.") {
+                                            alert("Error in uploading file.")
+                                        }
+
+
+
+
+                                    }
+
+                                });
+
+
+
+
+
+                            }
+                            else {
+                                swal({
+                                    title: "",
+                                    text: result.Message,
+                                    type: result.Type,
+                                    showCancelButton: false,
+                                    confirmButtonClass: "btn btn-success",
+                                    cancelButtonClass: "btn btn-primary",
+                                    confirmButtonText: "Ok",
+                                    cancelButtonText: "Cancel",
+                                    closeOnConfirm: true,
+                                    closeOnCancel: true
+                                },
+                                    //debugger;
+                                    function (isConfirm) {
+                                        if (isConfirm) {
+                                            if ($("#txtRedirection").val() == 2) {
+                                                window.location.replace("/InventoryList/Index");
+                                            }
+                                            else {
+                                                $('#btnsave').text('Update');
+                                                $('#btnsaveandList').text('Update and Go to List');
+                                                $('#txtEdit').val(1);
+                                                $('#txtItemNo').prop("disabled", true);
+                                            }
+                                        }
+                                    });
+                            }
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+            }
+        }
+        else {
+            debugger;
+            var myDropzone = Dropzone.forElement(".dropzone");
+
+            debugger;
+            var data = new FormData();
+
+            debugger;
+            var files = myDropzone.getAcceptedFiles();
+            var ItemNum = ItemNum;
+            if (files.length > 0) {
+                for (var i = 0; i <= myDropzone.getAcceptedFiles().length; i++) {
+                    data.append("MyImages" + i, files[i]);
+                }
+
+
+                debugger;
+                $.ajax({
+
+
+                    url: urlUploadImage,
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: data,
+                    headers: headers,
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        if (result.Code == 200) {
+
+                            swal({
+                                title: "",
+                                text: result.Message,
+                                type: result.Type,
+                                showCancelButton: false,
+                                confirmButtonClass: "btn btn-success",
+                                cancelButtonClass: "btn btn-primary",
+                                confirmButtonText: "Ok",
+                                cancelButtonText: "Cancel",
+                                closeOnConfirm: true,
+                                closeOnCancel: true
+                            },
+                                //debugger;
+                                function (isConfirm) {
+                                    if (isConfirm) {
+                                        debugger;
+                                        if ($("#txtRedirection").val() == 2) {
+                                            window.location.replace("/InventoryList/Index");
+                                        }
+                                        else {
+                                            $('#btnsave').text('Update');
+                                            $('#btnsaveandList').text('Update and Go to List');
+                                            $('#txtEdit').val(1);
+                                            $('#txtItemNo').prop("disabled", true);
+                                        }
+                                    }
+                                });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+
+
+
+
+                }
+
+                );
+
+
+
+
+
+            }
+            else {
+                swal({
+                    title: "",
+                    text: result.Message,
+                    type: result.Type,
+                    showCancelButton: false,
+                    confirmButtonClass: "btn btn-success",
+                    cancelButtonClass: "btn btn-primary",
+                    confirmButtonText: "Ok",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                    //debugger;
+                    function (isConfirm) {
+                        debugger;
+                        if (isConfirm) {
+                            debugger;
+                            if ($("#txtRedirection").val() == 2) {
+                                window.location.replace("/InventoryList/Index");
+                            }
+                            else {
+                                $('#btnsave').text('Update');
+                                $('#btnsaveandList').text('Update and Go to List');
+                                $('#txtEdit').val(1);
+                                $('#txtItemNo').prop("disabled", true);
+                            }
+                        }
+                    });
+            }
+        }
+
+    }
+    function SetRedirection(type) {
+        debugger;
+        //1 for save 2 for save and goto list
+        $("#txtRedirection").val(type);
+    }
+</script>
+}

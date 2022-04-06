@@ -1,0 +1,298 @@
+.btn-disable {
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    background-color: #D2D2D2 !important;
+    color: white !important;
+}
+
+.tooltip {
+    pointer-events: none;
+}
+
+.red-tooltip + .tooltip > .tooltip-inner {
+    pointer-events: none;
+}
+
+.red-tooltip + .popover {
+    pointer-events: none;
+}
+
+.red-tooltip + .tooltip > .tooltip-inner {
+    width: 100%;
+    background-color: #32C5D2;
+    text-align: left;
+}
+
+.red-tooltip + .tooltip > .tooltip-arrow {
+    border-top-color: #32C5D2;
+}
+
+.swal-button swal-button--confirm {
+    padding: 7px 19px;
+    border-radius: 2px;
+    background-color: #4962B3;
+    font-size: 12px;
+    border: 1px solid #3e549a;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+.sweet-alert {
+    background-color: #ffffff;
+    width: 478px;
+    padding: 17px;
+    border-radius: 5px;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -256px;
+    margin-top: -200px;
+    overflow: hidden;
+    display: none;
+    z-index: 2000;
+    border-style: solid;
+    border-color: #f8be86;
+}
+
+.card-header {
+    height: 48px !important;
+}
+
+.link-disable {
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    color: grey !important;
+}
+
+.red-tooltip + .tooltip > .tooltip-inner {
+    background-color: #505050;
+    text-align: left !important;
+    min-width: 350px;
+    border-radius: 0px;
+}
+
+.red-tooltip + .tooltip > .tooltip-arrow {
+    border-left-color: #505050;
+}
+
+.tooltip.show p {
+    text-align: left;
+}
+
+.LockOn {
+    display: block;
+    display: none;
+    visibility: visible;
+    position: absolute;
+    z-index: 10051;
+    top: -165px;
+    left: 0px;
+    width: 105%;
+    height: 205%;
+    background-color: white;
+    vertical-align: bottom;
+    opacity: 0.75;
+    font-size: large;
+    color: #73adf7;
+    font-style: italic;
+    font-weight: 400;
+    /*background-image: url()*/
+    /*background-image: url(../../../../Content/hand_animation.gif);*/
+    background-repeat: no-repeat;
+    background-image: url('../../../loader__1_.gif');
+    background-attachment: fixed;
+    background-position: center;
+    margin-top: 0px !important;
+    background-color: #f4f5f6;
+}
+
+.breadcrumb-line {
+    margin-top: 15px;
+}
+
+[class*=bg-]:not(.bg-transparent):not(.bg-light):not(.bg-white):not(.btn-outline):not(body) {
+    color: #000;
+}
+
+.navbar-brand img {
+    height: 2rem;
+    display: block;
+}
+
+
+.sidebar-dark .nav-sidebar > .nav-item-open > .nav-link:not(.disabled), .sidebar-dark .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light .card[class*=bg-]:not(.bg-light):not(.bg-white):not(.bg-transparent) .nav-sidebar > .nav-item-open > .nav-link:not(.disabled), .sidebar-light .card[class*=bg-]:not(.bg-light):not(.bg-white):not(.bg-transparent) .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: #B2B7C4;
+    color: #000000;
+}
+/*.card-header header-elements-inline
+        {
+            color:black!important;
+
+        }*/
+.datatable-button-html5-columns th {
+    background-color: #B2B7C4 !important;
+    color: #000 !important;
+}
+
+th {
+    background-color: #B2B7C4 !important;
+    color: #000 !important;
+}
+
+.datatable-header {
+    margin-top: -35px;
+}
+
+.control-label {
+    padding-top: calc(.4375rem + 1px);
+    padding-bottom: calc(.4375rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5385;
+}
+
+.modal-header {
+    background-color: #FFB30B;
+}
+
+.modal-title {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.close {
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+.card-header {
+    /*background-color: #FFEB7B;
+            color: #000000;*/
+    background-color: #F5E486;
+    color: #000;
+}
+
+element.style {
+    background-color: #21221C;
+    color: #ffffff;
+}
+
+.sidebar {
+    /*background-color: #FFEB7B;*/
+    background-color: #21221C;
+    color: #000000;
+}
+
+
+.navbar {
+    background-color: #1A1B15;
+    /*background-color: #FFB30B;*/
+}
+
+
+.sidebar-dark .nav-sidebar .nav-link {
+    color: #000000;
+    /*color: #F5E486;*/
+}
+
+.nav-sidebar .nav-item {
+    /*background-color: #FFEB7B;*/
+    background-color: #21221C;
+    color: black;
+    border-bottom: thin;
+    border-bottom-color: white;
+}
+
+.navbar .navbar-expand-md .navbar-dark .fixed-top {
+    color: #000000;
+}
+
+.navbar-dark .navbar-nav-link {
+    color: #ffffff;
+    /*color: #000000;*/
+}
+
+.nav-group-sub .nav-link {
+    padding: .500rem 0.8rem .625rem 3.5rem;
+    color: #ffffff;
+}
+
+.sidebar-dark .nav-sidebar .nav-link {
+    /* color: #000000; */
+    color: #ffffff;
+}
+
+.nav-link.active {
+    background-color: #B2B7C4;
+    color: #000000;
+}
+
+.sidebar-dark .nav-sidebar .nav-item-open > .nav-link:not(.disabled), .sidebar-dark .nav-sidebar > .nav-item-expanded:not(.nav-item-open) > .nav-link, .sidebar-light .card[class*=bg-]:not(.bg-light):not(.bg-white):not(.bg-transparent) .nav-sidebar .nav-item-open > .nav-link:not(.disabled), .sidebar-light .card[class*=bg-]:not(.bg-light):not(.bg-white):not(.bg-transparent) .nav-sidebar > .nav-item-expanded:not(.nav-item-open) > .nav-link {
+    background-color: rgba(0,0,0,.15);
+    /*color: #333;*/
+    color: #F5E486;
+}
+
+.DocModal {
+    z-index: 10051;
+    position: absolute;
+}
+
+/*.nav-sideba.nav-item {
+             color: #000000 !important;
+        }*/
+/*.content-wrapper {
+         overflow: unset !important;
+        }navbar-top*/
+
+.red-tooltip + .tooltip > .tooltip-inner {
+    width: 100%;
+    background-color: #32C5D2;
+    text-align: left;
+}
+
+.red-tooltip + .tooltip > .tooltip-arrow {
+    border-top-color: #32C5D2;
+}
+
+.tooltip.show p {
+    text-align: left;
+}
+
+
+.nav-tabs-solid .nav-item.show .nav-link.active, .nav-tabs-solid .nav-link.active {
+    color: #1b1a1a;
+    background-color: orange; /*Tabs active class Color Employee Registration*/
+}
+
+.MyCustomHeader {
+    background-color: #FFEB7B;
+    padding: 10px;
+    font-size: 18px;
+    color: black;
+    width: 877px;
+    margin-left: -10px;
+}
+
+
+.modal-lg {
+    width: 1024px !important;
+}
+
+.CustomLabel {
+    width: 22% !important;
+}
+
+.CustomControl {
+    width: 76% !important;
+}
+
+.card-header:not([class*=bg-]):not([class*=alpha-]) {
+    background-color: #F5E486;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom-width: 0;
+}
+.card-header:not([class*=bg-]):not([class*=alpha-])+.card-body {
+padding-top:1.25rem !important;
+}

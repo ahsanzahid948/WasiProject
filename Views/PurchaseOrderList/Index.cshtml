@@ -1,0 +1,345 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section styles{
+    <link href="~/Content/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+}
+<div class="page-header page-header-light">
+
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="~/Dashboard/Index" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Dashboard</a>
+                <span class="breadcrumb-item active">Purchase Orders</span>
+            </div>
+
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+
+</div>
+<div class="card">
+    <div class="card-header header-elements-inline search-header" style="color:white">
+        <h5 class="card-title"> <span class="font-weight-semibold">Search</span> </h5>
+        <div class="header-elements"> </div>
+    </div>
+    <div calss="box card-body">
+
+        <form id="FormPurchaseOrderListSearch">
+            @Html.AntiForgeryToken()
+            <div class="modal-body row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="col-form-label">View Open or Close POs </label>
+                        <div>
+                            <div class="form-check-inline">
+                                <input type="radio" id="rdOpenPurchaseOrderSearch" class="form-check-input" value="O" name="POStatus" checked />Open
+                            </div>
+                            <div class="form-check-inline">
+                                <input type="radio" id="rdClosedPurchaseOrderSearch" class="form-check-input" value="C" name="POStatus" />Closed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group ">
+                        <label class="col-form-label ">Which type of orders to view? </label>
+                        <div>
+                            <div class="form-check-inline">
+                                <input type="radio" id="rdStandardPurchaseOrderSearch" class="form-check-input" value="0" name="POType" checked />Standard
+                            </div>
+                            <div class="form-check-inline">
+                                <input type="radio" id="rdReturnedPurchaseOrderSearch" class="form-check-input" value="1" name="POType" />Returned To Vendor
+                            </div>
+                            <div class="form-check-inline">
+                                <input type="radio" id="rdDirectPurchaseOrderSearch" class="form-check-input" value="2" name="POType" />Direct Store delivery
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label class="col-form-label"> </label>
+                        <div>
+                            <button type="submit" class="btn  actionbtn btn-sm " style="float:right;"><b>Search<i class="icon-search4 ml-2"></i></b></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header header-elements-inline search-header" style="color:white">
+        <h5 class="card-title">
+            <a class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' href="#" onclick="fnAddNewRecord();" style="text-decoration:none;background-color:white;">
+                <b><i class="icon-plus3"></i></b>
+                Add New
+            </a>
+            <span class="font-weight-semibold">Purchased Order</span>
+        </h5>
+    </div>
+    <div class="card-body">
+        <table class="table datatable-button-html5-columns dataTable no-footer" id="dtPurchasedOrderList">
+            <thead>
+                <tr>
+                    <th> PO #</th>
+                    <th> Date</th>
+                    <th> Ref </th>
+
+                    <th> Vendor #</th>
+                    <th> Due Date </th>
+                    <th> Total Cost</th>
+                    <th> Status</th>
+                    <th> Type </th>
+
+                    <th> StoreID </th>
+
+                    <th style="text-align:right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+<div class="card" style="display:none !important;">
+    <div class="card-header header-elements-inline search-header" style="color:white">
+        <h5 class="card-title">
+            <a class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' href="#" style="text-decoration:none;background-color:white;">
+                <b><i class="icon-plus3"></i></b>
+                Add New
+            </a>
+            <span class="font-weight-semibold"> Items List</span>
+        </h5>
+
+
+
+    </div>
+
+
+    <div class="card-body">
+
+        <table class="table datatable-button-html5-columns   dataTable no-footer" id="dtPurchasedOrderList2">
+            <thead>
+                <tr>
+                    <th> Item No </th>
+                    <th> Store ID</th>
+                    <th> Qty Ordered </th>
+
+                    <th> Cases Ordered  </th>
+                    <th> No per Case </th>
+                    <th> Cost </th>
+                    <th> Ext Cost</th>
+                    <th> Qty Recived </th>
+
+                    <th> Reason</th>
+                    <th> Damaged</th>
+                    <th> Out Of Date</th>
+
+                    <th style="text-align:right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+<div id="ModalPOType" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="FormPOType">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeadingPOType" class="caption-subject font-green bold uppercase">Select PO Type</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">
+                            PO Type
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-6">
+                            <select class=" form-control" id="ddlType" name="TypeID" required>
+                                <option value="0" selected>Standard</option>
+                                <option value="1">Returned To Vendor</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Select</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+    <script>
+        function fnAddNewRecord() {
+            $('#ModalPOType').modal('show');
+            $('#ddlType').val('0').change();
+        }
+        $("#FormPOType").submit(function (event) {
+            event.preventDefault();
+            let _iD = 0;
+            let _typID = $('#ddlType').val();
+
+            EditPurchaseOrder(_iD, _typID);
+        });
+
+        function EditPurchaseOrder(id, typID) {
+            let _encryptdID = encrypt(id);
+            let _encryptdID1 = encrypt(typID);
+            setValues(_encryptdID, _encryptdID1);
+        }
+        function encrypt(id) {
+            let _encryptdVl = '';
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: '/Common/Encrypt/',
+                    data: JSON.stringify({ ID: id }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != "" && result != "Error") {
+                            //setValues(result, id);
+                            _encryptdVl = result;
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            //swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        //swal("", errorMessage, "error");
+                    }
+                });
+                return _encryptdVl;
+            }
+            catch (e) {
+                return _encryptdVl;
+
+            }
+        }
+        function setValues(ID, TypeID) {
+            $('#ModalPOType').modal('hide');
+            window.open("/PurchaseOrder/Index?ID=" + ID + "&TypeID=" + TypeID, '_self');// _blank
+        }
+
+        $(document).ready(function () {
+            SBPO();//sidebar
+            LoadTableData();
+
+        });
+
+        $("#FormPurchaseOrderListSearch").submit(function (event) {
+            event.preventDefault();
+            LoadTableData();
+        });
+        function LoadTableData() {
+            try {
+                $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+                $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+                var table = $("#dtPurchasedOrderList").DataTable();
+                table.clear().draw();
+                var count = 1;
+
+                let POStatus = $('input[name="POStatus"]:checked').val();
+                let POType = $('input[name="POType"]:checked').val();
+
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Common/GetPO_SummaryItems",
+                    data: JSON.stringify({ "PO_Number": "", "POStatus": POStatus, "POType": POType }),
+                    dataType: "json",
+                    success: function (result) {
+                        if (result != null && result != "Error") {
+                            table.clear();
+                            $.each($.parseJSON(result), function (i, Data) {
+                                var newRow = "<tr>" +
+                                    "<td>" + Data.PO_Number + "</td>" +
+                                    "<td>" + Data.PODate + "</td>" +
+                                    "<td>" + Data.Ref + "</td>" +
+                                    "<td>" + Data.Vendor_Number + "</td>" +
+                                    "<td>" + Data.PODueDate + "</td>" +
+                                    "<td>" + Data.TotalCost + "</td>" +
+                                    "<td>" + Data.POStatus + "</td>" +
+                                    "<td>" + Data.Type + "</td>" +
+                                    "<td>" + Data.StoreID + "</td>" +
+                                    "<td style='text-align:Right'>" +
+                                    "<div class='list-icons'><div class='dropdown hide'><a href='#' class='btn actionbtn btn-sm' data-toggle='dropdown' aria-expanded='true'>" +
+                                    "<i class='icon-menu9'></i></a>" +
+                                    "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                    "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='EditPurchaseOrder(" + Data.PO_Number + "," + Data.Type + ");'type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='icon-pencil'></i></b></button></span>" +
+                                    //"<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='DeleteRecord(" + Data.CustNum + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                    "</div></div></div></td>" +
+                                    "</tr>";
+                                table.row.add($(newRow));
+                            });
+
+                            table.draw();
+
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+                });
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+    </script>
+
+}
+
+
+
+

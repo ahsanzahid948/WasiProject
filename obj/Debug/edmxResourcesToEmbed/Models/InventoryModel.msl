@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InventoryManagementSystemModelStoreContainer" CdmEntityContainer="InventoryManagementSystemEntities">
+    <EntitySetMapping Name="RefUsers">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.RefUser">
+        <MappingFragment StoreEntitySet="RefUser">
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="IdentityNo" ColumnName="IdentityNo" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserProfileImage" ColumnName="UserProfileImage" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+          <ScalarProperty Name="IsSuperAdmin" ColumnName="IsSuperAdmin" />
+          <ScalarProperty Name="IsExternal" ColumnName="IsExternal" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="EntryUserID" ColumnName="EntryUserID" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GRNs">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.GRN">
+        <MappingFragment StoreEntitySet="GRN">
+          <ScalarProperty Name="SupplierAddress" ColumnName="SupplierAddress" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="GRNDate" ColumnName="GRNDate" />
+          <ScalarProperty Name="SuplyDate" ColumnName="SuplyDate" />
+          <ScalarProperty Name="SuplyOrderNo" ColumnName="SuplyOrderNo" />
+          <ScalarProperty Name="GRNNo" ColumnName="GRNNo" />
+          <ScalarProperty Name="Project" ColumnName="Project" />
+          <ScalarProperty Name="Lab" ColumnName="Lab" />
+          <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GRNDetails">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.GRNDetail">
+        <MappingFragment StoreEntitySet="GRNDetail">
+          <ScalarProperty Name="GRNID" ColumnName="GRNID" />
+          <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="QTYRecived" ColumnName="QTYRecived" />
+          <ScalarProperty Name="QTYCreated" ColumnName="QTYCreated" />
+          <ScalarProperty Name="AU" ColumnName="AU" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="LeadgerPage" ColumnName="LeadgerPage" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RefDesignations">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.RefDesignation">
+        <MappingFragment StoreEntitySet="RefDesignation">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="EntryUserID" ColumnName="EntryUserID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,295 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="dashboard.cshtml" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Credit Card Details Report</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+
+<div class="content">
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <h6 class="card-title"> Credit Card Details Report</h6>
+                <div class="card-body">
+
+                    <form id="CreditCardDetailsReportForm">
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" id="TxtReportType" name="ReportType" class="btn btn-light" value="CreditCardReport">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3" for="Description">From Date</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                    </span>
+                                    <input type="text" id="txtFromDate" name="FromDate" required class="form-control pickadate-accessibility" placeholder="Select Date">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+
+                            <label class="control-label col-md-3" for="Description">To Date</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                    </span>
+                                    <input type="text" id="txtToDate" name="ToDate" required class="form-control pickadate-accessibility" placeholder="Select Date">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Station</label>
+                            <div class="col-md-4">
+                                <select class="form-control" id="ddlStationID" name="StationID">
+                                    <option selected value="0">All Stations</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Card Type</label>
+                            <div class="col-md-4">
+                                <select class="form-control" id="ddlPaymentMethodID" name="PaymentMethodID">
+                                    <option selected value="0">All Card Types</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label"></label>
+                            <div class="col-md-4">
+
+                                <span class="red-tooltip" data-toggle="tooltip" title="Generate Credit Card Detail Report">
+                                    <input type="submit" class="btn btn-primary" value="Generate Report" id="Preview" />
+                                </span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+    &nbsp;&nbsp;&nbsp;
+
+</div>
+
+@section scripts{
+
+
+    @Scripts.Render("~/bundles/DateScripts")
+
+    <script>
+        $(document).ready(function () {
+            SBCCDetail();
+            $('#txtFromDate').attr('readonly', false);
+            $('#txtToDate').attr('readonly', false);
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = dd + '-' + mm + '-' + yyyy;
+            $('#txtToDate').val(today);
+            $('#txtToDate').attr('disabled', true);
+            $('#ddlStationID').select2();
+            $('#ddlPaymentMethodID').select2();
+            GetAllStations();
+            GetAllPaymentMethods();
+        });
+
+        $("#CreditCardDetailsReportForm").submit(function (event) {
+            event.preventDefault();
+            debugger;
+            var startDate = $('#txtFromDate').val();
+            var endDate = $('#txtToDate').val();
+            var sd = startDate.split('-');
+            var Fromdate = sd[2] + "-" + sd[1] + "-" + sd[0];
+            var ed = endDate.split('-');
+            var ToDate = ed[2] + "-" + ed[1] + "-" + ed[0];
+            if (Fromdate > ToDate) {
+
+                //$("#txtToDate").val("");
+                swal("", "From date should not be greater than  To date!", "info");
+
+                $("#txtFromDate").val("");
+            }
+            else {
+                ViewReport();
+            }
+        });
+
+
+        function ViewReport() {
+            try {
+                debugger;
+                var AjaxObj = AjaxObjCall();
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                var Url = "";
+
+                $.ajax({
+                    type: "POST",
+                    url: "/CreditCardDetailReport/ViewReport",
+                    data: JSON.stringify({ 'clsParametersList': AjaxObj }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: headers,
+                    async: false,
+                    success: function (result) {
+                        if (result != null && result != "" && result != "Error") {
+                            setValues(result, '0')
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                            return "";
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                        return "";
+                    }
+
+
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+        function AjaxObjCall() {
+            debugger;
+            var PmList = {
+                "ReportName": "", /*"TokenType": "", "TokenTypeID": ""*/
+                "StartDate": "", "EndDate": "", "StationID": "", "PaymentMethodID": ""
+            };
+
+            PmList.ReportName = "CreditCardReport";
+            PmList.StationID = $("#ddlStationID").val();
+            PmList.PaymentMethodID = $("#ddlPaymentMethodID").val();
+            PmList.StartDate = $("#txtFromDate").val();
+            PmList.EndDate = $("#txtToDate").val();
+            return PmList;
+        }
+        function setValues(type, id) {
+            var URI = "/Reports/POSReports.aspx";
+            window.open(URI, '_blank');
+        }
+
+        function GetAllStations() {
+            debugger;
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetStationsAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            debugger;
+                            $("#ddlStationID").html("");
+                            $("#ddlStationID").append
+                                ($('<option  selected value="0"></option>').val('0').html("All Stations"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlStationID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+        function GetAllPaymentMethods() {
+            debugger;
+            try {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    url: '/Common/GetPaymentMethodsAll',
+                    type: 'POST',
+                    headers: headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error") {
+                            debugger;
+                            $("#ddlPaymentMethodID").html("");
+                            $("#ddlPaymentMethodID").append
+                                ($('<option  selected value="0"></option>').val('0').html("All Card Types"));
+                            $.each($.parseJSON(result), function (i, Data) {
+                                $("#ddlPaymentMethodID").append
+                                    ($('<option></option>').val(Data.ID).html(Data.Description))
+
+                            });
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+
+                    }
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.toString(), "error");
+            }
+        }
+    </script>
+
+
+}
+
+
