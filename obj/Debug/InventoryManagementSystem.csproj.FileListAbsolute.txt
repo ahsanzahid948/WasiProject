@@ -240,4 +240,3 @@ E:\Inve\InventoryManagementSystem\obj\Debug\InventoryManagementSystem.csproj.Cor
 E:\Inve\InventoryManagementSystem\obj\Debug\InventoryManagementSystem.csproj.CopyComplete
 E:\Inve\InventoryManagementSystem\obj\Debug\InventoryManagementSystem.dll
 E:\Inve\InventoryManagementSystem\obj\Debug\InventoryManagementSystem.pdb
-E:\Inve\InventoryManagementSystem\obj\Debug\InventoryManagementSystem.csproj.AssemblyReference.cache
