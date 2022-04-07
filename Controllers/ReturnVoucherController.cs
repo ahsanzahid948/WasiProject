@@ -6,14 +6,10 @@ using System.Web.Mvc;
 
 namespace InventoryManagementSystem.Controllers
 {
-    public class GRNController : Controller
+    public class ReturnVoucherController : Controller
     {
-        // GET: GRN
+        
         public ActionResult Index()
-        {
-            return View();
-        }
-        public ActionResult New()
         {
             return View();
         }

@@ -1,0 +1,823 @@
+﻿@{
+    ViewBag.Title = "Index";
+    var UserPics = "";
+}
+
+
+@section styles
+    {
+
+    <style>
+    </style>
+
+}
+<head>
+
+    <link href="~/Content/CSS/color_file.css" rel="stylesheet" />
+
+</head>
+
+
+<div class="page-header page-header-light">
+
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline" style="margin-top:15px;">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="~/UserManagement/Dashboard/Index" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <span style="background-color:red !important;">Return Voucher</span>
+            </div>
+
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="card" style=" margin-top:15px">
+    <div class="card-header header-elements-inline bg-orange-800">
+
+        <h5 class="card-title">
+
+            <a href="/ReturnVoucher/New" type='button' class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' style="background-color: #f5e486; color: black;">
+                <b><i class="icon-plus3"></i></b>
+                NEW
+            </a>
+            <span class="font-weight-semibold  usercolor" style=""> Users</span>
+        </h5>
+
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+                <a class="list-icons-item" data-action="reload"></a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table datatable-button-html5-columns dataTable no-footer responsive" id="tblUser">
+            <thead>
+                <tr>
+                    <th>Sr.</th>
+
+                    <th>Voucher No</th>
+                    <th>Name</th>
+                    <th>Project</th>
+                    <th>Designation</th>
+                    <th>Lab</th>
+
+                    <th style="text-align:right">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<div id="SaveModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="UserForm" class="form-horizontal">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">User </span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                First Name
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtID" class="form-control" name="ID" style="display:none" />
+
+                                <input id="TxtFirstName" type="text" class="form-control" name="FirstName" maxlength="50" required />
+
+                            </div>
+                        </div>
+                        <div class="form-group  row">
+                            <label class="control-label col-md-3">
+                                Last Name
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+
+                                <input id="TxtLastName" type="text" class="form-control" name="LastName" maxlength="50" required />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group  row">
+                            <label class="control-label col-md-3">
+                                Email
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+
+                                <input type="text" id="TxtEmailAddress" class="form-control" name="EmailAddress" value="" maxlength="50" required />
+
+                            </div>
+                        </div>
+                        <div class="form-group  row">
+                            <label class="control-label col-md-3">
+                                Mobile Number
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-7">
+
+                                <input id="TxtMobileNumber" type="text" class="form-control" name="MobileNumber" maxlength="50" required />
+
+                            </div>
+                        </div>
+
+                        <div>
+
+                        </div>
+                        <div class="form-group  row">
+                            <label class="control-label col-md-3">
+                                Password
+                                <span class="text-danger"> * </span>
+                            </label>
+                            <div class="col-md-6">
+
+
+                                <input type="password" id="TxtPassword" name="Password" maxlength="20" class="form-control" onkeyup="CheckPasswordStrength(this.value)" required />
+                            </div>
+                            <div class="col-md-1">
+
+                                <span><strong id="password_strength"></strong></span>
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">
+                                Profile Photo
+                            </label>
+                            <div class="col-md-7">
+
+                                <input type="file" id="fileUserProfileImage" name="fileUserProfileImage" accept='image/*' onchange="fnChangeUserPic(this);" />
+                                <input type="hidden" id="UserProfileImage" name="UserProfileImage" value="~/Content/DumyProfile.png" maxlength="100" />
+
+                            </div>
+
+                            <input type="hidden" id="UserProfileImage" name="UserProfileImage" value="~/Content/DumyProfile.png" maxlength="100" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" data-dismiss="modal" style="color:white"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnsave" class="btn btn-primary btn-sm">Save changes<b><i class="icon-paperplane ml-2"></i></b></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/Validation")
+    @Scripts.Render("~/bundles/ERPScripts")
+    <script src="~/Content/assets/assets/js/sweetalert.min.js"></script>
+
+    @*<script>
+
+            $(document).ready(function () {
+
+                LoadTableData();
+
+
+
+            });
+
+            $('#tblUser').on('draw.dt', function () {
+
+
+            });
+            function LoadTableData() {
+
+                $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+                $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+                var table = $("#tblUser").DataTable();
+                var count = 1;
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+
+                $.ajax(
+                    {
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/UserList/GetTableSummary",
+                    data: JSON.stringify({ ID: 0 }),
+                    dataType: "json",
+                    success: function (result)
+                    {
+                       if (result != null && result != "Error")
+                        {
+
+                        table.clear();
+                           $.each(result, function (i, Data)
+                           {
+                               var Active = Data.IsActive == "true" || Data.IsActive == "True" || Data.IsActive == "1"   ?"Yes":"No";
+                            var newRow = "<tr><td hidden>" + Data.ID + "</td>" +
+                                   "<td  style='text-align:left'>" + count++ + "</td>" +
+                                   "<td>" + Data.FirstName  +" "+ Data.LastName+"  </td>" +
+                                "<td>" + Data.MobileNumber + "</td>" +
+                                "<td>" + Data.EmailAddress + "</td>" +
+                                "<td>" + Active + "</td>" +
+
+                                "<td style='text-align:Right'>" +
+                                " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
+                                "<i class='icon-menu9'></i></a>" +
+                                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='ModifyRecord(" + Data.ID + ");'type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='icon-pencil'></i></b></button></span>" +
+                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='DeleteRecord(" + Data.ID + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                "</div ></div ></div></td></tr>";
+
+                            table.row.add($(newRow));
+                        });
+                             table.draw();
+                         }
+                        else
+                        {
+                          var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                          swal("", errorMessage, "error");
+                        }
+
+                    },
+                    error: function (xhr, status, error)
+                    {
+                          var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                          swal("", errorMessage, "error");
+
+                    }
+
+                });
+            }
+            function ModifyRecord(ID) {
+
+                NewRecord();
+                //note if user edit users in sequence then needed to be refresh
+                $('#modalHeading').text(" Modify Record");
+
+                var abc = ID;
+
+                $('#txtID').val(ID);
+
+
+                LoadModifyData(ID);
+                GetRoleForEdit(ID);
+
+                $('#SaveModal').modal('show');
+                $('#btnsave').show();
+                $('#btnsave').text('Update');
+
+
+            }
+            function LoadModifyData(ID) {
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/UserManagement/User/GetTableSummary",
+                    data: JSON.stringify({ ID: ID }),
+                    dataType: "json",
+                    success: function (result) {
+                      if (result != null && result != "Error")
+                        {
+                            $.each(result, function (i, Data) {
+
+
+                                $("#txtID").val(Data.ID);
+                                $("#TxtUserFName").val(Data.FirstName);
+                                $("#TxtUserLName").val(Data.LastName);
+                                $("#TxtUserCNIC").val(Data.CNIC);
+                                $("#TxtUserEmail").val(Data.EmailAddress);
+                                $("#TxtUserPhone").val(Data.MobileNumber);
+                                $("#TxtUserPassword").val(Data.Password);
+                                if (Data.PicPath != null && Data.PicPath != undefined && Data.PicPath != '') {
+                                    $("#imgUserPicID").attr("src", Data.PicPath);
+                                    $("#UserProfileImage").val(Data.PicPath);
+                                    //$('#fileUserPicID').val(Data.PicPath).change();
+
+                                }
+                                //if (Data.PicPath != null && Data.PicPath != undefined && Data.PicPath != "" && Data.PicPath != "/UserPics/DumyProfile.png") {
+                                else {
+                                    $("#imgUserPicID").attr("src", "/UserPics/DumyProfile.png");
+                                    $("#UserProfileImage").val("/UserPics/DumyProfile.png");
+                                    //$('#fileUserPicID').val("/UserPics/DumyProfile.png").change();
+                                }
+
+
+                            });
+                        }
+                     else
+                        {
+                          var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                          swal("", errorMessage, "error");
+                        }
+                    },
+                    error: function (xhr, status, error)
+                    {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+
+                    }
+
+                });
+            }
+            function NewRecord() {
+                $('#modalHeading').text(" New Record");
+
+                $('#SaveModal').modal('show');
+                $('#txtDescription').val('');
+                $('#txtID').val(0);
+                $("#TxtFirstName").val("");
+                $("#TxtLastName").val("");
+
+                $("#TxtEmailAddress").val("");
+                $("#TxtMobileNumber").val("");
+                $("#TxtrPassword").val("");
+
+
+                $('#fileUserProfileImage').val(null);
+                $('#btnsave').show();
+                $('#btnsave').text('Save');
+
+            }
+            $("#UserForm").submit(function (event) {
+                event.preventDefault();
+                SaveRecord();
+            });
+            function SaveRecord() {
+
+                try {
+
+                    var Title = "";
+                    var Text = "";
+                    var ConfirmButtonText = "";
+                    var CancelButtonText = "";
+
+                    if ($('#btnsave').text() == 'Save') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Save this record ?";
+                        var ConfirmButtonText = "Confirm Save";
+                        var CancelButtonText = "Cancel";
+                    }
+                    if ($('#btnsave').text() == 'Update') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Update this record ?";
+                        var ConfirmButtonText = "Confirm Update";
+                        var CancelButtonText = "Cancel";
+                    }
+
+                    swal({ title: Title, text: Text, type: "warning", showCancelButton: true, confirmButtonText: ConfirmButtonText, cancelButtonText: CancelButtonText, closeOnConfirm: false, closeOnCancel: true },
+                        function (isConfirm) {
+
+                            if (isConfirm) {
+
+                                var AjaxObj = AjaxObjCall();
+
+                                var headers = {};
+                                var token = $('input[name="__RequestVerificationToken"]').val();
+                                headers['__RequestVerificationToken'] = token;
+                                var Url = "";
+                                if ($('#btnsave').text() == 'Save') {
+                                    Url = "/UserList/Create";
+                                }
+                                else {
+                                    Url = "/UserList/Update";
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    headers: headers,
+                                    contentType: "application/json; charset=utf-8",
+                                    url: Url,
+                                    data: JSON.stringify({ 'refUser': AjaxObj }),
+                                    dataType: "json",
+                                    success: function (result) {
+                                        if (result == 1) {
+
+                                            swal( "User Added Successfully",);
+                                            $('#SaveModal').modal('hide');
+                                            LoadTableData();
+                                        }
+                                        else {
+                                            swal("", result.Message, result.Type);
+
+                                        }
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                        swal("", errorMessage, "error");
+                                    }
+
+                                });
+                            }
+                            else {
+
+                                swal("Cancelled", "Your operation Canceled :)", "error");
+                            }
+                        });
+
+                }
+                catch (err) {
+                    swal("Cancelled", err.ToString(), "error");
+                }
+            }
+            function AjaxObjCall()
+            {
+                debugger
+
+                var user = {
+                    "ID": "", "FirstName": "", "LastName": "", "EmailAddress": "MobileNumber", "password": "", "UserProfileImage": "", "CompanyID": "", "ProjectID": "", "EntryUserID": ""
+                };
+
+
+                user.ID = $("#txtID").val();
+                user.FirstName = $("#TxtFirstName").val();
+                user.LastName = $("#TxtLastName").val();
+
+                user.EmailAddress = $("#TxtEmailAddress").val();
+                user.MobileNumber = $("#TxtMobileNumber").val();
+                user.password = $("#TxtPassword").val();
+                user.UserProfileImage = $("#fileUserProfileImage").val();
+                @{
+                    var EUI = Session["ID"] != null ? Session["ID"].ToString() : " ";
+                    var CI= Session["CompanyID"] != null ? Session["CompanyID"].ToString() : " ";
+                    var PI= Session["ProjectID"] != null ? Session["ProjectID"].ToString() : " ";
+                }
+
+                user.EntryUserID ='@EUI';
+                user.CompanyID ='@CI';
+                user.ProjectID ='@PI';
+
+
+
+
+                    return user;
+            }
+            function DeleteRecord(ID)
+            {
+                swal({
+                    title: "Are you sure To Delete ?",
+                    text: "The record will be delete!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Delete it!",
+                    cancelButtonText: "No, Cancel plz!",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                url: "/UserManagement/User/Delete",
+                                data: JSON.stringify({ ID: ID }),
+                                dataType: "json",
+                                success: function (result) {
+
+                                    if (result.Code == 200) {
+                                        swal(result.Title, result.Message, result.Type);
+                                        LoadTableData();
+                                    }
+                                    else {
+                                        swal(result.Title, result.Message, result.Type);
+
+                                    }
+
+                                },
+                                error: function (result) {
+                                    console.log("error");
+                                    console.log(result);
+                                }
+
+                            });
+
+
+                        }
+                        else
+                        {
+
+                            swal("Cancelled", "Your operation Canceled :)", "error");
+                        }
+                    });
+
+            }
+            function CheckPasswordStrength(password) {
+                try
+                {
+                var password_strength = $('#password_strength')[0];
+
+                if (password.length == 0) {
+                    password_strength.innerHTML = "";
+                    return;
+                }
+
+                //Regular Expressions.
+                var regex = new Array();
+                regex.push("[A-Z]"); //Uppercase Alphabet.
+                regex.push("[a-z]"); //Lowercase Alphabet.
+                regex.push("[0-9]"); //Digit.
+                regex.push("[$@@$!%*#?&]"); //Special Character.
+
+                var passed = 0;
+
+                //Validate for each Regular Expression.
+                for (var i = 0; i < regex.length; i++) {
+                    if (new RegExp(regex[i]).test(password)) {
+                        passed++;
+                    }
+                }
+
+                //Display status.
+                var color = "";
+                var strength = "";
+                switch (passed) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        strength = "Weak";
+                        color = "red";
+                        break;
+                    case 3:
+                        strength = "Medium";
+                        color = "orange";
+                        break;
+                    case 4:
+                        strength = "Strong";
+                        color = "green";
+                        break;
+
+                }
+
+
+                password_strength.innerHTML = strength;
+                password_strength.style.color = color;
+               }
+                catch (err)
+                {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+
+
+            function GetAllRole() {
+                try
+                {
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                    url: '/CoreSuite/GetRoleAll',
+                    type: 'POST',
+                    headers:headers,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+
+                        if (result != null && result != "" && result != "Error")
+                        {
+                            $("#RoleID").html("");
+                            $("#RoleID").append
+                                //($('<option  selected value="0"></option>').val('0').html("Select Role"));
+                            $.each($.parseJSON(result), function (i, Role) {
+                                $("#RoleID").append
+                                    ($('<option></option>').val(Role.ID).html(Role.Description))
+
+                            });
+                        }
+                        else
+                            {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+
+                    },
+                   error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                });
+
+
+                }
+                catch (err)
+                {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function UploadImage(UserID) {
+                try {
+                    if (window.FormData !== undefined) {
+
+                        var fileUpload = $("#fileUserPicID").get(0);
+                        var files = fileUpload.files;
+                        // Create FormData object
+                        var fileData = new FormData();
+                        // Looping over all files and add it to FormData object
+                        for (var i = 0; i < files.length; i++)
+                        {
+                            fileData.append(files[i].name, files[i]);
+                        }
+                        // Adding one more key to FormData object
+                        fileData.append('UserID', UserID);
+                        var headers = {};
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+
+                        $.ajax(
+                            {
+                                url: '/UserManagement/User/UploadFiles/',
+                                type: "POST",
+                                headers: headers,
+                                contentType: false, // Not to set any content header
+                                processData: false, // Not to process data
+                                data: fileData,
+                                success: function (result) {
+
+                                    console.log(result);
+
+                                },
+                                error: function (xhr, status, error) {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                    swal("", errorMessage, "error");
+
+                                }
+                            });
+                    }
+                    else {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                        swal("", errorMessage, "error");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function GetRoleForEdit(UserID)
+            {
+                try
+                {
+
+                    $.ajax(
+                        {
+
+                        url:'/UserManagement/User/GetRoleByID',
+                        type: "GET",
+                        data: { UserID: UserID },
+                        datatype: "json",
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (result) {
+
+                           if (result != null && result != "Error")
+                           {
+
+                                if (result.length != 0)
+                                {
+                                    var roleIDs = [];
+                                    $(result).each(function (i, v)
+                                    {
+                                        roleIDs.push(v.ID);
+                                    });
+
+                                    $('#RoleID').val(roleIDs).change();
+                                }
+
+                            }
+                            else
+                            {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+                        },
+                            error: function (xhr, status, error) {
+
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+                }
+
+                catch (err)
+                {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function fnChangeUserPic(ths) {
+                //de bugger;
+                let file = $(ths).val();
+                $("#imgUserPicID").attr("src", "/UserPics/DumyProfile.png");
+                $("#UserProfileImage").val("/UserPics/DumyProfile.png");
+                SaveRecordUserProfilePic();
+                //readURL(ths);
+            }
+            function readURL(input) {
+                //de bugger;
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imgUserPicID').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            function SaveRecordUserProfilePic() {
+                try {
+                    var data = new FormData();
+                    var files = $("#fileUserPicID").get(0).files;
+                    if (files.length > 0) {
+                        var Title = "";
+                        var Text = "";
+                        var ConfirmButtonText = "";
+                        var CancelButtonText = "";
+                        var UserID = $('#txtID').val();
+                        UserID = UserID > 0 ? UserID : 0;
+                        var headers = {};
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+                        var Url = "";
+
+                        Url = "/UserManagement/User/SaveProfilePicture?UserID=" + UserID;
+
+                        data.append("UserProfilePicture", files[0]);
+
+                        $.ajax({
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: Url,
+                            contentType: false, // Not to set any content header
+                            processData: false, // Not to process data
+                            data: data,
+                            dataType: "json",
+                            async: false,
+                            success: function (result) {
+                                if (result.Code == 200) {
+                                    var DataProfilePicPath = result.ProfilePicPath;
+                                    $("#imgUserPicID").attr("src", DataProfilePicPath);
+                                    $("#UserProfileImage").val(DataProfilePicPath);
+                                    readURL('#fileUserPicID');
+                                }
+                                else {
+                                    swal("", result.Message, result.Type);
+                                    $('#fileUserPicID').val(null);
+                                    readURL('#fileUserPicID');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                swal("", errorMessage, "error");
+                                $('#fileUserPicID').val(null);
+                            }
+
+                        });
+
+                    } else {
+                        swal("", "Please select Employee Photo".toString(), "error");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+        </script>*@
+}
+
+
+
+
+

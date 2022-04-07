@@ -1,0 +1,2622 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section styles{
+    <style>
+
+        .jvmodalbodyscroll {
+            /*height: 510px !important;
+            overflow-y: scroll !important;*/
+        }
+
+        .buttondisplay {
+            display: none;
+        }
+    </style>
+}
+<!---->
+
+<head>
+    <title>Purchase Orders</title>
+</head>
+@{
+    string DestinationStoreID = "0";
+    DestinationStoreID = "avc";
+}
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Purchase Orders</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card" style="font-size: 14px !important;">
+    <div class="card-header header-elements-inline search-header content-header">
+        <h5 class="card-title">
+            <i class=""></i>Goods Receipt Note
+        </h5>
+    </div>
+    <form id="GoodsReceiptForm">
+        @Html.AntiForgeryToken()
+
+        <div class="card-body">
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active show" id="generalinformation">
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label "> GRN No </label>
+                                <div class="col-md-10">
+                                    <input type="text" id="txtGRNNo" name="txtGRNNo" maxlength="15" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label "> Date </label>
+                                <div class="col-md-10">
+                                    <input type="date" value="" id="txtGRNDate" name=" txtGRNDate" maxlength="15" autocomplete="off" placeholder="" class="form-control pickadate-accessibility" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label "> Project </label>
+                                <div class="col-md-10">
+                                    <input type="text" value="" id="txtGRNProject" name=" txtGRNProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">
+                                    Name
+                                </label>
+                                <div class="col-md-10">
+                                    <input type="text" id="txtGRNName" name="txtGRNName" maxlength="10" class="form-control " placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label "> Designation </label>
+                                <div class="col-md-10">
+                                    <input type="text" value="" id="txtDesignation" name="txtDesignation" maxlength="95" class="form-control" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label "> LAB </label>
+                                <div class="col-md-10">
+                                    <input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card">
+                    <div class="card-header header-elements-inline" style="color:white">
+                        <h5 class="card-title" style="width:50% !important;">
+
+                            <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert clsPOStatusClosed' onclick="fnNewRecordItem();" style="text-decoration:none;background-color:white;">
+                                <b><i class="icon-plus3"></i></b>
+                                Add New
+                            </button>
+                            <span class="font-weight-semibold">Items List</span>
+
+                        </h5>
+
+
+                    </div>
+                    <div class="card-body">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th> Sr. #</th>
+                                    <th> Item #</th>
+                                    <!--<th> Store ID </th>-->
+
+                                    <th> Item Name </th>
+                                    <th> Qty Ordered </th>
+                                    <th> Cases Ordered</th>
+                                    <th> # / Case</th>
+                                    <th> Cost </th>
+
+                                    <th> Est Cost </th>
+                                    <th> Qty Received </th>
+                                    <th> # Damaged </th>
+                                    <th hidden> Cost Per </th>
+                                    <th hidden> Vendor_Part_Number </th>
+                                    <th hidden> OverrideCommission </th>
+                                    <th hidden> Reason </th>
+
+                                    <th style="text-align:right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                            <!--<tfoot class="text-center">
+                                <tr>
+                                    <th colspan="4" id="">Total Cost Received 0</th>
+                                    <th colspan="4" id="">Amount Remaining 0</th>
+                                    <th colspan="4" id="">Total Cost Ordered 0</th>
+                                </tr>
+                            </tfoot>-->
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 text-right" id="">Total Cost Received</div><div class="col-md-2 text-left" id="idDivTotalReceivedQtyPrice">0</div>
+                    <div class="col-md-2 text-right" id="">Amount Remaining</div><div class="col-md-2 text-left" id="idDivRemainingReceiveQty">0</div>
+                    <div class="col-md-2 text-right" id="">Total Cost Ordered</div><div class="col-md-2 text-left" id="idDivTotalCostOrdered">0</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="fnGoBackToList()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
+                    @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
+                    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsave" onclick="SetRedirection(1);">Save</button>
+                    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
+
+                    <button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsaveReOrderLowItems" disabled type="button" onclick="fnReorderLowItems();"><b><i class="icon-plus3"></i></b> Re order low stock items</button>
+                    <button class="btn btn-primary btn-sm clsPOStatusClosed buttondisplay" id="btnClosePO" disabled onclick="fnClosePO()" type="button">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!-- Add ItemModal-->
+<div id="AddItemModal" class="modal  fade" style="font-size: 12px !important;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Search Items</span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+
+            <div class="card-body">
+                <form id="AddNewItemForm">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-md-12 control-label">Category</label>
+                            <div class="col-md-12">
+                                <select class=" form-control" id="ddlCategorySearch" name="SearchCategoryID">
+                                    <option selected value="">All Categories</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12 control-label">Department</label>
+                            <div class="col-md-12">
+                                <select class=" form-control" id="ddlDepartmentSearch" name="SearchDepartmentID">
+                                    <option selected value="">All Departments</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12 control-label">Vendor</label>
+                            <div class="col-md-12">
+                                <select class=" form-control" id="ddlVendorSearch" name="SearchVendorID">
+                                    <option selected value="">All Vendors</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-md-4">
+                            <label class="col-md-12 control-label ">At Reorder Point</label>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="checkbox" id="chkAtReorderPoint" name="chkAtReorderPoint" />
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12 control-label">With Open PO's</label>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="checkbox" id="chkWithOpenPO" name="chkWithOpenPO" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="submit" class="btn  btn-primary btn-sm mt-1" style="float:right; margin-right:7px;"><b>Search<i class="icon-search4 ml-2"></i></b></button>
+                        </div>
+                    </div>
+                </form>
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">
+                        <span class="font-weight-semibold">Items Info</span>
+                    </h5>
+                </div><!-- style="font-size:10px !important;"-->
+                <div class="box-body col-md-12 jvmodalbodyscroll">
+                    <table class="table  no-footer" id="dtGRNDetail">
+                        <thead>
+                            <tr>
+                                <th> Item #</th>
+                                <th> Ledger Page</th>
+                                <th> Description # </th>
+                                <th> A/U </th>
+                                <th> QTY Created </th>
+                                <th> QTY Recived </th>
+                                <th> Rate</th>
+                                <th> Total Values</th>
+                                <th> No / Case</th>
+
+                                <th> <button type="button" class="btn btn-xs border btn-primary" onclick="fnAddBulkPoItems();">Add Selected</button></th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="ModalReceiveItem" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="FormReceiveItem">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Receive Item</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Item Line No <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtItemLineNo" min="1" max="1" value="1" placeholder="Item Line No" onkeyup="fnChangeLineNo();" onchange="fnChangeLineNo();" required />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Eaches / Cases <span class="text-danger"> * </span> </label>
+                        <div class="col-md-3 align-self-center">
+                            <input type="radio" id="rdoIDEaches" name="rdoEachesCases" checked value="Eaches" onclick="fnSetEachesCases(this)" required /> Eaches
+                        </div>
+                        <div class="col-md-3 align-self-center">
+                            <input type="radio" id="rdoIDCases" name="rdoEachesCases" value="Cases" onclick="fnSetEachesCases(this)" readonly /> Cases
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Qty Ordered <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtItemMaxQty" min="1" max="1" value="0" placeholder="Qty Ordered" readonly required />
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Qty Received <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtQtyReceived" name="QtyReceived" min="0" value="1" step="0.0001" placeholder="Qty Received" required />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDetailsave" class="btn btn-primary btn-sm">Receive</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<div id="ModalQtyCssOrdrd" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="FormQtyCssOrdrd">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeadingQtyCssOrdrd" class="caption-subject font-green bold uppercase">Item Qty Ordered</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <input type="hidden" id="txtChangeTypeID" name="ChangeTypeID" value="-1" />
+                        <label class="control-label col-md-4"> Item Line No <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtItemLineNo1" min="1" max="1" value="-1" placeholder="Item Line No" onkeyup="fnChangeLineNo1();" onchange="fnChangeLineNo1();" required />
+                        </div>
+                    </div>
+                    <div class="form-group row" id="idDivQtyOrdrd">
+                        <label class="control-label col-md-4"> Qty Ordered <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtQtyOrdrd" min="1" value="0" placeholder="Qty Ordered" required />
+                        </div>
+
+                    </div>
+                    <div class="form-group row" id="idDivCssOrdrd" style="display:none;">
+                        <label class="control-label col-md-4"> Cases Ordered <span class="text-danger" id="idSpnCssOrdrdReq"> * </span> </label>
+                        <div class="col-md-6">
+                            <!--  step="0.0001"-->
+                            <input type="number" class="form-control" id="txtCasesOrdrd" min="0" value="0" placeholder="Cases Ordered" />
+                        </div>
+
+                    </div>
+                    <div class="form-group row" id="idDivPrice" style="display:none;">
+                        <label class="control-label col-md-4"> Price <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtPrice" min="0" value="0" step="0.0001" placeholder="Price" />
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnSaveQtyCssOrdrd" class="btn btn-primary btn-sm">Update</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<div id="ModalDamageItem" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="FormDamageItem">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeadingDamage" class="caption-subject font-green bold uppercase">Damage Item</span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Item Line No <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtItemLineNo2" min="1" max="1" value="1" placeholder="Item Line No" onkeyup="fnChangeLineNo2();" onchange="fnChangeLineNo2();" required />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Eaches / Cases <span class="text-danger"> * </span> </label>
+                        <div class="col-md-3 align-self-center">
+                            <input type="radio" id="rdoIDEaches2" name="rdoEachesCases2" checked value="Eaches" onclick="fnSetEachesCases2(this)" required /> Eaches
+                        </div>
+                        <div class="col-md-3 align-self-center">
+                            <input type="radio" id="rdoIDCases2" name="rdoEachesCases2" value="Cases" onclick="fnSetEachesCases2(this)" readonly /> Cases
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Qty Ordered <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtItemMaxQty2" min="1" max="1" value="0" placeholder="Qty Ordered" readonly required />
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Qty Received <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtQtyReceived2" name="QtyDamage" min="0" value="1" placeholder="Qty Received" readonly required />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-4"> Qty Damage <span class="text-danger"> * </span> </label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="txtQtyDamage" name="QtyDamage" min="0" value="1" step="0.0001" placeholder="Qty Damage" required />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+                    <button type="submit" id="btnDamagesave" class="btn btn-primary btn-sm">Add</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+    @*<script>
+
+            $(document).ready(function () {
+                SBPO();
+                $('#ddlPODeliveryMethodID,#ddlVendor,#ddlVendorSearch,#ddlVendorSearch2').select2();
+                $('#ddlDepartmentSearch,#ddlCategorySearch,#ddlStore').select2();
+
+                GetAllStores();
+                GetAllCategories();
+                GetAllDepartment();
+                GetAllVendor();
+
+                var EncryptedID = fnCheckIDFromQueryStringOnLoad('ID');
+                var EncryptedTypeID = fnCheckIDFromQueryStringOnLoad('TypeID');
+                if (EncryptedID != null && EncryptedID != undefined & EncryptedID != "") {
+                    var ID = fnDecryptID(EncryptedID);
+                    if (ID != null && ID != undefined && ID != "" && ID != "0") {
+                        // po num is here po_number
+                        $('#txtPO_Number').val(ID);
+                        fnGetPO_SummaryDetailItems(ID);
+                        //ddlVendor
+
+                        $('#ddlVendor').prop('disabled', true);
+                        $('#btnsave').html('Update');
+                        $('#btnsaveandList').text('Update and Go to List');
+                        $('#btnClosePO').show();
+                    }
+                }
+                if (EncryptedTypeID != null && EncryptedTypeID != undefined & EncryptedTypeID != "") {
+                    let _typID = fnDecryptID(EncryptedTypeID);
+                    if (_typID != null && _typID != undefined && _typID != "" && _typID != "null") {
+                        $('#txtPO_Type').val(_typID);
+                        $('#idLiPoType').html(_typID == '0' ? 'Standard PO' : (_typID == '1' ? 'Item Return To Vendor' : ''));
+                    }
+                }
+                let _typID = $('#txtPO_Type').val();
+                if (_typID == '0') {
+                    GetCompanyInfo();
+                }
+                else {
+                    GetAllReturnReason();
+                    fnShowHideReasonColumn();
+                }
+                $('#btnsaveReOrderLowItems').prop('disabled', _typID == '1');
+
+                $('#txtDueDate').prop('readonly', false);
+                var picker = $('#txtDueDate').pickadate('picker');
+                picker.set('select', new Date());
+            });
+
+            function fnShowHideReasonColumn() {
+                try {
+                    let _typID = $('#txtPO_Type').val();
+                    if (_typID == '0') {
+
+                    }
+                    else if (_typID == '1') {
+                        $("#dtAddItemsList thead th:eq(13)").removeAttr('hidden');
+                        let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                        let dtrows = dtAddItemsList.rows().data()
+                        $(dtrows).each(function (i, data) {
+                            $("#dtAddItemsList tbody tr:eq(" + i + ") td:eq(13)").removeAttr('hidden')
+                        });
+
+                    }
+                } catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function fnCheckIDFromQueryStringOnLoad(ID) {
+                try {
+
+                    var EncryptedID = ""; var IsMtched = false;
+                    var wlss = window.location.search.substring(1);
+                    if (wlss != null && wlss != undefined & wlss != "") {
+                        if (wlss.indexOf('&') != -1) {
+                            var wlsssplitam = wlss.split('&');
+                            if (wlsssplitam.length > 0) {
+                                $(wlsssplitam).each(function () {
+                                    var KeyValue = this;
+                                    if (KeyValue.indexOf('=') != -1) {
+                                        var ObjKeyValue = KeyValue.split(/=(.+)/);
+                                        if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == ID && EncryptedID == '' && !IsMtched) {
+                                            EncryptedID = ObjKeyValue[1] != null && ObjKeyValue[1] != undefined ? ObjKeyValue[1] : '';
+                                            IsMtched = true;
+                                            return EncryptedID;///break;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            if (wlss.indexOf('=') != -1) {
+                                var ObjKeyValue = wlss.split(/=(.+)/);
+                                if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == ID) {
+                                    EncryptedID = ObjKeyValue[1];
+                                }
+                            }
+                        }
+                    }
+                    return EncryptedID;
+                } catch (e) {
+                    return "";
+                }
+            }
+            function fnCheckIDForEditOnLoad() {
+                try {
+                    var EncryptedID = "";
+                    var wlss = window.location.search.substring(1);
+                    if (wlss != null && wlss != undefined & wlss != "") {
+                        if (wlss.indexOf('&') != -1) {
+                            var wlsssplitam = wlss.split('&');
+                            if (wlsssplitam.length > 0) {
+                                $(wlsssplitam).each(function () {
+                                    var KeyValue = this;
+                                    if (KeyValue.indexOf('=') != -1) {
+                                        var ObjKeyValue = KeyValue.split(/=(.+)/);
+                                        if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                            EncryptedID = ObjKeyValue[1] != null && ObjKeyValue[1] != undefined ? ObjKeyValue[1] : '';
+                                            return EncryptedID;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            if (wlss.indexOf('=') != -1) {
+                                var ObjKeyValue = wlss.split(/=(.+)/);
+                                if (ObjKeyValue[0] != null && ObjKeyValue[0] != undefined && ObjKeyValue[0] == 'ID') {
+                                    EncryptedID = ObjKeyValue[1];
+                                }
+                            }
+                        }
+                    }
+                    return EncryptedID;
+                } catch (e) {
+                    return "";
+                }
+            }
+            function fnDecryptID(id) {
+                try {
+                    var decryptedID = '0';
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        type: "POST",
+                        headers: headers,
+                        contentType: "application/json; charset=utf-8",
+                        url: '/Common/Decrypt/',
+                        data: JSON.stringify({ ID: id }),
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+                            if (result != null && result != undefined && result != "" && result != "Error") {
+                                if (result != "") {
+                                    decryptedID = result;
+                                }
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+                        }
+
+                    });
+                    return decryptedID;
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+                return '0';
+            }
+            function fnEncryptID(id) {
+                try {
+                    var EncryptedID = '';
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        type: "POST",
+                        headers: headers,
+                        contentType: "application/json; charset=utf-8",
+                        url: '/Common/Encrypt/',
+                        data: JSON.stringify({ ID: id }),
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+                            if (result != null && result != undefined && result != "" && result != "Error") {
+                                EncryptedID = result;
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+                        }
+
+                    });
+                    return EncryptedID;
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+                return '';
+            }
+            function fnGetPO_SummaryDetailItems(_pO_Number) {
+                try {
+                    $('.clsSpnPO_Number').show();
+                    $('#idSpnPO_Number').html(_pO_Number);
+
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    dtAddItemsList.clear().draw();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+                    if (_pO_Number != null && _pO_Number != undefined && _pO_Number != '') {
+                        var headers = {};
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+                        $.ajax({
+                            url: '/Common/GetPO_SummaryDetailItems',
+                            type: 'POST',
+                            data: JSON.stringify({ 'PO_Number': _pO_Number }),
+                            headers: headers,
+                            async:false,
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (result) {
+
+                                if (result != null && result != undefined && result != "Error" && result != "null") {
+                                    //$.each(result, function (i, Data) { });
+                                    // po summary item list here
+                                    let _objPOResult = $.parseJSON(result);
+
+                                    let _poSummaryList = _objPOResult.PODetailList;
+                                    let _poStatus = _objPOResult.POStatus;
+                                    let _estCost = 0, _reorderQty = 0, _receiveQty = 0;
+                                    debugger;
+                                    let _vendor_Number = '';
+                                    _vendor_Number = _objPOResult.Vendor_Number != null && _objPOResult.Vendor_Number != undefined ? _objPOResult.Vendor_Number : '';
+
+                                    $('#txtPO_Status').val(_poStatus);
+
+                                    let _typID = $('#txtPO_Type').val();
+
+                                    $.each(_poSummaryList, function (i, Data) {
+                                        dtAddItemsListCount++;
+                                        debugger;
+                                       let _dataEstCost = Data.ExtCost != null && Data.ExtCost != undefined && $.isNumeric(Data.ExtCost) ? Number(Data.ExtCost).toFixed(2) : '0';
+                                        _dataEstCost = _dataEstCost < 0 ? -1 * _dataEstCost : _dataEstCost;
+                                        _estCost = Number(_estCost) + ($.isNumeric(_dataEstCost) ? Number(_dataEstCost) : 0);
+                                        _reorderQty = Number(_reorderQty) + ($.isNumeric(Data.Quan_Ordered) ? Number(Data.Quan_Ordered) : 0);
+                                        _receiveQty = Number(($.isNumeric(Data.Quan_Received) ? Number(Data.Quan_Received) : 0));
+                                        let _damageQty = Number(($.isNumeric(Data.Quan_Damaged) ? Number(Data.Quan_Damaged) : 0));
+
+                                        let _selectHtml = "<select id='ddlReason_" + dtAddItemsListCount + "' disabled onchange='fnChangeReason(this)'>";
+                                        let _selectOption = $('#ddlReturnReason option');
+                                        $(_selectOption).each(function (irsn, datarsn) {
+                                            _selectHtml += "<option value='" + $(this).val() + "' " + (Data.Reason != null && Data.Reason != undefined && Data.Reason == $(this).val() ? $(this).val() : (irsn == 0 ? 'selected' : '')) + ">" + $(this).html() + "</option>";
+                                        });
+                                        _selectHtml += "</select>";//$('#id DivDdlReason').html()
+                                        var newRow = "<tr><td>" + dtAddItemsListCount + "</td><td>" + Data.ItemNum + "</td>" +
+                                            //"<td>" + Data.Store_ID + "</td>" +
+                                            "<td>" + Data.ItemName + "</td>" +
+                                            "<td " + (_poStatus == 'O' ? 'onclick="fnChangeQty(this, 0);"' : '') + ">" + Data.Quan_Ordered + "</td>" +
+                                            "<td " + (_poStatus == 'O' && _typID == '0' ? 'onclick="fnChangeQty(this, 1);"' : '') + ">" + (Data.NumberPerCase > 0 && _typID == '0' ? Data.CasePack : 0) + "</td>" +
+                                            "<td>" + (Data.NumberPerCase > 0 && _typID == '0' ? Data.NumberPerCase : 0) + "</td>" +
+                                            "<td " + (_poStatus == 'O' ? 'onclick="fnChangeQty(this, 2);"' : '') + ">" + Data.CostPer + "</td>" +
+                                            "<td>" + _dataEstCost + "</td>" +
+                                            "<td>" + _receiveQty + "</td>" +
+                                            "<td>" + _damageQty + "</td>" +
+                                            "<td hidden>" + Data.CostPer + "</td>" +
+                                            "<td hidden>" + Data.Vendor_Part_Number + "</td>" +
+                                            "<td hidden>" + Data.OverrideCommission + "</td>" +
+                                            "<td " + (_typID == '0' ? 'hidden' : '') + ">" + (Data.Reason) + "</td>" +
+                                            "<td style='text-align:Right'>" +
+                                            "<div class='list-icons'><div class='dropdown hide'><a href='#' class='btn  actionbtn btn-sm' data-toggle='dropdown' aria-expanded='true'>" +
+                                            "<i class='icon-menu9'></i></a>" +
+                                            "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                            "<span class='red-tooltip' data-toggle='tooltip' title='Receive Item'><button onclick='fnReceivePoItems(this);'" + (_poStatus == 'C' ? 'disabled' : '') + " type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='fa fa-store'></i></b></button></span>" +
+                                            "<span class='red-tooltip' data-toggle='tooltip' title='Damage Item'><button onclick='fnDamagePoItems(this);'" + (_poStatus == 'C' ? 'disabled' : '') + " type='button' class='btn bg-warning  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='fa fa-house-damage'></i></b></button></span>" +
+                                            "<span class='red-tooltip' data-toggle='tooltip' title='Delete Po Item'><button onclick='fnDeleteTrPoItems(this," + Data.ItemNum + "," + _dataEstCost + ", " + Data.Quan_Ordered + ", " + _receiveQty + ");' " + (_poStatus == 'C' ? 'disabled' : '') + " type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                            "</div></div></div>" +
+                                            "</td>" +
+                                            "</tr>";
+
+                                        dtAddItemsList.row.add($(newRow));
+                                    });
+                                    dtAddItemsList.draw();
+                                    fnRefreshDetailSr();
+
+                                    if (_poStatus == 'O') {
+                                        $('#btnPOCancel').html('<b><i class="icon-cross2"></i></b> Cancel');
+                                        $('.clsPOStatusClosed').prop('disabled', false);
+                                        //$('#btnsave').prop('disabled', false);
+                                    }
+                                    else if (_poStatus == 'C') {
+                                        $('#btnPOCancel').html('<b><i class="icon-check"></i></b> Ok');
+                                        $('.clsPOStatusClosed').prop('disabled', true);
+
+                                    }
+                                    debugger;
+                                    $('#ddlVendor').val(_vendor_Number).change();
+                                }
+                                else {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                    swal("", errorMessage, "error");
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                swal("", errorMessage, "error");
+
+                            }
+                        });
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function LoadVendorDetailsAll() {
+                try {
+                    let _vendorNo = $('#ddlVendor').val();
+                    $('#txtTerms').val('');
+                    if (_vendorNo != null && _vendorNo != undefined && _vendorNo != '') {
+                        var headers = {};
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+                        $.ajax({
+                            url: '/Vendor/LoadVendorData',
+                            type: 'POST',
+                            data: JSON.stringify({ 'VendorNo': _vendorNo }),
+                            headers: headers,
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (result) {
+
+                                if (result != null && result != undefined && result != "Error") {
+                                    let _vcmpny = '', Address_1 = '', Address_2 = '', _vcty = '', _vstt = '', _vzip_code = '';
+                                    $.each(result, function (i, Data) {
+                                        $('#txtTerms').val(Data.Vendor_Terms);
+                                        $('#txtVendor_Dirty').val(Data.Dirty);
+
+                                        _vcmpny = Data.Company != null && Data.Company != undefined ? Data.Company : '';
+                                        Address_1 = Data.Address_1 != null && Data.Address_1 != undefined ? Data.Address_1 : '';
+                                        Address_2 = Data.Address_2 != null && Data.Address_2 != undefined ? Data.Address_2 : '';
+                                        _vcty = Data.City != null && Data.City != undefined ? Data.City : '';
+                                        _vstt = Data.State != null && Data.State != undefined ? Data.State : '';
+                                        _vzip_code = Data.Zip_Code != null && Data.Zip_Code != undefined ? Data.Zip_Code : '';
+                                    });
+
+                                    let _typID = $('#txtPO_Type').val();
+                                    if (_typID == '1') {
+                                        let _comInfo4 = _vcty + ', ' + _vstt + ' ' + _vzip_code;
+                                        $("#lblComInfo1").html(_vcmpny);
+                                        $("#lblComInfo2").html(Address_1);
+                                        $("#lblComInfo3").html(Address_2);
+                                        $("#lblComInfo4").html(_comInfo4);
+                                        $("#lblComInfo5").html('');
+
+                                    }
+                                }
+                                else {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                    swal("", errorMessage, "error");
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                swal("", errorMessage, "error");
+
+                            }
+                        });
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function isNumberKey(evt, obj) {
+
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                var value = obj.value;
+                var dotcontains = value.indexOf(".") != -1;
+                if (dotcontains)
+                    if (charCode == 46) return false;
+                if (charCode == 46) return true;
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+                return true;
+            }
+
+            function ClearMessage() {
+                $("#message").html("");
+            };
+            function CheckAvailability() {
+
+
+                var VendorNo = $("#txtVendorNo").val();
+                var IsEdit = $('#txtEdit').val();
+                var headers = {};
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                headers['__RequestVerificationToken'] = token;
+                $.ajax({
+                    type: "POST",
+                    url: '/Vendor/CheckVendorNo',
+                    headers: headers,
+                    data: JSON.stringify({ VendorNo: VendorNo, IsEdit: IsEdit }),
+
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        var message = $("#message");
+                        if (result == true) {
+
+
+                            $("#IsValidID").val(result);
+                        }
+                        else if (result == false) {
+                            message.css("color", "red");
+                            message.html("Vendor Number already exists!");
+                            $("#IsValidID").val(result);
+                        }
+                        else {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                            swal("", errorMessage, "error");
+
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                        swal("", errorMessage, "error");
+                    }
+
+
+
+
+                });
+
+            }
+
+
+            function GetCompanyInfo() {
+                try {
+                    $("#lblComInfo1").html('');
+                    $("#lblComInfo2").html('');
+                    $("#lblComInfo3").html('');
+                    $("#lblComInfo4").html('');
+                    $("#lblComInfo5").html('');
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        url: '/Common/GetCompanyInfo',
+                        type: 'POST',
+                        headers: headers,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (result) {
+
+                            if (result != null && result != undefined && result != "Error") {
+                                $.each($.parseJSON(result), function (i, Data) {
+                                    let _comInfo1 = Data.Company_Info_1 != null && Data.Company_Info_1 != undefined ? Data.Company_Info_1 : ''
+                                        , _comInfo2 = Data.Company_Info_2 != null && Data.Company_Info_2 != undefined ? Data.Company_Info_2 : ''
+                                        , _comInfo3 = Data.Company_Info_3 != null && Data.Company_Info_3 != undefined ? Data.Company_Info_3 : ''
+                                        , _comInfo4 = Data.Company_Info_4 != null && Data.Company_Info_4 != undefined ? Data.Company_Info_4 : ''
+                                        , _comInfo5 = Data.Company_Info_5 != null && Data.Company_Info_5 != undefined ? Data.Company_Info_5 : '';
+                                    $("#lblComInfo1").html(_comInfo1);
+                                    $("#lblComInfo2").html(_comInfo2);
+                                    $("#lblComInfo3").html(_comInfo3);
+                                    $("#lblComInfo4").html(_comInfo4);
+                                    $("#lblComInfo5").html(_comInfo5);
+                                });
+
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function GetAllStores() {
+                try {
+                    $("#ddlStore").html("");
+                    $("#ddlStore").append($('<option  selected value="" disabled></option>').val('').html("Select Store"));
+
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        url: '/Common/GetStoreAll',
+                        type: 'POST',
+                        headers: headers,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (result) {
+
+                            if (result != null && result != undefined && result != "Error") {
+                                $.each($.parseJSON(result), function (i, Data) {
+                                    $("#ddlStore").append($('<option></option>').val(Data.ID).html(Data.Description));
+                                });
+
+                                //if ($('#ddlStore option').filter(function () { return $(this).val() != '' }).length == 1) {
+                                //    let _storeID = $('#ddlStore option:eq(1)').val() != null && $('#ddlStore option:eq(1)').val() != undefined ? $('#ddlStore option:eq(1)').val() : '';
+                                //    $('#ddlStore').val(_storeID).change();
+
+                              //  }
+                                $('#ddlStore').val(@DestinationStoreID).change();
+                                $('#ddlStore').prop('disabled', true);
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function GetAllVendor() {
+                try {
+                    $("#ddlVendor,#ddlVendorSearch,#ddlVendorSearch2").html("");
+                    $("#ddlVendor").append($('<option selected value=""></option>').val('').html("Select Vendor"));
+                    $("#ddlVendorSearch").append($('<option selected value=""></option>').val('').html("All Vendors"));
+                    $("#ddlVendorSearch2").append($('<option selected value=""></option>').val('').html("No Vendor Selected"));
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        url: '/Common/GetVendorAll',
+                        type: 'POST',
+                        headers: headers,
+                        contentType: 'application/json; charset=utf-8',
+                        async: false,
+                        success: function (result) {
+
+                            if (result != null && result != undefined && result != "Error") {
+                                $.each($.parseJSON(result), function (i, Data) {
+                                    let DataDescription = Data.ID + " - " + Data.Description;
+                                    $("#ddlVendor,#ddlVendorSearch,#ddlVendorSearch2").append($('<option></option>').val(Data.ID).html(DataDescription));
+                                });
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+
+
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function GetAllReturnReason() {
+                try {
+                    $(".clsDdlReturnReason").html("");
+                    $(".clsDdlReturnReason").append($('<option  selected value=""></option>').val('').html("Select Reason"));
+
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        url: '/Common/GetReasonAll',
+                        type: 'POST',
+                        headers: headers,
+                        data: JSON.stringify({ 'Reason_Type': '5' }),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (result) {
+
+                            if (result != null && result != undefined && result != "Error") {
+                                $.each($.parseJSON(result), function (i, Data) {
+                                    $(".clsDdlReturnReason").append($('<option></option>').val(Data.ID).html(Data.Description));
+                                });
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function GetAllDepartment() {
+                try {
+                    $("#ddlDepartmentSearch").html("");
+                    $("#ddlDepartmentSearch").append($('<option  selected value=""></option>').val('').html("All Departments"));
+
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        url: '/Common/GetDepartmentAll',
+                        type: 'POST',
+                        headers: headers,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (result) {
+
+                            if (result != null && result != undefined && result != "Error") {
+                                $.each($.parseJSON(result), function (i, Data) {
+                                    $("#ddlDepartmentSearch").append($('<option></option>').val(Data.ID).html(Data.Description));
+                                });
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function GetAllCategories() {
+                try {
+                    $("#ddlCategorySearch").html("");
+                    $("#ddlCategorySearch").append($('<option selected value=""></option>').val('').html("All Categories"));
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax({
+                        url: '/Common/GetCategoriesAll',
+                        type: 'POST',
+                        headers: headers,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (result) {
+
+                            if (result != null && result != undefined && result != "Error") {
+                                $.each($.parseJSON(result), function (i, Data) {
+                                    $("#ddlCategorySearch").append($('<option></option>').val(Data.ID).html(Data.Description));
+                                });
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function fnNewRecordItem() {
+                let _vendorID = $('#ddlVendor').val();
+                $('#ddlVendorSearch').val(_vendorID > 0 ? _vendorID : '').change();
+                $('#ddlCategorySearch').val('').change();
+                $('#ddlDepartmentSearch').val('').change();
+
+                if (_vendorID > 0) {
+                    GetItem();
+                    $('#AddItemModal').modal('show');
+                }
+                else {
+                    swal("", 'Please Select Vendor'.toString(), "warning");
+                }
+            }
+            $("#AddNewItemForm").submit(function (event) {
+                event.preventDefault();
+                GetItem();
+            });
+            function GetItem() {
+                try {
+                    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+                    $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+                    let VendorNo = $('#ddlVendorSearch').val();
+                    let DepartmentID = $('#ddlDepartmentSearch').val();
+                    let ItemCategory = $('#ddlCategorySearch').val();
+                    let IsLowStockItem = $('#chkAtReorderPoint').is(':checked') ? '1' : '';
+                    var table = $("#dtItemList").DataTable();
+                    table.clear().draw();
+                    var count = 1;
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+
+                    $.ajax({
+                        type: "POST",
+                        headers: headers,
+                        contentType: "application/json; charset=utf-8",
+                        url: "/Common/GetVendorItemInfo",
+                        data: JSON.stringify({ "ItemCategory": ItemCategory, "DepartmentID": DepartmentID, "VendorNumber": VendorNo, "ItemNo": "", "ItemPartNo": "null", "IsLowStockItem": IsLowStockItem }),
+                        dataType: "json",
+                        success: function (result) {
+                            if (result != null && result != undefined && result != "Error") {
+                                table.clear();
+                                $.each($.parseJSON(result), function (i, Data) {
+                                    let idCkkItem = 'idChkItm_' + Data.ItemNum;
+                                    let _itemPrtNo = Data.Vendor_Part_Number != null && Data.Vendor_Part_Number != undefined ? Data.Vendor_Part_Number.toString().trim() : '';
+                                    var newRow = "<tr ondblclick='AddTagAlongDetailRecord(this);'><td>" + Data.ItemNum + "</td>" +
+                                        "<td>" + Data.ItemName + "</td>" +
+                                        "<td>" + _itemPrtNo + "</td>" +
+                                        "<td>" + Data.In_Stock + "</td>" +
+                                        "<td>" + Data.Reorder_Level + "</td>" +
+                                        "<td>" + Data.Reorder_Quantity + "</td>" +
+                                        "<td>" + Data.CostPer + "</td>" +
+                                        "<td>" + Data.Case_Cost + "</td>" +
+                                        "<td>" + Data.NumberPerCase + "</td>" +
+                                        "<td>" + Data.Vendor_Number + "</td>" +
+                                        "<td>" + Data.Dept_ID + "</td>" +
+                                        "<td style=''>" +
+                                        "<input type='checkbox' id='" + idCkkItem + "' value='" + Data.ItemNum + "' /> " +
+                                        "<span class='red-tooltip' data-toggle='tooltip' title='Add Item'><button onclick='AddTagAlongDetailRecord(this);' type='button' class='btn bg-primary btn-xs authorizeOrNotUpdate'  style='color:white'><i class='fa fa-plus'></i></button></span>" +
+                                        "</td>" +
+                                        "</tr>";
+                                    table.row.add($(newRow));
+                                });
+                                table.draw();
+                            }
+                            else {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                swal("", errorMessage, "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                            swal("", errorMessage, "error");
+
+                        }
+                    });
+
+                }
+                catch (err) {
+                    swal("Error", err.toString(), "error");
+                }
+            }
+            function AddTagAlongDetailRecord(_itmPrtNoElmnt) {
+                try {
+                    var IsAlreadyExists = false;// fnCheckTagAlongItemAlreadyExist(ItemNum);
+
+                    if (!IsAlreadyExists) {
+                        let VendorNo = $('#ddlVendorSearch').val();
+                        let DepartmentID = $('#ddlDepartmentSearch').val();
+                        let ItemCategory = $('#ddlCategorySearch').val();
+
+                        let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                        let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+                        let ItemNum = '';
+                        let _itmPrtNoSrchd = '';
+                        let _itmPrtNoTr = $(_itmPrtNoElmnt).closest('tr');
+                        if (_itmPrtNoTr != null && _itmPrtNoTr != undefined && _itmPrtNoTr != '') {
+                            let dtItmLst = $('#dtItemList').DataTable();
+                            let _dttritmprtno = dtItmLst.row(_itmPrtNoTr).data();
+                            ItemNum = _dttritmprtno[0] != null && _dttritmprtno[0] != undefined ? _dttritmprtno[0] : '';
+                            let _itmPrtNo = _dttritmprtno[2] != null && _dttritmprtno[2] != undefined ? _dttritmprtno[2] : '';
+                            if (_itmPrtNo != null && _itmPrtNo != undefined && _itmPrtNo.toString().trim() != '') {
+                                _itmPrtNoSrchd = _itmPrtNo.toString().trim();
+                            }
+                        }
+                        _itmPrtNoSrchd = _itmPrtNoSrchd == null || _itmPrtNoSrchd == undefined || _itmPrtNoSrchd == "" ? _itmPrtNoSrchd = 'null' : _itmPrtNoSrchd;
+                        let headers = {};
+                        let token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+
+                        $.ajax({
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: "/Common/GetVendorItemInfo",
+                            data: JSON.stringify({ "ItemCategory": '0', "DepartmentID": '', "VendorNumber": VendorNo, "ItemNo": ItemNum, "ItemPartNo": _itmPrtNoSrchd, "IsLowStockItem": "" }),
+                            dataType: "json",
+                            async: false,
+                            success: function (result) {
+                                if (result != null && result != undefined && result != "Error") {
+                                    let _estCost = 0, _reorderQty = 0, _receiveQty = 0;
+
+                                    let _typID = $('#txtPO_Type').val();
+
+                                    $.each($.parseJSON(result), function (i, Data) {
+                                        dtAddItemsListCount++;
+
+                                        if (ItemNum == Data.ItemNum && i == 0) {
+                                            let _dataEstCost = Data.ExtCost != null && Data.ExtCost != undefined && $.isNumeric(Data.ExtCost) ? Number(Data.ExtCost).toFixed(2) : '0';
+                                            _estCost = Number(_estCost) + ($.isNumeric(_dataEstCost) ? Number(_dataEstCost) : 0);
+                                            _reorderQty = Number(_reorderQty) + ($.isNumeric(Data.Reorder_Quantity) ? Number(Data.Reorder_Quantity) : 0);
+                                            _receiveQty = Number(0);
+
+                                            let _qty = Data.Reorder_Quantity > 0 ? Data.Reorder_Quantity : 1;
+                                            _qty = _typID == '1' ? -1 * _qty : _qty;
+
+                                            let _selectHtml = "<select id='ddlReason_" + dtAddItemsListCount + "' onchange='fnChangeReason(this)'>";
+                                            let _selectOption = $('#ddlReturnReason option');
+                                            $(_selectOption).each(function (irsn, datarsn) {
+                                                _selectHtml += "<option value='" + $(this).val() + "' " + (irsn == 0 ? 'selected' : '') + ">" + $(this).html() + "</option>";
+                                            });
+                                            _selectHtml += "</select>";//$('#id DivDdlReason').html()
+
+                                            var newRow = "<tr><td>" + dtAddItemsListCount + "</td><td>" + Data.ItemNum + "</td>" +
+                                                //"<td>" + Data.Store_ID + "</td>" +
+                                                "<td>" + Data.ItemName + "</td>" +
+                                                "<td onclick='fnChangeQty(this,0);'>" + (_qty) + "</td>" +
+                                                "<td " + (_typID == '0' ? 'onclick="fnChangeQty(this, 1);"' : '') + ">" + (Data.NumberPerCase > 0 && _typID == '0' ? 1 : 0) + "</td>" +
+                                                "<td>" + (Data.NumberPerCase > 0 && _typID == '0' ? Data.NumberPerCase : 0) + "</td>" +
+                                                "<td onclick='fnChangeQty(this,2);'>" + Data.Cost + "</td>" +
+                                                "<td>" + _dataEstCost + "</td>" +
+                                                "<td>" + _receiveQty + "</td>" +
+                                                "<td>" + 0 + "</td>" +
+                                                "<td hidden>" + Data.CostPer + "</td>" +
+                                                "<td hidden>" + Data.Vendor_Part_Number + "</td>" +
+                                                "<td hidden>" + Data.OverrideCommission + "</td>" +
+                                                "<td " + (_typID == '0' ? 'hidden' : '') + "> " + (_selectHtml) + "</td> " +
+                                                "<td style='text-align:Right'>" +
+                                                "<div class='list-icons'><div class='dropdown hide'><a href='#' class='btn  actionbtn btn-sm' data-toggle='dropdown' aria-expanded='true'>" +
+                                                "<i class='icon-menu9'></i></a>" +
+                                                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                                "<span class='red-tooltip' data-toggle='tooltip' title='Receive Item'><button onclick='fnReceivePoItems(this);' type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='fa fa-store'></i></b></button></span>" +
+                                                "<span class='red-tooltip' data-toggle='tooltip' title='Damage Item'><button onclick='fnDamagePoItems(this);' type='button' class='btn bg-warning  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='fa fa-house-damage'></i></b></button></span>" +
+                                                "<span class='red-tooltip' data-toggle='tooltip' title='Delete Po Item'><button onclick='fnDeleteTrPoItems(this," + Data.ItemNum + "," + _dataEstCost + ", " + Data.Reorder_Quantity + ", " + _receiveQty + ");'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                                "</div></div></div>" +
+                                                "</td>" +
+                                                "</tr>";
+                                        }
+                                        dtAddItemsList.row.add($(newRow));
+                                    });
+                                    dtAddItemsList.draw();
+                                    fnRefreshDetailSr();
+                                    //$('#AddItemModal').modal('hide');
+                                    //note: above line comment to continue add
+                                }
+                                else {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                    swal("", errorMessage, "error");
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                swal("", errorMessage, "error");
+
+                            }
+                        });
+                    }
+                    else {
+                        swal("", "Item Already Selected", "error");
+                    }
+                }
+                catch (err) {
+                    swal("Error", err.toString(), "error");
+                }
+            }
+            function fnDeleteTrPoItems(i, _itmNo, _dataEstCost, _reorderQty, _receiveQty) {
+                try {
+
+                    var row = $(i).closest("tr");
+                    var table1 = $('#dtAddItemsList').DataTable();
+                    let trData = table1.row(row).data();
+                    table1.row(row).remove().draw(false);
+
+                    fnRefreshDetailSr();
+                } catch (Exception) {
+                    console.log("Exception Error in deleting option " + Exception);
+                }
+            }
+            function fnRefreshDetailSr() {
+                try {
+
+                    let dtAddItemsList = $('#dtAddItemsList').DataTable();
+                    var dtAddItemsListRows = dtAddItemsList.rows().data();
+                    let _totalEstCost = 0, _totalQty = 0, _totalRemReceiveQty = 0, _totalReceivedQtyPrice = 0;
+
+                    if (dtAddItemsListRows.length > 0) {
+                        $.each(dtAddItemsListRows, function (index, value) {
+                            let VDetailSr = Number(index) + 1;
+                            value[0] = VDetailSr;
+                            dtAddItemsList.row(index).data(value);
+                            //.replace(/,/g, '')
+                            let _dataEstCost = $.isNumeric(value[7]) ? Number(value[7]) : Number('0');
+
+                            _totalEstCost = ($.isNumeric(_totalEstCost) ? Number(_totalEstCost) : 0) + ($.isNumeric(_dataEstCost) ? Number(_dataEstCost) : 0);
+
+                            let _dataQty = $.isNumeric(value[3]) ? Number(value[3]) : Number('0');
+
+                            _totalQty = ($.isNumeric(_totalQty) ? Number(_totalQty) : 0) + ($.isNumeric(_dataQty) ? Number(_dataQty) : 0);
+
+                            let _dataReceiveQty = $.isNumeric(value[8]) ? Number(value[8]) : Number('0');
+                            let _dataDamageQty = $.isNumeric(value[9]) ? Number(value[9]) : Number('0');
+
+                            _totalRemReceiveQty = (($.isNumeric(_totalRemReceiveQty) ? Number(_totalRemReceiveQty) : 0) + _dataQty) - (($.isNumeric(_dataReceiveQty) ? Number(_dataReceiveQty) : 0));
+
+                            _totalReceivedQtyPrice = ($.isNumeric(_totalReceivedQtyPrice) ? Number(_totalReceivedQtyPrice) : 0) + ((_dataReceiveQty - _dataDamageQty) * ($.isNumeric(value[6]) ? Number(value[6]) : Number('0')));
+
+                            _totalQty = ($.isNumeric(_totalQty) ? Number(_totalQty) : 0) - (($.isNumeric(_dataReceiveQty) ? Number(_dataReceiveQty) : 0));
+
+                        });
+
+                        _totalReceivedQtyPrice.toString().indexOf('.') > -1
+                            ? (Number(_totalReceivedQtyPrice.toString().split('.')[1]) == 0 ? Number(_totalReceivedQtyPrice.toString().split('.')[0]) : _totalReceivedQtyPrice)
+                            : _totalReceivedQtyPrice;
+                        dtAddItemsList.draw();
+                        $('#spnIDAmountExpected').html(_totalQty);
+                        $('#idDivTotalCostOrdered').html(Number(_totalEstCost).toFixed(2));
+                        $('#idDivRemainingReceiveQty').html(_totalRemReceiveQty);
+                        $('#idDivTotalReceivedQtyPrice').html(Number(_totalReceivedQtyPrice).toFixed(2));
+                    }
+                } catch (e) {
+
+                }
+            }
+
+            function fnAddBulkPoItems() {
+                try {
+                    var dtItemList = $('#dtItemList').DataTable();
+                    var dtItemListRows = dtItemList.rows().nodes();
+                    var dtItemListChkChecked = $('input:checkbox:checked', dtItemListRows);
+                    if (dtItemListChkChecked.length > 0) {
+                        $(dtItemListChkChecked).each(function (indx, value) {
+                            let _itemNo = $(this).val();
+                            if (_itemNo != null && _itemNo != undefined && _itemNo.trim() != '') {
+                                let _tr = $(this).closest('tr');
+                                let _dttr = dtItemList.row(_tr).data();
+                                let _itemPartNo = _dttr[2] != null && _dttr[2] != undefined ? _dttr[2] : '';
+                                if (_itemPartNo != null && _itemPartNo != undefined && _itemPartNo.toString().trim() != '') {
+                                    AddTagAlongDetailRecord($(this));
+                                }
+                            }
+                        });
+                        var dtItemList1 = $('#dtItemList');
+                        var dtItemListRows1 = dtItemList1.DataTable().rows().nodes();
+                        $('input:checkbox', dtItemListRows1).prop('checked', false);
+                        //$('#AddItemModal').modal('hide');
+                        //note if error then not hide but logic not implementd
+                    }
+                    else {
+                        swal("", "Please Select Item to Add :)", "warning");
+                    }
+                }
+                catch{
+                    swal("Some Exception There", "Please Try Again :)", "error");
+                }
+            }
+
+            $("#PurchaseOrderForm").submit(function (event) {
+                event.preventDefault();
+                SaveRecord();
+            });
+            function SaveRecord() {
+                try {
+
+                    if ($('#btnsave').text() != null && $('#btnsave').text() != undefined && $('#btnsave').text().trim() == 'Save') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Save this record ?";
+                        var ConfirmButtonText = "Confirm Save";
+                        var CancelButtonText = "Cancel";
+                    }
+                    if ($('#btnsave').text() != null && $('#btnsave').text() != undefined && $('#btnsave').text().trim() == 'Update') {
+                        var Title = "";
+                        var Text = "Are you sure you want to Update this record ?";
+                        var ConfirmButtonText = "Confirm Update";
+                        var CancelButtonText = "Cancel";
+                    }
+                    swal({
+                        title: Title, text: Text, type: "warning", showCancelButton: true, confirmButtonText: ConfirmButtonText, cancelButtonText: CancelButtonText,
+                        closeOnConfirm: false, closeOnCancel: true
+                    },
+                        function (isConfirm) {
+
+                            if (isConfirm) {
+                                var AjaxObj = fnObjPO_Summary_Detail();
+
+                                var headers = {};
+                                var token = $('input[name="__RequestVerificationToken"]').val();
+                                headers['__RequestVerificationToken'] = token;
+                                var Url = "";
+                                if ($('#btnsave').text() != null && $('#btnsave').text() != undefined && $('#btnsave').text().trim() == 'Save') {
+                                    Url = "/PurchaseOrder/Create";
+                                }
+                                else {
+                                    Url = "/PurchaseOrder/Update";
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    headers: headers,
+                                    contentType: "application/json; charset=utf-8",
+                                    url: Url,
+                                    data: JSON.stringify({ "Obj": AjaxObj }),
+                                    dataType: "json",
+                                    //async: false,
+                                    success: function (result) {
+                                        if (result.Code == 200) {
+
+                                            swal({
+                                                title: "",
+                                                text: result.Message,
+                                                type: result.Type,
+                                                showCancelButton: false,
+                                                confirmButtonClass: "btn btn-success",
+                                                cancelButtonClass: "btn btn-primary",
+                                                confirmButtonText: "Ok",
+                                                cancelButtonText: "Cancel",
+                                                closeOnConfirm: true,
+                                                closeOnCancel: true
+                                            },
+                                                //
+                                                function (isConfirm) {
+                                                    if (isConfirm) {
+                                                        if ($("#txtRedirection").val() == 2) {
+                                                            window.location.replace("/PurchaseOrderList/Index");
+                                                        }
+                                                        else {
+
+                                                            $('#ddlVendor').prop('disabled', true);
+                                                            $('#btnsave').html('Update');
+                                                            $('#btnsaveandList').text('Update and Go to List');
+                                                            $('#btnClosePO').show();
+                                                            $('#txtPO_Number').val(result.PO_Number);
+                                                        }
+
+                                                    }
+                                                });
+                                        }
+                                        else {
+                                            swal("", result.Message, result.Type);
+                                        }
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                        swal("", errorMessage, "error");
+                                    }
+
+                                });
+                            }
+                            else {
+                                swal("Cancelled", "Your operation Canceled :)", "error");
+                            }
+
+                        }
+                    );
+
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function fnObjPO_Summary_Detail() {
+                let ObjMaster = [];
+
+                let dtAddItemsList = $('#dtAddItemsList').DataTable();
+                var dtAddItemsListRows = dtAddItemsList.rows().data();
+                let _totalCost = 0, _totalReceivedCost = 0, _totalExpctdAmount = 0;
+
+                let _typID = $('#txtPO_Type').val();
+                if (_typID == '0') {
+
+                }
+
+                //[PO_Number], [Last_Modified], [Store_ID], [ShipTo_2], [Due_Date], [Cashier_ID], [DateTime], [ShipTo_1], [Ship_Via], [Terms], [Vendor_Number], [Print_Notes_On_PO]
+                //, [ExpectedAmountToReceive], [POType], [Status], [Dirty], [Total_Cost], Total_Cost_Received
+                var AjaxObj = {
+                    "PO_Number": "", //"DateTime": "",
+                    "Store_ID": "", "Vendor_Number": "", "Total_Cost": ""
+                    , "Total_Cost_Received": "", "Terms": "", "Due_Date": "", "Ship_Via": "", "ShipTo_1": ""
+                    , "ShipTo_2": "", "ShipTo_3": "", "ShipTo_4": "", "ShipTo_5": "", "Status": "", "Last_Modified": "", "Dirty": ""
+                    , "Cashier_ID": "", "Print_Notes_On_PO": ""
+                    , "Fully_Paid": "", "POType": "", "ExpectedAmountToReceive": "", "Dirty": ""
+                    , "PO_Details": []
+
+                };
+                AjaxObj.PO_Number = $('#txtPO_Number').val() > 0 ? $('#txtPO_Number').val() : 0;
+                AjaxObj.Dirty = $('#txtVendor_Dirty').val() == 'true' ? true : false;//true;
+                AjaxObj.Store_ID = $('#ddlStore').val();
+                AjaxObj.Vendor_Number = $('#ddlVendor').val();
+                AjaxObj.Print_Notes_On_PO = true;
+                AjaxObj.Terms = $('#txtTerms').val();
+                AjaxObj.Due_Date = $('#txtDueDate').val();
+                AjaxObj.Ship_Via = $('#txtShipVia').val() != null && $('#txtShipVia').val() != undefined && $('#txtShipVia').val().trim() != '' ? $('#txtShipVia').val().trim() : 'N/A';
+                AjaxObj.ShipTo_1 = $('#lblComInfo1').text() != null && $('#lblComInfo1').text() != undefined && $('#lblComInfo1').text().trim() != '' ? $('#lblComInfo1').text().trim() : '';
+                AjaxObj.ShipTo_2 = $('#lblComInfo2').text() != null && $('#lblComInfo2').text() != undefined && $('#lblComInfo2').text().trim() != '' ? $('#lblComInfo2').text().trim() : '';
+                AjaxObj.ShipTo_3 = $('#lblComInfo3').text() != null && $('#lblComInfo3').text() != undefined && $('#lblComInfo3').text().trim() != '' ? $('#lblComInfo3').text().trim() : '';
+                AjaxObj.ShipTo_4 = $('#lblComInfo4').text() != null && $('#lblComInfo4').text() != undefined && $('#lblComInfo4').text().trim() != '' ? $('#lblComInfo4').text().trim() : '';
+                AjaxObj.ShipTo_5 = $('#lblComInfo5').text() != null && $('#lblComInfo5').text() != undefined && $('#lblComInfo5').text().trim() != '' ? $('#lblComInfo5').text().trim() : '';
+                AjaxObj.POType = _typID == '1' ? 1 : 0;
+                AjaxObj.Status = _typID == '1' ? 'C' : 'O';
+                AjaxObj.Total_Cost = 0;
+                AjaxObj.ExpectedAmountToReceive = 0;
+                AjaxObj.Total_Cost_Received = 0;
+                if (dtAddItemsListRows.length > 0) {
+                    //note:::: >>> as in one po multiple vendor and their items and part extist so in po_summary vendor_number null
+                    //              or vendor not be change able
+                    //              or for different vendor next po generated
+                    //AjaxObj.Total_Cost = value[7] != null && value[7] != undefined ? value[7].replace(/,/g, '') : '0';
+                    //AjaxObj.Total_Cost_Received = value[7] != null && value[7] != undefined ? value[7].replace(/,/g, '') : '0';
+
+                    $.each(dtAddItemsListRows, function (index, value) {
+
+                        //[PO_Number], [LineNum], [Current_Batch_Quan], [CostPer], [OverrideCommission], [Store_ID], [destStore_ID], [NumberPerCase], [Vendor_Part_Number], [CasePack]
+                        //, [Quan_Received], [ItemNum], [Quan_Ordered]
+                        let ObjPO_D = {
+                            "PO_Number": "",
+                            "ItemNum": "", "LineNum": "", "Quan_Ordered": "", "CostPer": "", "Quan_Received": "", "Vendor_Part_Number": "", "CasePack": "", "Store_ID": "", "destStore_ID": ""
+                            , "Current_Batch_Quan": "", "Quan_Damaged": "", "NumberPerCase": "", "OverrideCommission": "", "Quan_OutofDate": ""
+                            , "Reason": ""
+                        }
+                        ObjPO_D.PO_Number = $('#txtPO_Number').val() > 0 ? $('#txtPO_Number').val() : 0;
+                        ObjPO_D.Store_ID = $('#ddlStore').val();
+                        ObjPO_D.destStore_ID = $('#ddlStore').val();
+                        ObjPO_D.ItemNum = value[1] != null && value[1] != undefined ? value[1].replace(/,/g, '') : '0';
+                        ObjPO_D.LineNum = Number(index);
+                        ObjPO_D.Quan_Ordered = value[3] != null && value[3] != undefined ? value[3] : '0';
+                        ObjPO_D.Vendor_Part_Number = value[11] != null && value[11] != undefined ? value[11].replace(/,/g, '') : '';
+                        ObjPO_D.CostPer = value[6] != null && value[6] != undefined ? value[6] : '0';
+                        ObjPO_D.NumberPerCase = value[5] != null && value[5] != undefined ? value[5] : '0';
+                        ObjPO_D.Current_Batch_Quan = 0;
+                        ObjPO_D.Quan_Damaged = value[9] != null && value[9] != undefined ? value[9] : '0';
+                        ObjPO_D.OverrideCommission = value[12] != null && value[12] != undefined ? value[12] : '0';
+                        ObjPO_D.Quan_Received = value[8] != null && value[8] != undefined ? value[8] : '0';
+                        ObjPO_D.CasePack = value[4] != null && value[4] != undefined ? value[4] : '0';
+                        ObjPO_D.Reason = "";
+                        if (_typID == '1') {
+                            let selectElement = value[13] != null && value[13] != undefined &&
+                                $(value[13]).find('option:selected').val() != null && $(value[13]).find('option:selected').val() != undefined ? $(value[13]).find('option:selected').val() : "";
+                            ObjPO_D.Reason = selectElement;
+                        }
+
+                        AjaxObj.PO_Details.push(ObjPO_D);
+                        let _qtyOrdrdReceived = $.isNumeric(ObjPO_D.Quan_Received) ? Number(ObjPO_D.Quan_Received) : 0;
+                        let _ordrdPrQtyCst = value[6] != null && value[6] != undefined ? value[6] : '0';
+                        let _ordrdRcvdQtyCst = ($.isNumeric(_ordrdPrQtyCst) ? Number(_ordrdPrQtyCst) : 0) * _qtyOrdrdReceived;
+
+                        let _qtyOrdrd = $.isNumeric(ObjPO_D.Quan_Ordered) ? Number(ObjPO_D.Quan_Ordered) : 0;
+                        let _ordrdTotalQtyCst = ($.isNumeric(_ordrdPrQtyCst) ? Number(_ordrdPrQtyCst) : 0) * _qtyOrdrd;
+
+                        _totalExpctdAmount = _totalExpctdAmount + _qtyOrdrd;
+                        _totalReceivedCost = ($.isNumeric(_totalReceivedCost) ? Number(_totalReceivedCost) : 0) + ($.isNumeric(_ordrdRcvdQtyCst) ? Number(_ordrdRcvdQtyCst) : 0);
+                        _totalCost = ($.isNumeric(_totalCost) ? Number(_totalCost) : 0) + ($.isNumeric(_ordrdTotalQtyCst) ? Number(_ordrdTotalQtyCst) : 0);
+                    });
+                    AjaxObj.Total_Cost = _totalCost;
+                    AjaxObj.ExpectedAmountToReceive = _totalCost;
+                    AjaxObj.Total_Cost_Received = _totalReceivedCost;
+
+                    ObjMaster.push(AjaxObj);
+                }
+                return AjaxObj;
+            }
+            function fnChangeReason(element) {
+                try {
+                    let _newVal = $(element).val();
+                    let _eleTr = $(element).closest('tr');
+                    let dtAddItemsList = $('#dtAddItemsList').DataTable();
+                    let _dtrow = dtAddItemsList.row(_eleTr).data();
+                    let dtEle = _dtrow[13];
+                    let index = $.isNumeric(_dtrow[0]) ? Number(_dtrow[0]) - 1 : -1;
+                    if (index > -1) {
+                        let _selectHtml = "<select id='ddlReason_" + ($.isNumeric(_dtrow[0]) ? Number(_dtrow[0]) : -1) + "' onchange='fnChangeReason(this)'>";
+                        let _selectOption = $('#ddlReturnReason option');
+                        $(_selectOption).each(function (irsn, datarsn) {
+                            _selectHtml += "<option value='" + $(this).val() + "' " + ($(this).val() == _newVal ? 'selected' : '') + ">" + $(this).html() + "</option>";
+                        });
+                        _selectHtml += "</select>";
+                        _dtrow[13] = _selectHtml;
+
+                        dtAddItemsList.row(index).data(_dtrow);
+                        //console.log(_newVal);
+                    }
+                    else {
+                        swal("", "Recordd not found.", "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Error", err.toString(), "error");
+                }
+            }
+            $("#FormReceiveItem").submit(function (event) {
+                event.preventDefault();
+                fnSaveRecordReceiveItem();
+            });
+            function fnSaveRecordReceiveItem() {
+
+                try {
+                    let _eachesORcases = $('input[name="rdoEachesCases"]:checked').val();
+                    let _trSr = $('#txtItemLineNo').val() > 0 ? (Number($('#txtItemLineNo').val()) - 1) : -1;
+                    let _qtyReceived = $('#txtQtyReceived').val() > 0 ? Number($('#txtQtyReceived').val()) : 0;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    if (_trSr > -1) {
+                        let _dttritmno = dtAddItemsList.row(_trSr).data();
+                        let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                        let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('1');// check 1 or 0 for max attr
+                        let _itmNmbrCssOrdr = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                        let _nmbrPrCss = $.isNumeric(_dttritmno[5]) ? Number(_dttritmno[5]) : Number('0');
+                        let _itmQtyReceived = $.isNumeric(_dttritmno[8]) ? Number(_dttritmno[8]) : Number('0');
+
+                        if (_eachesORcases == 'Eaches') {
+                            let _itmQtyRemRec = Number(_qtyReceived) + Number(_itmQtyReceived);
+                            let _itmQtyNowRec = _itmQtyRemRec > 0 ? _itmQtyRemRec : 0;
+                            _dttritmno[8] = Math.round(_itmQtyNowRec);
+                        }
+                        else if (_eachesORcases == 'Cases') {
+                            let _itmQtyRemRec = _itmQtyReceived + (_qtyReceived * _nmbrPrCss);
+
+                            _dttritmno[8] = Math.round(_itmQtyRemRec);
+                        }
+                        dtAddItemsList.row(_trSr).data(_dttritmno);
+                        dtAddItemsList.draw();
+                        fnRefreshDetailSr();
+                        $('#ModalReceiveItem').modal('hide');
+                    }
+                    else {
+                        swal("", 'Item data not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function fnReceivePoItems(element) {
+                try {
+                    //note::>>
+                    //          write line no change / key up
+                    //          on click eaches / cases (changing checked)
+                    $('#txtItemLineNo').val('1');//[0] //Sr.
+                    $('#txtItemLineNo').prop('max', '1');//set max line no could enter by user as equal to no of tr(items)
+                    $('#rdoIDCases').prop('checked', false);
+                    $('#rdoIDEaches').prop('checked', true);
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    let _itmTr = $(element).closest('tr');
+                    if (_itmTr != null && _itmTr != undefined && _itmTr != '') {
+
+                        let _dttritmno = dtAddItemsList.row(_itmTr).data();
+                        let _objReturn = fnSetEachesToReceive(dtAddItemsListCount, _dttritmno);
+                        if (_objReturn.Status == 200) {
+
+                            $('#ModalReceiveItem').modal('show');
+                        }
+                        else {
+                            swal("", _objReturn.msg.toString(), "warning");
+                        }
+                    } else {
+                        swal("", 'Item data not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function fnSetEachesCases(element) {
+                try {
+                    let _trSr = $('#txtItemLineNo').val() > 0 ? (Number($('#txtItemLineNo').val()) - 1) : -1;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    if (_trSr > -1) {
+                        let _dttritmno = dtAddItemsList.row(_trSr).data();
+
+                        if ($(element).val() == 'Eaches') {
+                            //'input[name="rdoEachesCases"]'
+                            $('#rdoIDEaches').prop('checked', true);
+                            $('#rdoIDCases').prop('checked', false);
+                            fnSetEachesToReceive(dtAddItemsListCount, _dttritmno);
+                        }
+                        else if ($(element).val() == 'Cases') {
+                            $('#rdoIDEaches').prop('checked', false);
+                            $('#rdoIDCases').prop('checked', true);
+                            fnSetCasesToReceive(dtAddItemsListCount, _dttritmno);
+                        }
+                    }
+                    else {
+                        swal("", 'Item data not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function fnSetEachesToReceive(dtAddItemsListCount, element) {
+                let ObjReturn = { 'Status': 0, 'msg': '' }
+                ////Eaches 1 Qty //Cases * Qty Rodered [3]
+                // on click this column update Column Cases Ordered[4]
+                $('#txtItemMaxQty').val('0');
+                $('#txtItemMaxQty').prop('max', '1');
+                $('#txtQtyReceived').val('0');//update Qty Received [8]
+                //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+
+                let _dttritmno = element;//dtAddItemsList.row(_itmTr).data();
+                let _trSrNmbr = $.isNumeric(_dttritmno[0]) ? Number(_dttritmno[0]) : Number('-1');
+                let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('1');// check 1 or 0 for max attr
+                let _itmNmbrCssOrdr = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                let _nmbrPrCss = $.isNumeric(_dttritmno[5]) ? Number(_dttritmno[5]) : Number('0');
+                let _itmQtyReceived = $.isNumeric(_dttritmno[8]) ? Number(_dttritmno[8]) : Number('0');
+                let _itmQtyRemRec = Number(_itmNmbrMxQty) - Number(_itmQtyReceived);
+                let _itmQtyNowRec = _itmQtyRemRec > 0 ? _itmQtyRemRec : 0;
+                if (_itmNmbr != null && _itmNmbr != undefined && _itmNmbr.toString().trim() != '') {
+                    let _itemLineNo = Number(_trSrNmbr);
+                    $('#txtItemLineNo').val(_itemLineNo);
+                    $('#txtItemLineNo').prop('max', dtAddItemsListCount);
+
+                    $('#txtItemMaxQty').val(_itmNmbrMxQty);
+                    $('#txtItemMaxQty').prop('max', _itmNmbrMxQty);
+
+                    $('#txtQtyReceived').val(_itmQtyNowRec);//
+                    //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+                    $('#rdoIDCases').prop('disabled', (_itmNmbrCssOrdr > 0 ? false : true));
+                    //note:: >>> if no case then not allowed to receive by cases
+
+                    ObjReturn.Status = 200;
+                }
+                else {
+                    ObjReturn.msg = 'Item Number not found, try again';
+                    ObjReturn.Status = 0;
+                }
+                //}
+                //else {
+                //    ObjReturn.msg = 'Item data not found, try again'.toString();
+                //    ObjReturn.Status = 0;
+                //}
+                return ObjReturn;
+            }
+            function fnSetCasesToReceive(dtAddItemsListCount, element) {
+                let ObjReturn = { 'Status': 0, 'msg': '' }
+                //Cases //Cases * Qty Rodered [3]
+                // on click this column update Column Cases Ordered[4]
+                $('#txtItemMaxQty').val('0');
+                $('#txtItemMaxQty').prop('max', '1');
+                $('#txtQtyReceived').val('0');//update Qty Received [8]
+                //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+
+                let _dttritmno = element;//dtAddItemsList.row(_itmTr).data();
+                let _trSrNmbr = $.isNumeric(_dttritmno[0]) ? Number(_dttritmno[0]) : Number('-1');
+                let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('1');// check 1 or 0 for max attr
+                let _itmNmbrCssOrdrd = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                let _itmQtyReceived = $.isNumeric(_dttritmno[8]) ? Number(_dttritmno[8]) : Number('0');
+                let _itmQtyRemRec = (_itmQtyReceived / _itmNmbrMxQty) * 100;
+
+                let _itmCaseNowRec = (((100 - _itmQtyRemRec) * _itmNmbrCssOrdrd) / 100);
+                _itmCaseNowRec = _itmCaseNowRec.toString().indexOf('.') > -1
+                    ? (Number(_itmCaseNowRec.toString().split('.')[1]) == 0 ? Number(_itmCaseNowRec.toString().split('.')[0]) : (_itmCaseNowRec).toFixed(2))
+                    : _itmCaseNowRec;
+                if (_itmNmbr != null && _itmNmbr != undefined && _itmNmbr.toString().trim() != '') {
+                    let _itemLineNo = Number(_trSrNmbr);
+                    $('#txtItemLineNo').val(_itemLineNo);
+                    $('#txtItemLineNo').prop('max', dtAddItemsListCount);
+
+                    $('#txtItemMaxQty').val(_itmNmbrMxQty);
+                    $('#txtItemMaxQty').prop('max', _itmNmbrMxQty);
+
+                    $('#txtQtyReceived').val((_itmCaseNowRec > 0 ? _itmCaseNowRec : 0));//
+                    //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+
+                    ObjReturn.Status = 200;
+                }
+                else {
+                    ObjReturn.msg = 'Item Number not found, try again';
+                    ObjReturn.Status = 0;
+                }
+
+                return ObjReturn;
+            }
+
+            function fnChangeLineNo() {
+                try {
+                    $('#rdoIDCases').prop('disabled', true);
+                    $('#rdoIDEaches').prop('checked', true);
+                    $('#txtItemMaxQty').val('');
+                    $('#txtQtyReceived').val('');
+
+                    let _trSr = $('#txtItemLineNo').val() > 0 ? (Number($('#txtItemLineNo').val()) - 1) : -1;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    if (_trSr > -1) {
+                        let _dttritmno = dtAddItemsList.row(_trSr).data();
+                        let _objReturn = fnSetEachesToReceive(dtAddItemsListCount, _dttritmno);
+                        if (_objReturn.Status == 200) {
+                        }
+                        else {
+                            swal("", _objReturn.msg.toString(), "warning");
+                        }
+                    }
+                    else {
+                        //swal("", 'Line not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Error", err.toString(), "error");
+                }
+            }
+            function fnChangeQty(element, _typ) {
+                try {
+                    let _typID = $('#txtPO_Type').val();
+                    $('#txtItemLineNo1').val('-1');
+                    $('#txtItemLineNo1').prop('max', '1');
+                    $('#idDivQtyOrdrd').hide();
+                    $('#idDivCssOrdrd').hide();
+                    $('#idDivPrice').hide();
+                    $('#txtQtyOrdrd').prop('required', false);
+                    if (_typID == '1') {
+                        $('#txtQtyOrdrd').removeAttr('min');
+                    }
+                    $('#txtCasesOrdrd').prop('required', false);
+                    $('#txtPrice').prop('required', false);
+                    $('#txtQtyOrdrd').val('0');
+                    $('#txtCasesOrdrd').val('0');
+                    $('#txtPrice').val('0');
+
+                    $('#txtChangeTypeID').val(_typ);
+
+                    if (_typ == 0) {
+                        $('#modalHeadingQtyCssOrdrd').html('Item Qty Ordered');
+                        $('#txtQtyOrdrd').prop('required', true);
+                        $('#idDivQtyOrdrd').show();
+                    }
+                    else if (_typ == 1) {
+                        $('#modalHeadingQtyCssOrdrd').html('Cases Ordered');
+                        $('#txtCasesOrdrd').prop('required', true);
+                        $('#idDivCssOrdrd').show();
+                    }
+                    else if (_typ == 2) {
+                        $('#modalHeadingQtyCssOrdrd').html('Price Per Item');
+                        $('#txtPrice').prop('required', true);
+                        $('#idDivPrice').show();
+                    }
+
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+                    let _tr = $(element).closest('tr');
+                    let _dttritmno = dtAddItemsList.row(_tr).data();
+                    let _trSr = _dttritmno[0] > 0 ? (Number(_dttritmno[0]) - 1) : -1;
+
+                    $('#txtItemLineNo1').val(_trSr);
+
+                    if (_trSr > -1) {
+                        let _objReturn = fnSetQtyCasesPrice(dtAddItemsListCount, _dttritmno, _typ);
+                        if (_objReturn.Status == 200) {
+                            if ((_objReturn.CasesOrder > 0 && _typ != 0) || (_objReturn.CasesOrder == 0 && _typ != 1)) {
+                                $('#ModalQtyCssOrdrd').modal('show');
+                            }
+                        }
+                        else {
+                            swal("", _objReturn.msg.toString(), "warning");
+                        }
+                    }
+                    else {
+                        //swal("", 'Line not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Error", err.toString(), "error");
+                }
+            }
+
+            function fnSetQtyCasesPrice(dtAddItemsListCount, element, _typ) {
+                let ObjReturn = { 'Status': 0, 'msg': '', 'CasesOrder': '0' }
+
+                let _dttritmno = element;//dtAddItemsList.row(_itmTr).data();
+                let _trSrNmbr = $.isNumeric(_dttritmno[0]) ? Number(_dttritmno[0]) : Number('-1');
+                let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('1');// check 1 or 0 for max attr
+                let _itmNmbrCssOrdr = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                let _pricePrItem = $.isNumeric(_dttritmno[6]) ? Number(_dttritmno[6]) : Number('0');
+
+                if (_itmNmbr != null && _itmNmbr != undefined && _itmNmbr.toString().trim() != '') {
+                    let _itemLineNo = Number(_trSrNmbr);
+                    $('#txtItemLineNo1').val(_itemLineNo);
+                    $('#txtItemLineNo1').prop('max', dtAddItemsListCount);
+
+                    $('#txtQtyOrdrd').val(_itmNmbrMxQty);
+
+                    $('#txtCasesOrdrd').val(_itmNmbrCssOrdr);
+                    $('#txtPrice').val(_pricePrItem);
+                    //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+                    $('#txtCasesOrdrd').prop('disabled', (_itmNmbrCssOrdr > 0 ? false : true));
+                    $('#txtQtyOrdrd').prop('disabled', (_itmNmbrCssOrdr > 0 ? true : false));
+                    //note:: >>> if no case then not allowed to receive by
+
+                    ObjReturn.Status = 200;
+                    ObjReturn.CasesOrder = _itmNmbrCssOrdr;
+                }
+                else {
+                    ObjReturn.msg = 'Item Number not found, try again';
+                    ObjReturn.Status = 0;
+                }
+                //}
+                //else {
+                //    ObjReturn.msg = 'Item data not found, try again'.toString();
+                //    ObjReturn.Status = 0;
+                //}
+                return ObjReturn;
+            }
+
+            $("#FormQtyCssOrdrd").submit(function (event) {
+                event.preventDefault();
+                fnSaveFormQtyCssOrdrd();
+            });
+            function fnSaveFormQtyCssOrdrd() {
+                try {
+                    let _typID = $('#txtPO_Type').val();
+                    let _typ = $('#txtChangeTypeID').val() > -1 ? Number($('#txtChangeTypeID').val()) : -1;
+                    let _trSr = $('#txtItemLineNo1').val() > 0 ? (Number($('#txtItemLineNo1').val()) - 1) : -1;
+                    let _qtyOrdrd = $.isNumeric($('#txtQtyOrdrd').val()) ? Number($('#txtQtyOrdrd').val()) : 0;//NOTE::>> may be in negative while return to vendor
+
+                    let _cssOrdrd = $('#txtCasesOrdrd').val() > 0 ? Number($('#txtCasesOrdrd').val()) : 0;
+                    let _prc = $('#txtPrice').val() > 0 ? Number($('#txtPrice').val()) : 0;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    if ((_typ == 1 && Math.round(_cssOrdrd) > 0) || (_typ != 1)) {
+                        if (_trSr > -1) {
+                            let _dttritmno = dtAddItemsList.row(_trSr).data();
+
+                            let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                            let _qtyPrCss = $.isNumeric(_dttritmno[5]) ? Number(_dttritmno[5]) : 0;
+
+                            _dttritmno[4] = Math.round(_cssOrdrd); //cases ordered
+                            _dttritmno[6] = fnGetDecimalPlacesIfHas(_prc);//cost per
+                            _dttritmno[10] = fnGetDecimalPlacesIfHas(_prc);//cost per
+                            let _calEstCost = Math.round(_cssOrdrd) > 0 ? ((Math.round(_cssOrdrd) * _qtyPrCss) * _prc)
+                                : ((_qtyOrdrd < 0 && _typID == '1' ? -1 * _qtyOrdrd : _qtyOrdrd) * _prc);
+                            _dttritmno[7] = (fnGetDecimalPlacesIfHas(($.isNumeric(_calEstCost) ? Number(_calEstCost) : 0))).toFixed(2);//est cost
+                            _dttritmno[3] = Math.round(_cssOrdrd) > 0 ? (_qtyOrdrd * Math.round(_cssOrdrd))
+                                : (_qtyOrdrd > 0 && _typID == '1' ? -1 * _qtyOrdrd : _qtyOrdrd); //qty ordered
+
+                            dtAddItemsList.row(_trSr).data(_dttritmno);
+                            dtAddItemsList.draw();
+                            fnRefreshDetailSr();
+
+                            $('#ModalQtyCssOrdrd').modal('hide');
+                        }
+                        else {
+                            swal("", 'Item data not found, try again'.toString(), "warning");
+                        }
+                    }
+                    else {
+                        swal("", 'Cases order must be greater than 0'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function fnChangeLineNo1() {
+                try {
+                    let _objReturn = { 'Status': 0, 'msg': '' };
+
+                    $('#txtQtyOrdrd').val('');
+                    $('#txtCasesOrdrd').val('');
+                    $('#txtPrice').val('');
+
+                    $('#modalHeadingQtyCssOrdrd').html('');
+                    $('#txtQtyOrdrd').prop('required', true);
+                    $('#txtCasesOrdrd').prop('required', false);
+                    $('#idDivQtyOrdrd').show();
+                    $('#idDivCssOrdrd').hide();
+                    $('#txtPrice').prop('required', false);
+                    $('#idDivPrice').hide();
+
+                    let tmpTypID = $('#txtChangeTypeID').val();
+
+                    let _trSr = $('#txtItemLineNo1').val() > 0 ? (Number($('#txtItemLineNo1').val()) - 1) : -1;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+                    if (_trSr > -1) {
+                        let _dttritmno = dtAddItemsList.row(_trSr).data();
+                        let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('0');
+                        let _itmNmbrCssOrdr = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                        let _pricePrItem = $.isNumeric(_dttritmno[6]) ? Number(_dttritmno[6]) : Number('0');
+                        let _typ = tmpTypID != 2 ? (_itmNmbrCssOrdr > 0 ? 1 : 0) : 2;
+                        $('#txtQtyOrdrd').val(_itmNmbrMxQty);
+                        $('#txtCasesOrdrd').val(_itmNmbrCssOrdr);
+                        $('#txtPrice').val(_pricePrItem);
+                        $('#txtChangeTypeID').val(_typ);
+
+                        $('#txtCasesOrdrd').prop('disabled', (_itmNmbrCssOrdr > 0 ? false : true));
+                        $('#txtQtyOrdrd').prop('disabled', (_itmNmbrCssOrdr > 0 ? true : false));
+
+                        if (_typ == 0) {
+                            $('#modalHeadingQtyCssOrdrd').html('Item Qty Ordered');
+                            $('#txtQtyOrdrd').prop('required', true);
+                            $('#txtCasesOrdrd').prop('required', false);
+                            $('#idDivQtyOrdrd').show();
+                            $('#idDivCssOrdrd').hide();
+                            $('#txtPrice').prop('required', false);
+                            $('#idDivPrice').hide();
+                            //_objReturn = fnSetEachesToReceive(dtAddItemsListCount, _dttritmno);
+                            _objReturn.Status = 200;
+                        }
+                        else if (_typ == 1) {
+                            $('#modalHeadingQtyCssOrdrd').html('Cases Ordered');
+                            $('#txtQtyOrdrd').prop('required', false);
+                            $('#txtCasesOrdrd').prop('required', true);
+                            $('#idDivQtyOrdrd').hide();
+                            $('#idDivCssOrdrd').show();
+                            $('#txtPrice').prop('required', false);
+                            $('#idDivPrice').hide();
+                            _objReturn.Status = 200;
+                        }
+                        else if (_typ == 2) {
+                            $('#modalHeadingQtyCssOrdrd').html('Price Per Item');
+                            $('#txtQtyOrdrd').prop('required', false);
+                            $('#txtCasesOrdrd').prop('required', false);
+                            $('#idDivQtyOrdrd').hide();
+                            $('#idDivCssOrdrd').hide();
+                            $('#txtPrice').prop('required', true);
+                            $('#idDivPrice').show();
+                            _objReturn.Status = 200;
+                        }
+                        if (_objReturn.Status == 200) {
+                        }
+                        else {
+                            swal("", _objReturn.msg.toString(), "warning");
+                        }
+                    }
+                    else {
+                        //swal("", 'Line not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Error", err.toString(), "error");
+                }
+            }
+            function fnGetDecimalPlacesIfHas(fgr) {
+                let rtrnFgr = fgr.toString().indexOf('.') > -1
+                    ? (Number(fgr.toString().split('.')[1]) == 0 ? Number(fgr.toString().split('.')[0]) : fgr)
+                    : fgr;
+                return rtrnFgr;
+            }
+
+            function fnDamagePoItems(element) {
+                try {
+                    //note::>>
+                    //          write line no change / key up
+                    //          on click eaches / cases (changing checked)
+                    $('#txtItemLineNo2').val('1');//[0] //Sr.
+                    $('#txtItemLineNo2').prop('max', '1');//set max line no could enter by user as equal to no of tr(items)
+                    $('#rdoIDCases2').prop('checked', false);
+                    $('#rdoIDEaches2').prop('checked', true);
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    let _itmTr = $(element).closest('tr');
+                    if (_itmTr != null && _itmTr != undefined && _itmTr != '') {
+
+                        let _dttritmno = dtAddItemsList.row(_itmTr).data();
+                        let _objReturn = fnSetEachesToDamage(dtAddItemsListCount, _dttritmno);
+                        if (_objReturn.Status == 200) {
+
+                            $('#ModalDamageItem').modal('show');
+                        }
+                        else {
+                            swal("", _objReturn.msg.toString(), "warning");
+                        }
+                    } else {
+                        swal("", 'Item data not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function fnSetEachesCases2(element) {
+                try {
+                    let _trSr = $('#txtItemLineNo2').val() > 0 ? (Number($('#txtItemLineNo2').val()) - 1) : -1;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    if (_trSr > -1) {
+                        let _dttritmno = dtAddItemsList.row(_trSr).data();
+
+                        if ($(element).val() == 'Eaches') {
+                            //'input[name="rdoEachesCases"]'
+                            $('#rdoIDEaches2').prop('checked', true);
+                            $('#rdoIDCases2').prop('checked', false);
+                            fnSetEachesToDamage(dtAddItemsListCount, _dttritmno);
+                        }
+                        else if ($(element).val() == 'Cases') {
+                            $('#rdoIDEaches2').prop('checked', false);
+                            $('#rdoIDCases2').prop('checked', true);
+                            fnSetCasesToDamage(dtAddItemsListCount, _dttritmno);
+                        }
+                    }
+                    else {
+                        swal("", 'Item data not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function fnSetEachesToDamage(dtAddItemsListCount, element) {
+                let ObjReturn = { 'Status': 0, 'msg': '' }
+                ////Eaches 1 Qty //Cases * Qty Rodered [3]
+                // on click this column update Column Cases Ordered[4]
+                $('#txtItemMaxQty2').val('0');
+                $('#txtItemMaxQty2').prop('max', '1');
+                $('#txtQtyReceived2').val('0');
+                $('#txtQtyDamage').val('0');//update Qty Damage [9]
+                $('#txtQtyDamage').prop('max', '0');
+                //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+
+                let _dttritmno = element;//dtAddItemsList.row(_itmTr).data();
+                let _trSrNmbr = $.isNumeric(_dttritmno[0]) ? Number(_dttritmno[0]) : Number('-1');
+                let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('1');// check 1 or 0 for max attr
+                let _itmNmbrCssOrdr = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                let _itmQtyReceived = $.isNumeric(_dttritmno[8]) ? Number(_dttritmno[8]) : Number('0');
+                let _itmQtyDamage = $.isNumeric(_dttritmno[9]) ? Number(_dttritmno[9]) : Number('0');
+                let _itmQtyRemDmg = Number(_itmQtyReceived) - Number(_itmQtyDamage);
+                let _itmQtyNowDmg = _itmQtyRemDmg > 0 ? _itmQtyRemDmg : 0;
+                if (_itmQtyReceived > 0) {
+                    if (_itmNmbr != null && _itmNmbr != undefined && _itmNmbr.toString().trim() != '') {
+                        let _itemLineNo = Number(_trSrNmbr);
+                        $('#txtItemLineNo2').val(_itemLineNo);
+                        $('#txtItemLineNo2').prop('max', dtAddItemsListCount);
+
+                        $('#txtItemMaxQty2').val(_itmNmbrMxQty);
+                        $('#txtItemMaxQty2').prop('max', _itmNmbrMxQty);
+
+                        $('#txtQtyReceived2').val(_itmQtyReceived);
+                        $('#txtQtyDamage').val(0);// _itmQtyNowDmg
+                        $('#txtQtyDamage').prop('max', _itmQtyReceived);//
+                        //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+                        $('#rdoIDCases2').prop('disabled', (_itmNmbrCssOrdr > 0 ? false : true));
+                        //note:: >>> if no case then not allowed to receive by cases
+                        ObjReturn.Status = 200;
+                    }
+                    else {
+                        ObjReturn.msg = 'Item Number not found, try again';
+                        ObjReturn.Status = 0;
+                    }
+                }
+                else {
+                    ObjReturn.msg = 'Qty damage can not exceed qty received(' + _itmQtyReceived + ')'.toString();
+                    ObjReturn.Status = 0;
+                }
+                return ObjReturn;
+            }
+            function fnSetCasesToDamage(dtAddItemsListCount, element) {
+                let ObjReturn = { 'Status': 0, 'msg': '' }
+                //Cases //Cases * Qty Rodered [3]
+                // on click this column update Column Cases Ordered[4]
+                $('#txtItemMaxQty2').val('0');
+                $('#txtItemMaxQty2').prop('max', '1');
+                $('#txtQtyDamage').val('0');//update Qty Damage [9]
+                $('#txtQtyDamage').prop('max', '0');
+                //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+
+                let _dttritmno = element;//dtAddItemsList.row(_itmTr).data();
+                let _trSrNmbr = $.isNumeric(_dttritmno[0]) ? Number(_dttritmno[0]) : Number('-1');
+                let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('1');// check 1 or 0 for max attr
+                let _itmNmbrCssOrdrd = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                let _itmQtyReceived = $.isNumeric(_dttritmno[8]) ? Number(_dttritmno[8]) : Number('0');
+                let _itmQtyDamage = $.isNumeric(_dttritmno[9]) ? Number(_dttritmno[9]) : Number('0');
+                let _itmQtyRemDmg = Number(_itmQtyDamage) - (Number(_itmQtyReceived) / Number(_itmNmbrMxQty));
+                //note example  60 _itmNmbrMxQty
+                //              4  cases
+                //              10 recieved
+                //              15 no per case
+                //              10/60 =
+                //note          next have to divided by qty ordered to get remaining case
+                //
+                let _itmCaseNowRec = (_itmQtyRemDmg > 0 && _itmNmbrMxQty > 0 ? (Number(_itmQtyRemDmg) / Number(_itmNmbrMxQty)) : (_itmQtyRemDmg > 0 ? _itmQtyRemDmg : 0)).toFixed(2);
+                _itmCaseNowRec = _itmCaseNowRec.toString().indexOf('.') > -1
+                    ? (Number(_itmCaseNowRec.toString().split('.')[1]) == 0 ? Number(_itmCaseNowRec.toString().split('.')[0]) : _itmCaseNowRec)
+                    : _itmCaseNowRec;
+                if (_itmNmbr != null && _itmNmbr != undefined && _itmNmbr.toString().trim() != '') {
+                    let _itemLineNo = Number(_trSrNmbr);
+                    $('#txtItemLineNo2').val(_itemLineNo);
+                    $('#txtItemLineNo2').prop('max', dtAddItemsListCount);
+
+                    $('#txtItemMaxQty2').val(_itmNmbrMxQty);
+                    $('#txtItemMaxQty2').prop('max', _itmNmbrMxQty);
+
+                    $('#txtQtyReceived2').val(_itmQtyReceived);
+                    $('#txtQtyDamage').val(0);//
+                    $('#txtQtyDamage').prop('max', _itmNmbrCssOrdrd);
+                    //$('#txtQtyReceived').prop('max', '1');// could received more, no check found in desktop application
+
+                    ObjReturn.Status = 200;
+                }
+                else {
+                    ObjReturn.msg = 'Item Number not found, try again';
+                    ObjReturn.Status = 0;
+                }
+
+                return ObjReturn;
+            }
+            $("#FormDamageItem").submit(function (event) {
+                event.preventDefault();
+                fnSaveRecordDamageItem();
+            });
+            function fnSaveRecordDamageItem() {
+
+                try {
+                    let _eachesORcases = $('input[name="rdoEachesCases2"]:checked').val();
+                    let _trSr = $('#txtItemLineNo2').val() > 0 ? (Number($('#txtItemLineNo2').val()) - 1) : -1;
+                    let _qtyReceived = $('#txtQtyDamage').val() > 0 ? Number($('#txtQtyDamage').val()) : 0;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+                    if (_trSr > -1) {
+                        let _dttritmno = dtAddItemsList.row(_trSr).data();
+                        let _itmQtyRemRec = 0;
+                        let _itmNmbr = _dttritmno[1] != null && _dttritmno[1] != undefined ? _dttritmno[1] : '';
+                        let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('1');// check 1 or 0 for max attr
+                        let _itmNmbrCssOrdrd = $.isNumeric(_dttritmno[4]) ? Number(_dttritmno[4]) : Number('0');
+                        let _itmQtyReceived = $.isNumeric(_dttritmno[8]) ? Number(_dttritmno[8]) : Number('0');
+                        let _itmQtyDamage = $.isNumeric(_dttritmno[9]) ? Number(_dttritmno[9]) : Number('0');
+                        let _noPrCss = $.isNumeric(_dttritmno[5]) ? Number(_dttritmno[5]) : Number('0');
+
+                        if (_eachesORcases == 'Eaches') {
+                            _itmQtyRemRec = Number(_qtyReceived) + Number(_itmQtyDamage);
+                            _itmQtyRemRec = _itmQtyRemRec > 0 ? _itmQtyRemRec : 0;
+
+                        }
+                        else if (_eachesORcases == 'Cases') {
+                            _itmQtyRemRec = Number(_itmQtyDamage) + (Number(_noPrCss) * Number(_qtyReceived));
+                            //3.2+0.8
+                            //_itmQtyRemRec = Number(_itmQtyRemRec) + Number(_itmQtyReceived);
+                            _itmQtyRemRec = _itmQtyRemRec.toString().indexOf('.') > -1
+                                ? (Number(_itmQtyRemRec.toString().split('.')[1]) == 0 ? Number(_itmQtyRemRec.toString().split('.')[0]) : _itmQtyRemRec)
+                                : _itmQtyRemRec;
+                        }
+                        if (_itmQtyReceived >= _itmQtyRemRec) {
+                            _dttritmno[9] = Math.round(_itmQtyRemRec);
+                            dtAddItemsList.row(_trSr).data(_dttritmno);
+                            dtAddItemsList.draw();
+                            fnRefreshDetailSr();
+                            $('#ModalDamageItem').modal('hide');
+                        }
+                        else {
+                            swal("", 'Qty damage (' + _itmQtyRemRec + ') cannot be exceed qty received (' + _dttritmno[8] + ')'.toString(), "warning");
+                        }
+                    }
+                    else {
+                        swal("", 'Item data not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+
+            function fnChangeLineNo2() {
+                try {
+                    $('#rdoIDCases2').prop('disabled', true);
+                    $('#rdoIDEaches2').prop('checked', true);
+                    $('#txtItemMaxQty2').val('');
+                    $('#txtQtyReceived2').val('');
+                    $('#txtQtyDamage').val('');
+
+                    let _trSr = $('#txtItemLineNo2').val() > 0 ? (Number($('#txtItemLineNo2').val()) - 1) : -1;
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListCount = dtAddItemsList.rows().data().length;
+
+                    if (_trSr > -1) {
+                        let _dttritmno = dtAddItemsList.row(_trSr).data();
+                        let _objReturn = fnSetEachesToDamage(dtAddItemsListCount, _dttritmno);
+                        if (_objReturn.Status == 200) {
+                        }
+                        else {
+                            swal("", _objReturn.msg.toString(), "warning");
+                        }
+                    }
+                    else {
+                        //swal("", 'Line not found, try again'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Error", err.toString(), "error");
+                }
+            }
+
+            function fnClosePO() {
+                try {
+                    let dtAddItemsList = $("#dtAddItemsList").DataTable();
+                    let dtAddItemsListRows = dtAddItemsList.rows().data();
+                    if (dtAddItemsListRows.length > 0) {
+                        let _totalItmNoOrdrd = 0, _totalItmNoRcvdDamg = 0;
+                        $(dtAddItemsListRows).each(function (i, _dttritmno) {
+                            let _itmNmbrMxQty = $.isNumeric(_dttritmno[3]) ? Number(_dttritmno[3]) : Number('0');
+                            let _itmNmbrQtyRcvd = $.isNumeric(_dttritmno[8]) ? Number(_dttritmno[8]) : Number('0');
+                            let _itmNmbrQtyDmg = $.isNumeric(_dttritmno[9]) ? Number(_dttritmno[9]) : Number('0');
+                            _totalItmNoOrdrd = _totalItmNoOrdrd + _itmNmbrMxQty;
+                            _totalItmNoRcvdDamg = _totalItmNoRcvdDamg + (_itmNmbrQtyRcvd + _itmNmbrQtyDmg);
+                        });
+
+                        if (_totalItmNoRcvdDamg < _totalItmNoOrdrd) {
+                            var Title = "";
+                            var Text = "Not all stock has been received. Are you sure you want to close this PO ?";
+                            var ConfirmButtonText = "Confirm Close";
+                            var CancelButtonText = "Cancel";
+                        }
+                        else {
+                            var Title = "";
+                            var Text = "Are you sure you want to Close this PO ?";
+                            var ConfirmButtonText = "Confirm Update";
+                            var CancelButtonText = "Cancel";
+                        }
+                        swal({
+                            title: Title, text: Text, type: "warning", showCancelButton: true, confirmButtonText: ConfirmButtonText, cancelButtonText: CancelButtonText,
+                            closeOnConfirm: false, closeOnCancel: true
+                        },
+                            function (isConfirm) {
+
+                                if (isConfirm) {
+                                    var AjaxObj = fnObjPO_Summary_Detail();
+
+                                    var headers = {};
+                                    var token = $('input[name="__RequestVerificationToken"]').val();
+                                    headers['__RequestVerificationToken'] = token;
+                                    var Url = "";
+
+                                    Url = "/PurchaseOrder/Update";
+
+                                    AjaxObj.Status = 'C';
+                                    $.ajax({
+                                        type: "POST",
+                                        headers: headers,
+                                        contentType: "application/json; charset=utf-8",
+                                        url: Url,
+                                        data: JSON.stringify({ "Obj": AjaxObj }),
+                                        dataType: "json",
+                                        //async: false,
+                                        success: function (result) {
+                                            if (result.Code == 200) {
+
+                                                swal({
+                                                    title: "",
+                                                    text: 'PO Closed Successfully',// result.Message
+                                                    type: result.Type,
+                                                    showCancelButton: false,
+                                                    confirmButtonClass: "btn btn-success",
+                                                    cancelButtonClass: "btn btn-primary",
+                                                    confirmButtonText: "Ok",
+                                                    cancelButtonText: "Cancel",
+                                                    closeOnConfirm: true,
+                                                    closeOnCancel: true
+                                                },
+                                                    //
+                                                    function (isConfirm) {
+                                                        if (isConfirm) {
+                                                            if ($("#txtRedirection").val() == 2) {
+                                                                window.location.replace("/PurchaseOrderList/Index");
+                                                            }
+                                                            else {
+                                                                window.location.replace("/PurchaseOrder/Index");
+                                                            }
+
+                                                        }
+                                                    });
+                                            }
+                                            else {
+                                                swal("", result.Message, result.Type);
+                                            }
+
+                                        },
+                                        error: function (xhr, status, error) {
+                                            var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                            swal("", errorMessage, "error");
+                                        }
+
+                                    });
+                                }
+                                else {
+                                    swal("Cancelled", "Your operation Canceled :)", "error");
+                                }
+
+                            }
+                        );
+                    }
+                    else {
+                        swal("", 'PO detail not found'.toString(), "warning");
+                    }
+                }
+                catch (err) {
+                    swal("Cancelled", err.toString(), "error");
+                }
+            }
+            function fnGoBackToList() {
+                window.location.replace("/PurchaseOrderList/Index");
+            }
+
+            function fnReorderLowItems() {
+
+                let _vendorID = $('#ddlVendor').val();
+                if (_vendorID > 0) {
+                    try {
+                        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+                        $('[data-toggle="tooltip"]').tooltip({ html: true });
+
+                        let VendorNo = $('#ddlVendor').val();
+                        let DepartmentID = "";
+                        let ItemCategory = "";
+                        var dtAddItemsList = $("#dtAddItemsList").DataTable();
+                        //dtAddItemsList.clear().draw();
+                        var dtAddItemsListCount = dtAddItemsList.rows().data().length;
+                        var headers = {};
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+                        headers['__RequestVerificationToken'] = token;
+
+                        $.ajax({
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: "/Common/GetVendorItemInfo",
+                            data: JSON.stringify({ "ItemCategory": ItemCategory, "DepartmentID": DepartmentID, "VendorNumber": VendorNo, "ItemNo": "", "ItemPartNo": "null", "IsLowStockItem": "1" }),
+                            dataType: "json",
+                            success: function (result) {
+                                if (result != null && result != undefined && result != "Error") {
+
+                                    let _estCost = 0, _reorderQty = 0, _receiveQty = 0;
+
+                                    let _typID = $('#txtPO_Type').val();
+
+                                    $.each($.parseJSON(result), function (i, Data) {
+                                        dtAddItemsListCount++;
+
+                                        let _dataEstCost = Data.ExtCost != null && Data.ExtCost != undefined && $.isNumeric(Data.ExtCost) ? Number(Data.ExtCost).toFixed(2) : '0';
+                                        _estCost = Number(_estCost) + ($.isNumeric(_dataEstCost) ? Number(_dataEstCost) : 0);
+                                        _reorderQty = Number(_reorderQty) + ($.isNumeric(Data.Reorder_Quantity) ? Number(Data.Reorder_Quantity) : 0);
+                                        _receiveQty = Number(0);
+
+                                        let _selectHtml = "<select id='ddlReason_" + dtAddItemsListCount + "' onchange='fnChangeReason(this)'>";
+                                        let _selectOption = $('#ddlReturnReason option');
+                                        $(_selectOption).each(function (irsn, datarsn) {
+                                            _selectHtml += "<option value='" + $(this).val() + "' " + (irsn == 0 ? 'selected' : '') + ">" + $(this).html() + "</option>";
+                                        });
+                                        _selectHtml += "</select>";//$('#id DivDdlReason').html()
+
+                                        var newRow = "<tr><td>" + dtAddItemsListCount + "</td><td>" + Data.ItemNum + "</td>" +
+                                            //"<td>" + Data.Store_ID + "</td>" +
+                                            "<td>" + Data.ItemName + "</td>" +
+                                            "<td onclick='fnChangeQty(this,0);'>" + (Data.LowStockQty > 0 ? Data.LowStockQty : 1) + "</td>" +
+                                            "<td>" + 0 + "</td>" +// onclick='fnChangeQty(this,1);'
+                                            "<td>" + 0 + "</td>" + //Data.NumberPerCase
+                                            "<td onclick='fnChangeQty(this,2);'>" + Data.Cost + "</td>" +
+                                            "<td>" + _dataEstCost + "</td>" +
+                                            "<td>" + _receiveQty + "</td>" +
+                                            "<td>" + 0 + "</td>" +
+                                            "<td hidden>" + Data.CostPer + "</td>" +
+                                            "<td hidden>" + Data.Vendor_Part_Number + "</td>" +
+                                            "<td hidden>" + Data.OverrideCommission + "</td>" +
+                                            "<td " + (_typID == '0' ? 'hidden' : '') + ">" + (_selectHtml) + "</td>" +
+                                            "<td style='text-align:Right'>" +
+                                            "<div class='list-icons'><div class='dropdown hide'><a href='#' class='btn  actionbtn btn-sm' data-toggle='dropdown' aria-expanded='true'>" +
+                                            "<i class='icon-menu9'></i></a>" +
+                                            "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                                            "<span class='red-tooltip' data-toggle='tooltip' title='Receive Item'><button onclick='fnReceivePoItems(this);' type='button' class='btn bg-primary  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='fa fa-store'></i></b></button></span>" +
+                                            "<span class='red-tooltip' data-toggle='tooltip' title='Damage Item'><button onclick='fnDamagePoItems(this);' type='button' class='btn bg-warning  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='fa fa-house-damage'></i></b></button></span>" +
+                                            "<span class='red-tooltip' data-toggle='tooltip' title='Delete Po Item'><button onclick='fnDeleteTrPoItems(this," + Data.ItemNum + "," + _dataEstCost + ", " + Data.Reorder_Quantity + ", " + _receiveQty + ");'type='button' class='btn bg-danger btn-sm'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                                            "</div></div></div>" +
+                                            "</td>" +
+                                            "</tr>";
+
+                                        dtAddItemsList.row.add($(newRow));
+                                    });
+                                    dtAddItemsList.draw();
+                                    fnRefreshDetailSr();
+                                    //$('#AddItemModal').modal('hide');
+                                    //note: above line comment to continue add
+                                }
+                                else {
+                                    var errorMessage = AjaxErrorMessage + ' (Error Code: "400")';
+                                    swal("", errorMessage, "error");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                                swal("", errorMessage, "error");
+
+                            }
+                        });
+
+                    }
+                    catch (err) {
+                        swal("Error", err.toString(), "error");
+                    }
+                }
+                else {
+                    swal("", 'Please Select Vendor'.toString(), "warning");
+                }
+            }
+            function SetRedirection(type) {
+                //1 for save 2 for save and goto list
+                $("#txtRedirection").val(type);
+            }
+        </script>*@
+}

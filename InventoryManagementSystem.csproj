@@ -130,6 +130,8 @@
     <Compile Include="Controllers\GRNController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RequisitionFormController.cs" />
+    <Compile Include="Controllers\ReturnVoucherController.cs" />
     <Compile Include="Controllers\UserListController.cs" />
     <Compile Include="DAL\Generic\GenericRepository.cs" />
     <Compile Include="DAL\Generic\IGenericRepository.cs" />
@@ -7830,6 +7832,9 @@
     <Content Include="Views\GRN\Index.cshtml" />
     <Content Include="Views\Shared\DocumentList.cshtml" />
     <Content Include="Views\UserList\Index2.cshtml" />
+    <Content Include="Views\GRN\New.cshtml" />
+    <Content Include="Views\ReturnVoucher\Index.cshtml" />
+    <Content Include="Views\RequisitionForm\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
