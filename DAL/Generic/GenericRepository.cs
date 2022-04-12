@@ -18,9 +18,12 @@ namespace InventoryManagementSystem.DAL.Generic
             this.dbSet = context.Set<T>();
 
         }
-        public T Delete(T obj)
+        public int Delete(T obj)
         {
-            throw new NotImplementedException();
+            context.Entry(obj).State = System.Data.EntityState.Deleted;
+          int a= context.SaveChanges();
+
+            return a;
         }
 
         public List<T> GetAll()
@@ -54,9 +57,11 @@ namespace InventoryManagementSystem.DAL.Generic
             throw new NotImplementedException();
         }
 
-        public T update(T obj)
+        public int update(T obj)
         {
-            throw new NotImplementedException();
+          context.Entry(obj).State = System.Data.EntityState.Modified;
+            int a = context.SaveChanges();
+            return a;
         }
 
        

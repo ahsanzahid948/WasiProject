@@ -40,9 +40,9 @@
 
         <h5 class="card-title">
 
-            <a href="/GRN/New" type='button' class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert'  style="background-color: #f5e486; color: black;">
+            <a href="/GRN/New" type='button' class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' style="background-color: #f5e486; color: black;">
                 <b><i class="icon-plus3"></i></b>
-          NEW
+                NEW
             </a>
             <span class="font-weight-semibold  usercolor" style=""> Users</span>
         </h5>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="card-body">
-        <table class="table datatable-button-html5-columns dataTable no-footer responsive" id="tblUser">
+        <table class="table datatable-button-html5-columns dataTable no-footer responsive" id="tblGRN">
             <thead>
                 <tr>
                     <th>Sr.</th>
@@ -199,7 +199,7 @@
     @Scripts.Render("~/bundles/ERPScripts")
     <script src="~/Content/assets/assets/js/sweetalert.min.js"></script>
 
-    @*<script>
+    <script>
 
         $(document).ready(function () {
 
@@ -218,7 +218,7 @@
             $("body").tooltip({ selector: '[data-toggle=tooltip]' });
             $('[data-toggle="tooltip"]').tooltip({ html: true });
 
-            var table = $("#tblUser").DataTable();
+            var table = $("#tblGRN").DataTable();
             var count = 1;
             var headers = {};
             var token = $('input[name="__RequestVerificationToken"]').val();
@@ -229,7 +229,7 @@
                 type: "POST",
                 headers: headers,
                 contentType: "application/json; charset=utf-8",
-                url: "/UserList/GetTableSummary",
+                    url: "/GRN/GetList",
                 data: JSON.stringify({ ID: 0 }),
                 dataType: "json",
                 success: function (result)
@@ -241,19 +241,23 @@
                        $.each(result, function (i, Data)
                        {
                            var Active = Data.IsActive == "true" || Data.IsActive == "True" || Data.IsActive == "1"   ?"Yes":"No";
-                        var newRow = "<tr><td hidden>" + Data.ID + "</td>" +
+                           var newRow = "<tr><td hidden>" + Data.ID + "</td>" +
                                "<td  style='text-align:left'>" + count++ + "</td>" +
-                               "<td>" + Data.FirstName  +" "+ Data.LastName+"  </td>" +
-                            "<td>" + Data.MobileNumber + "</td>" +
-                            "<td>" + Data.EmailAddress + "</td>" +
-                            "<td>" + Active + "</td>" +
+                               "<td>" + Data.GRNNo + " </td>" +
+                               "<td>" + Data.Lab + "</td>" +
+                               "<td>" + Data.Project + "</td>" +
+                               "<td>" + Data.SuplyOrderNo + "</td>" +
+
+                               "<td>" + Date( Data.SuplyDate) + "</td>" +
+                               "<td>" +Date( Data.SuplyDate ) + "</td>" +
+                          
 
                             "<td style='text-align:Right'>" +
                             " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
                             "<i class='icon-menu9'></i></a>" +
                             "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
                             "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='ModifyRecord(" + Data.ID + ");'type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='icon-pencil'></i></b></button></span>" +
-                            "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='DeleteRecord(" + Data.ID + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                            "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + Data.ID + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
                             "</div ></div ></div></td></tr>";
 
                         table.row.add($(newRow));
@@ -288,7 +292,7 @@
 
 
             LoadModifyData(ID);
-            GetRoleForEdit(ID);
+
 
             $('#SaveModal').modal('show');
             $('#btnsave').show();
@@ -304,37 +308,24 @@
                 type: "POST",
                 headers: headers,
                 contentType: "application/json; charset=utf-8",
-                url: "/UserManagement/User/GetTableSummary",
+                url: "/UserList/GetUser",
                 data: JSON.stringify({ ID: ID }),
                 dataType: "json",
                 success: function (result) {
                   if (result != null && result != "Error")
                     {
-                        $.each(result, function (i, Data) {
 
 
-                            $("#txtID").val(Data.ID);
-                            $("#TxtUserFName").val(Data.FirstName);
-                            $("#TxtUserLName").val(Data.LastName);
-                            $("#TxtUserCNIC").val(Data.CNIC);
-                            $("#TxtUserEmail").val(Data.EmailAddress);
-                            $("#TxtUserPhone").val(Data.MobileNumber);
-                            $("#TxtUserPassword").val(Data.Password);
-                            if (Data.PicPath != null && Data.PicPath != undefined && Data.PicPath != '') {
-                                $("#imgUserPicID").attr("src", Data.PicPath);
-                                $("#UserProfileImage").val(Data.PicPath);
-                                //$('#fileUserPicID').val(Data.PicPath).change();
 
-                            }
-                            //if (Data.PicPath != null && Data.PicPath != undefined && Data.PicPath != "" && Data.PicPath != "/UserPics/DumyProfile.png") {
-                            else {
-                                $("#imgUserPicID").attr("src", "/UserPics/DumyProfile.png");
-                                $("#UserProfileImage").val("/UserPics/DumyProfile.png");
-                                //$('#fileUserPicID').val("/UserPics/DumyProfile.png").change();
-                            }
+                      $("#txtID").val(result.ID);
+                      $("#TxtFirstName").val(result.FirstName);
+                      $("#TxtLastName").val(result.LastName);
+
+                      $("#TxtEmailAddress").val(result.EmailAddress);
+                      $("#TxtMobileNumber").val(result.MobileNumber);
+                      $("#TxtPassword").val(result.Password);
 
 
-                        });
                     }
                  else
                     {
@@ -427,7 +418,14 @@
                                         swal( "User Added Successfully",);
                                         $('#SaveModal').modal('hide');
                                         LoadTableData();
+                                    }else
+                                    if (result == 2) {
+
+                                        swal("User Updated Successfully",);
+                                        $('#SaveModal').modal('hide');
+                                        LoadTableData();
                                     }
+
                                     else {
                                         swal("", result.Message, result.Type);
 
@@ -484,7 +482,7 @@
 
                 return user;
         }
-        function DeleteRecord(ID)
+        function Delete(ID)
         {
             swal({
                 title: "Are you sure To Delete ?",
@@ -502,13 +500,13 @@
                         $.ajax({
                             type: "POST",
                             contentType: "application/json; charset=utf-8",
-                            url: "/UserManagement/User/Delete",
+                            url: "/UserList/Delete",
                             data: JSON.stringify({ ID: ID }),
                             dataType: "json",
                             success: function (result) {
 
-                                if (result.Code == 200) {
-                                    swal(result.Title, result.Message, result.Type);
+                                if (result==1) {
+                                    swal( "User Has been Deleted Successfully");
                                     LoadTableData();
                                 }
                                 else {
@@ -814,10 +812,9 @@
                 swal("Cancelled", err.toString(), "error");
             }
         }
-    </script>*@
+    </script>
+
 }
-
-
 
 
 

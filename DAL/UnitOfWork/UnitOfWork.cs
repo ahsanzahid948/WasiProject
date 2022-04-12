@@ -11,8 +11,8 @@ namespace InventoryManagementSystem.DAL.UnitOfWork
     {
         private InventoryManagementSystemEntities context = new InventoryManagementSystemEntities();
 
-        
 
+        private GenericRepository<GRN> grnRepository;
         private GenericRepository<RefUser> userRepository;
         public GenericRepository<RefUser> UserRepository
         {
@@ -26,7 +26,17 @@ namespace InventoryManagementSystem.DAL.UnitOfWork
             }
         }
 
-
+        public GenericRepository<GRN> GrnRepository
+        {
+            get
+            {
+                if (this.grnRepository == null)
+                {
+                    this.grnRepository = new GenericRepository<GRN>(context);
+                }
+                return grnRepository;
+            }
+        }
 
 
         public int SaveChanges()

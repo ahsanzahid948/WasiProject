@@ -27,7 +27,12 @@ namespace InventoryManagementSystem.Controllers
         }
 
 
-
+        public ActionResult Delete(int ID)
+        {
+           var obj= unitOfWork.UserRepository.GetAll().FirstOrDefault(x=>x.ID==ID);
+           int a= unitOfWork.UserRepository.Delete(obj);
+            return Json(a);
+        }
 
         public ActionResult GetTableSummary()
         {
@@ -43,5 +48,24 @@ namespace InventoryManagementSystem.Controllers
 
             return Json(result);
         }
+        
+
+       public ActionResult Update(RefUser refUser)
+        {
+            refUser.IsActive = true;
+            refUser.EntryDate = DateTime.Now;
+            var result = unitOfWork.UserRepository.update(refUser);
+            if (result == 1) { result = 2; }
+            return Json(result);
+        }
+
+
+        public ActionResult GetUser(int ID)
+        {
+            var result = unitOfWork.UserRepository.GetAll().FirstOrDefault(x => x.ID == ID);
+            return Json(result);
+        }
+
+
     }
 }

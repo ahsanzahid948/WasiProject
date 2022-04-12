@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InventoryManagementSystem.DAL.UnitOfWork;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace InventoryManagementSystem.Controllers
 {
     public class GRNController : Controller
     {
+      private  UnitOfWork unitOfWork = new UnitOfWork();
         // GET: GRN
         public ActionResult Index()
         {
@@ -17,6 +19,12 @@ namespace InventoryManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult GetList()
+        {
+           var list= unitOfWork.GrnRepository.GetAll();
 
+
+            return Json(list);
+        }
     }
 }

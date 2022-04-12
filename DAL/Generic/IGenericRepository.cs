@@ -9,8 +9,8 @@ namespace InventoryManagementSystem.DAL.Generic
     {
         T GetByID(int id);
         int Insert(T obj);
-        T update(T obj);
-        T Delete(T obj);
+        int update(T obj);
+        int Delete(T obj);
         T SoftDelete(T obj);
         List<T> GetAll();
 
