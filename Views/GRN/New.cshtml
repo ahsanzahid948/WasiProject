@@ -47,16 +47,16 @@
             <div class="tab-content">
                 <div class="tab-pane fade in active show" id="generalinformation">
 
+                    
 
-
-
+                    <input type="text" id="txtRedirection"  class="form-control" hidden/>
 
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="col-form-label "> GRN No </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtGRNNo" name="txtGRNNo" maxlength="15" class="form-control" />
+                                    <input type="text" id="txtGRNNo" name="txtGRNNo" maxlength="15" class="form-control" required/>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> Date </label>
                                 <div class="col-md-10">
-                                    <input type="date" value="" id="txtGRNDate" name=" txtGRNDate" maxlength="15" autocomplete="off" placeholder="" class="form-control pickadate-accessibility" />
+                                    <input type="date" value="" id="txtGRNDate" name=" txtGRNDate" maxlength="15" autocomplete="off" placeholder="" class="form-control pickadate-accessibility" required/>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> Project </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtGRNProject" name=" txtGRNProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" />
+                                    <input type="text" value="" id="txtGRNProject" name=" txtGRNProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" required/>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                                     Name
                                 </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtGRNName" name="txtGRNName" maxlength="10" class="form-control " placeholder="" />
+                                    <input type="text" id="txtGRNName" name="txtGRNName" maxlength="10" class="form-control " placeholder="" required/>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> Designation </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtDesignation" name="txtDesignation" maxlength="95" class="form-control" />
+                                    <input type="text" value="" id="txtDesignation" name="txtDesignation" maxlength="95" class="form-control" required/>
 
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> LAB </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" />
+                                    <input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" required/>
 
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="fnGoBackToList()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="Cancel()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
                     @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsave" onclick="SetRedirection(1);">Save</button>
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
@@ -195,11 +195,12 @@
 
 
             <div class="card-body">
-                <form id="AddNewItemForm">
+                <form id="GRNDetailForm">
                     @Html.AntiForgeryToken()
                     <div class="form-group row">
                         <div class="col-md-4">
                             <label class="control-label">Leader Page</label>
+                            <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control" id="LeaderPage" required />
@@ -212,7 +213,7 @@
 
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">Description</label>
+                            <label class="control-label">Description</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="DetailDescription" required />
@@ -224,7 +225,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">AU</label>
+                            <label class="control-label">AU</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control" id="AU" required />
@@ -236,7 +237,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">QTYCreated</label>
+                            <label class="control-label">QTYCreated</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control" id="QTYCreated" required />
@@ -247,7 +248,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">QTY Recived</label>
+                            <label class="control-label">QTY Recived</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control" id="QTYRecived" required />
@@ -258,7 +259,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">Rate</label>
+                            <label class="control-label">Rate</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control" id="Rate" required />
@@ -269,13 +270,19 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">Total Cost</label>
+                            <label class="control-label">Total Cost</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control" id="TotalCost" required />
 
 
                         </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white"><b><i class="icon-cross2"></i></b>Save</button>
+                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
 
                     </div>
                 </form>
@@ -286,12 +293,7 @@
 
 
 
-            <div class="modal-footer">
-                <button type="button" onclick="adddetail()" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white" ><b><i class="icon-cross2"></i></b>Save</button>
-                <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
-
-
-            </div>
+          
         </div>
 
     </div>
@@ -309,25 +311,85 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
     <script>
         var count = 0;
+        var CountDetailRow = 0;
             $(document).ready(function () {
-                
+            
             });
 
-      
-        function adddetail() {
-            count++;
-            var row = "<tr><td>" + count + "</td>"
-                + "<tr><td>" + $("LeaderPage").val() + "</td>" +
-                + "<tr><td>" + $("DetailDescription").val() + "</td>" +
-                + "<tr><td>" + $("AU").val() + "</td>" +
-                + "<tr><td>" + $("QTYCreated").val() + "</td>" +
-                + "<tr><td>" + $("QTYRecived").val() + "</td>" +
-                + "<tr><td>" + $("Rate").val() + "</td>" +
-                + "<tr><td>" + $("TotalCost").val() + "</td>";
-        }
 
-        $("#detailtbl").find('tbody').append(row);
-            
+        $("#GRNDetailForm").submit(function (event) {
            
+            event.preventDefault();
+            AddDetailRow();
+            
+        });
+
+        function ClearDetailForm() {
+
+            $("#LeaderPage").val("");
+            $("#DetailDescription").val("");
+            $("#AU").val("");
+            $("#QTYCreated").val("");
+            $("#QTYRecived").val("");
+            $("#Rate").val("");
+            $("#TotalCost").val("");
+            $("#GRNDetailModel").modal("hide");
+        }
+        function AddDetailRow() {
+           CountDetailRow++;
+           
+            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#AU").val() + "</td>" + "<td>" + $("#QTYCreated").val() + "</td>" + "<td>" + $("#QTYRecived").val() + "</td>" + "<td>" + $("#Rate").val() + "</td>" + "<td>" + $("#TotalCost").val() + "</td>"+
+            
+                "<td style='text-align:Right'>" +
+                " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
+                "<i class='icon-menu9'></i></a>" +
+                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + this + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                "</div ></div ></div></td> </tr > ";
+             
+
+            $("#detailtbl").find('tbody').append(row);
+            ClearDetailForm();
+        }
+        function Cancel() { window.location.href = "/GRN/Index";}
+
+        function SetRedirection(type) {
+
+            $("#txtRedirection").val(type);
+        }
+        function AJaxObject() {
+
+            var GRN = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "GRNNo": "", "SuplyOrderNo": "", "GRNDate": "", "SupplierName": "", "SupplierAddress": "", "GRNDetails": [] };
+
+            var GRNDetails = { "ID": "", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "GRNID": "", };
+
+            var detailtbl = $("#detailtbl").DataTable();
+            var detailtblRows = tblPermissions.rows().nodes();
+
+            var tblPRows = detailtbl.rows().data();
+
+
+
+            if (tblPRows.length > 0) {
+                $.each(tblPRows, function (index, value) {
+                    GRNDetails.LeadgerPage = value[0];
+
+
+                    GRN.GRNDetails.push(GRNDetails);
+
+                    GRNDetails = { "ID": "", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "GRNID": "", };
+
+                });
+
+                    }
+        }
+        $("#GoodsReceiptForm").submit(function (event) {
+
+            event.preventDefault();
+            
+
+        });
+
+
         </script>
 }
