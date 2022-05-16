@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.DAL.UnitOfWork;
+using InventoryManagementSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,14 @@ namespace InventoryManagementSystem.Controllers
 
 
             return Json(list);
+        }
+        public ActionResult Create(GRN Obj)
+        {
+            return View();
+        }
+        public ActionResult Update(GRN Obj)
+        {
+            return View();
         }
     }
 }
