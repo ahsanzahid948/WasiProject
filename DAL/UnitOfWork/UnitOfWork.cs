@@ -25,7 +25,18 @@ namespace InventoryManagementSystem.DAL.UnitOfWork
                 return userRepository;
             }
         }
-
+        private GenericRepository<RefDesignation> designationRepository;
+        public GenericRepository<RefDesignation> DesignationRepository
+        {
+            get
+            {
+                if (this.designationRepository == null)
+                {
+                    this.designationRepository = new GenericRepository<RefDesignation>(context);
+                }
+                return designationRepository;
+            }
+        }
         public GenericRepository<GRN> GrnRepository
         {
             get
