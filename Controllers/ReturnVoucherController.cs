@@ -13,6 +13,10 @@ namespace InventoryManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult New()
+        {
+            return View();
+        }
 
     }
 }
