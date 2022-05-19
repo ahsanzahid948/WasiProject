@@ -448,7 +448,7 @@
                     GRNDetails.QTYRecived = value[5];
                     GRNDetails.Rate = value[6];
                     GRNDetails.TotalValue = value[7];
-
+                    GRNDetails.GRNID = 0;
 
                     GRN.GRNDetails.push(GRNDetails);
 
@@ -504,7 +504,7 @@
                             var token = $('input[name="__RequestVerificationToken"]').val();
                             headers['__RequestVerificationToken'] = token;
                             var Url = "";
-                            if ($('#btnsave').text() == 'Save') {
+                            if ($('#btnsavegrn').text() == 'Save') {
                                 Url = "/GRN/Create";
                             }
                             else {
@@ -521,7 +521,7 @@
                                 async: false,
                                 success: function (result) {
                                     debugger;
-                                    if (result.Code == 200) {
+                                    if (result==1) {
                                         $("#btnsave").text("Update");
                                         $("#btnsaveandList").text("Update and Go to List");
                                         let a = $('#txtCashierID').val();
@@ -529,12 +529,12 @@
                                        
                                        
                                         $('#txtCashierID').prop("disabled", true);
-                                        swal("", result.Message, result.Type);
+                                        swal("", "Data Added Successfully", result.Type);
 
 
                                     }
                                     else {
-                                        swal("", result.Message, result.Type);
+                                        swal("", "Error ", result.Type);
 
                                     }
 

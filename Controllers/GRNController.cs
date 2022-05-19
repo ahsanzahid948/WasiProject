@@ -10,7 +10,8 @@ namespace InventoryManagementSystem.Controllers
 {
     public class GRNController : Controller
     {
-      private  UnitOfWork unitOfWork = new UnitOfWork();
+        InventoryManagementSystemEntities context =new InventoryManagementSystemEntities();
+        private  UnitOfWork unitOfWork = new UnitOfWork();
         // GET: GRN
         public ActionResult Index()
         {
@@ -29,7 +30,9 @@ namespace InventoryManagementSystem.Controllers
         }
         public ActionResult Create(GRN Obj)
         {
-            return View();
+           var a= context.GRNs.Add(Obj);
+            int b = context.SaveChanges();
+            return Json(a);
         }
         public ActionResult Update(GRN Obj)
         {
