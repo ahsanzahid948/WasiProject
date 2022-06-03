@@ -12,23 +12,20 @@ namespace InventoryManagementSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RefDesignation
+    public partial class ReturnVoucherDetail
     {
-        public RefDesignation()
+        public ReturnVoucherDetail()
         {
-            this.RequisitionForms = new HashSet<RequisitionForm>();
             this.ReturnVouchers = new HashSet<ReturnVoucher>();
         }
     
         public long ID { get; set; }
+        public string LeaderPageNo { get; set; }
         public string Description { get; set; }
-        public Nullable<long> CompanyID { get; set; }
-        public Nullable<long> ProjectID { get; set; }
-        public string EntryUserID { get; set; }
-        public Nullable<System.DateTime> EntryDate { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public string Remarks { get; set; }
+        public string QTYUS { get; set; }
+        public string QTYS { get; set; }
     
-        public virtual ICollection<RequisitionForm> RequisitionForms { get; set; }
         public virtual ICollection<ReturnVoucher> ReturnVouchers { get; set; }
     }
 }

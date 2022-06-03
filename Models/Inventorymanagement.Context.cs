@@ -13,10 +13,10 @@ namespace InventoryManagementSystem.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class InventoryManagementSystemEntities : DbContext
+    public partial class InventoryManagementSystemEntities1 : DbContext
     {
-        public InventoryManagementSystemEntities()
-            : base("name=InventoryManagementSystemEntities")
+        public InventoryManagementSystemEntities1()
+            : base("name=InventoryManagementSystemEntities1")
         {
         }
     
@@ -25,9 +25,13 @@ namespace InventoryManagementSystem.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<RefUser> RefUsers { get; set; }
-        public DbSet<GRN> GRNs { get; set; }
         public DbSet<GRNDetail> GRNDetails { get; set; }
+        public DbSet<GRN> GRNs { get; set; }
         public DbSet<RefDesignation> RefDesignations { get; set; }
+        public DbSet<RefUser> RefUsers { get; set; }
+        public DbSet<RequisitionForm> RequisitionForms { get; set; }
+        public DbSet<RequisitionFormDetail> RequisitionFormDetails { get; set; }
+        public DbSet<ReturnVoucher> ReturnVouchers { get; set; }
+        public DbSet<ReturnVoucherDetail> ReturnVoucherDetails { get; set; }
     }
 }
