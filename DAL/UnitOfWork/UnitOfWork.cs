@@ -11,8 +11,9 @@ namespace InventoryManagementSystem.DAL.UnitOfWork
     {
         private InventoryManagementSystemEntities context = new InventoryManagementSystemEntities();
 
-
+        private GenericRepository<ReturnVoucher> returnVoucherRepository;
         private GenericRepository<GRN> grnRepository;
+        
         private GenericRepository<RefUser> userRepository;
         public GenericRepository<RefUser> UserRepository
         {
@@ -49,7 +50,17 @@ namespace InventoryManagementSystem.DAL.UnitOfWork
             }
         }
 
-
+        public GenericRepository<ReturnVoucher> ReturnVoucherRepository
+        {
+            get
+            {
+                if (this.returnVoucherRepository == null)
+                {
+                    this.returnVoucherRepository = new GenericRepository<ReturnVoucher>(context);
+                }
+                return returnVoucherRepository;
+            }
+        }
         public int SaveChanges()
         {
             return context.SaveChanges();
