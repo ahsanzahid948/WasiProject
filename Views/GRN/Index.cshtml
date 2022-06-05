@@ -280,7 +280,32 @@
 
             });
         }
-        
+
+        function Delete(ID) {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax(
+                {
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/GRN/Delete",
+                    data: JSON.stringify({ ID: ID }),
+                    dataType: "json",
+                    success: function (result) {
+                        swal("GRN Deleted Successfully ");
+                        LoadTableData();
+                    },
+                    error: function (xhr, status, error) {
+                      
+                        swal("Error  While  Deletinig ");
+                    }
+
+                });
+
+
+        }
     </script>
   
 }

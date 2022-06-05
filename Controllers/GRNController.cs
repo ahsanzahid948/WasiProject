@@ -38,5 +38,13 @@ namespace InventoryManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult Delete(int ID)
+        {
+           
+            var obj = context.GRNs.FirstOrDefault(x => x.ID == ID);
+         var result=   context.Entry(obj).State = System.Data.EntityState.Deleted;
+
+            return Json(result);
+        }
     }
 }
