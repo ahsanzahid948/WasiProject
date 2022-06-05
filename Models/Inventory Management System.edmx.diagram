@@ -4,15 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="94a4f56b0bcc4847a365c39b109d94a8" Name="Diagram1">
+      <Diagram DiagramId="bec656e289344fe7a177135ee21f995e" Name="Diagram1">
         <EntityTypeShape EntityType="InventoryManagementSystemModel.GRNDetail" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryManagementSystemModel.GRN" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryManagementSystemModel.RefDesignation" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryManagementSystemModel.RefUser" Width="1.5" PointX="7.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryManagementSystemModel.RequisitionForm" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryManagementSystemModel.RequisitionFormDetail" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryManagementSystemModel.ReturnVoucher" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryManagementSystemModel.RequisitionForm" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryManagementSystemModel.ReturnVoucherDetail" Width="1.5" PointX="3.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryManagementSystemModel.ReturnVoucher" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="InventoryManagementSystemModel.FK_GRNDetail_GRN" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryManagementSystemModel.FK_RequisitionForm_RefDesignations" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryManagementSystemModel.FK_ReturnVoucher_RefDesignations" ManuallyRouted="false" />

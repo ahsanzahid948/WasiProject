@@ -142,43 +142,43 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GRN.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GRNDetail.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Inventorymanagement.Context.cs">
+    <Compile Include="Models\Inventory Management System.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Inventorymanagement.Context.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Inventorymanagement.cs">
+    <Compile Include="Models\Inventory Management System.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Inventorymanagement.Designer.cs">
+    <Compile Include="Models\Inventory Management System.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Inventorymanagement.edmx</DependentUpon>
+      <DependentUpon>Inventory Management System.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\RefDesignation.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RefUser.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequisitionForm.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequisitionFormDetail.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnVoucher.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnVoucherDetail.cs">
-      <DependentUpon>Inventorymanagement.tt</DependentUpon>
+      <DependentUpon>Inventory Management System.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -6850,15 +6850,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Inventorymanagement.Context.tt">
+    <Content Include="Models\Inventory Management System.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Inventorymanagement.edmx</DependentUpon>
-      <LastGenOutput>Inventorymanagement.Context.cs</LastGenOutput>
+      <DependentUpon>Inventory Management System.edmx</DependentUpon>
+      <LastGenOutput>Inventory Management System.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Inventorymanagement.tt">
+    <Content Include="Models\Inventory Management System.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Inventorymanagement.edmx</DependentUpon>
-      <LastGenOutput>Inventorymanagement.cs</LastGenOutput>
+      <DependentUpon>Inventory Management System.edmx</DependentUpon>
+      <LastGenOutput>Inventory Management System.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\AdminLTE\adminlte.js" />
     <Content Include="Scripts\AdminLTE\adminlte.min.js" />
@@ -7776,12 +7776,12 @@
     <Content Include="Content\taginput\cities.json" />
     <Content Include="Content\taginput\citynames.json" />
     <Content Include="Content\taginput\LICENSE" />
-    <EntityDeploy Include="Models\Inventorymanagement.edmx">
+    <EntityDeploy Include="Models\Inventory Management System.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Inventorymanagement.Designer.cs</LastGenOutput>
+      <LastGenOutput>Inventory Management System.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Inventorymanagement.edmx.diagram">
-      <DependentUpon>Inventorymanagement.edmx</DependentUpon>
+    <Content Include="Models\Inventory Management System.edmx.diagram">
+      <DependentUpon>Inventory Management System.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Chart.bundle.js" />
