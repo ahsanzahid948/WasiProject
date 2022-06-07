@@ -1,4 +1,7 @@
-﻿@{
+﻿@model IEnumerable<InventoryManagementSystem.Models.RequisitionForm>
+@{ int count = 1;}
+
+@{
     ViewBag.Title = "Index";
     var UserPics = "";
 }
@@ -62,7 +65,7 @@
                 <tr>
                     <th>Sr.</th>
 
-                 
+                    <th>Name</th>
                     <th>Lab</th>
                     <th>Project</th>
                     <th>Sif No</th>
@@ -72,6 +75,25 @@
                     <th style="text-align:right">Action</th>
 
                 </tr>
+                @foreach (var m in Model)
+                {
+            <tr>
+                <td>@count</td>
+
+
+                <td>@m.Name</td>
+                <td>@m.Lab</td>
+                <th>@m.Project</th>
+
+                <td>@m.SifNo</td>
+                <th>@m.SignatureOfInditor</th>
+
+                <td>@m.SignatureOfStoreKeeper</td>
+                <td><button onclick='ModifyRecord(" + Data.ID + ");' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
+                <td>  <button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'></button></td>
+            </tr>
+                    count++;
+                }
             </thead>
             <tbody>
             </tbody>
@@ -204,7 +226,7 @@
 
         $(document).ready(function () {
 
-            LoadTableData();
+           
 
 
 
@@ -227,18 +249,17 @@
 
             $.ajax(
                 {
-                    type: "POST",
+                    type: "GET",
                     headers: headers,
                     contentType: "application/json; charset=utf-8",
                     url: "/RequisitionForm/GetList",
-                    data: JSON.stringify({ ID: 0 }),
                     dataType: "json",
                     success: function (result) {
                         if (result != null && result != "Error") {
 
                             table.clear();
                             $.each(result, function (i, Data) {
-                                var Active = Data.IsActive == "true" || Data.IsActive == "True" || Data.IsActive == "1" ? "Yes" : "No";
+
                                 var newRow = "<tr><td hidden>" + Data.ID + "</td>" +
                                     "<td  style='text-align:left'>" + count++ + "</td>" +
                                     "<td>" + Data.Lab + "</td>" +
@@ -246,7 +267,7 @@
                                     "<td>" + Data.SifNo + "</td>" +
 
                                     "<td>" + Data.SignatureOfInditor + "</td>" +
-                                    "<td>" + Data.SignatureOfInditor + "</td>" +
+                                    "<td>" + Data.SignatureOfStoreKeeper + "</td>" +
 
 
                                     "<td style='text-align:Right'>" +
@@ -275,7 +296,31 @@
 
                 });
         }
+        function Delete(ID) {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax(
+                {
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/RequisitionForm/Delete",
+                    data: JSON.stringify({ ID: ID }),
+                    dataType: "json",
+                    success: function (result) {
+                        swal("ReturnVoucher Deleted Successfully ");
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
 
+                        swal("Error  While  Deletinig ");
+                    }
+
+                });
+
+
+        }
     </script>
 
 }

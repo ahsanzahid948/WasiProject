@@ -41,10 +41,14 @@ namespace InventoryManagementSystem.Controllers
         }
         public ActionResult Delete(int ID)
         {
+            var obj = context.ReturnVoucherDetails.Where(x => x.ReturnVoucherID == ID).ToList();
 
-            var obj = context.ReturnVouchers.FirstOrDefault(x => x.ID == ID);
-            var result = context.Entry(obj).State = System.Data.EntityState.Deleted;
+            var obj2 = context.ReturnVouchers.FirstOrDefault(x => x.ID == ID);
+            foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
 
+
+            var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
+            context.SaveChanges();
             return Json(result);
         }
     }

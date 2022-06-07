@@ -9,6 +9,7 @@
 
 namespace InventoryManagementSystem.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -28,8 +29,9 @@ namespace InventoryManagementSystem.Models
         public Nullable<bool> IsConsumable { get; set; }
         public string SignatureOfInditor { get; set; }
         public string SignatureOfStoreKeeper { get; set; }
-    
+        [JsonIgnore]
         public virtual RefDesignation RefDesignation { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RequisitionFormDetail> RequisitionFormDetails { get; set; }
     }
 }

@@ -15,7 +15,8 @@ namespace InventoryManagementSystem.Controllers
         // GET: RequisitionForm
         public ActionResult Index()
         {
-            return View();
+            var list = context.RequisitionForms.ToList();
+            return View(list);
         }
         public ActionResult New()
         {
@@ -23,10 +24,10 @@ namespace InventoryManagementSystem.Controllers
         }
         public ActionResult GetList()
         {
-            var list = unitOfWork.GrnRepository.GetAll();
+            var list = context.RequisitionForms.ToList();
 
 
-            return Json(list);
+            return Json(list,JsonRequestBehavior.AllowGet);
         }
         public ActionResult Create(GRN Obj)
         {
@@ -37,6 +38,19 @@ namespace InventoryManagementSystem.Controllers
         public ActionResult Update(GRN Obj)
         {
             return View();
+        }
+
+        public ActionResult Delete(int  Id)
+        {
+            var obj = context.RequisitionFormDetails.Where(x => x.RequisitionFormID == Id).ToList();
+
+            var obj2 = context.RequisitionForms.FirstOrDefault(x => x.ID == Id);
+            foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
+
+
+            var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
+            context.SaveChanges();
+            return Json(result);
         }
     }
 }

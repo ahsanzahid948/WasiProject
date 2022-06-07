@@ -15,7 +15,8 @@ namespace InventoryManagementSystem.Controllers
         // GET: GRN
         public ActionResult Index()
         {
-            return View();
+            var list = unitOfWork.GrnRepository.GetAll();
+            return View(list);
         }
         public ActionResult New()
         {
@@ -40,9 +41,14 @@ namespace InventoryManagementSystem.Controllers
         }
         public ActionResult Delete(int ID)
         {
+            var obj = context.GRNDetails.Where(x => x.GRNID == ID).ToList();
+          
+            var obj2 = context.GRNs.FirstOrDefault(x => x.ID == ID);
+            foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
            
-            var obj = context.GRNs.FirstOrDefault(x => x.ID == ID);
-         var result=   context.Entry(obj).State = System.Data.EntityState.Deleted;
+           
+            var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
+            context.SaveChanges();
 
             return Json(result);
         }

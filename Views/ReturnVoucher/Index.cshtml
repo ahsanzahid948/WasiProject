@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<InventoryManagementSystem.Models.ReturnVoucher>
-@{ int count = 0;}
+@{ int count = 1;}
 
 @section styles
     {
@@ -72,14 +72,15 @@
                 @foreach (var m in Model)
                 {
             <tr>
-                <td>@count++</td>
+                <td>@count</td>
 
 
                 <td>@m.Name</td>
                 <td>@m.Project</td>
                 <th>@m.ReturnByName</th>
-
+                
                 <td>@m.CatByName</td>
+              @{ count++;}
                 <td><button onclick='ModifyRecord(" + Data.ID + ");' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
               <td>  <button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'></button></td>
             </tr>
@@ -302,7 +303,7 @@
                                     dataType: "json",
                                     success: function (result) {
                                         swal("ReturnVoucher Deleted Successfully ");
-                                      
+                                        window.location.reload();
                                     },
                                     error: function (xhr, status, error) {
 
