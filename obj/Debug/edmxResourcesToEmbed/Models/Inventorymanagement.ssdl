@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InventoryManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="GRNDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="LeadgerPage" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nchar" MaxLength="500" />
+    <Property Name="AU" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYCreated" Type="bigint" />
+    <Property Name="QTYRecived" Type="bigint" />
+    <Property Name="Rate" Type="nvarchar" MaxLength="50" />
+    <Property Name="TotalValue" Type="nchar" MaxLength="50" />
+    <Property Name="GRNID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="GRNs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DesignationID" Type="bigint" />
+    <Property Name="Lab" Type="nvarchar" MaxLength="50" />
+    <Property Name="Project" Type="nvarchar" MaxLength="50" />
+    <Property Name="GRNNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="SuplyOrderNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="SuplyDate" Type="datetime" />
+    <Property Name="GRNDate" Type="datetime" />
+    <Property Name="SupplierName" Type="nvarchar" MaxLength="50" />
+    <Property Name="SupplierAddress" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="RefDesignations">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="CompanyID" Type="bigint" />
+    <Property Name="ProjectID" Type="bigint" />
+    <Property Name="EntryUserID" Type="nchar" MaxLength="10" />
+    <Property Name="EntryDate" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="RefUsers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="IdentityNo" Type="varchar" MaxLength="50" />
+    <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MobileNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="UserProfileImage" Type="varchar" MaxLength="100" />
+    <Property Name="IsAdmin" Type="bit" />
+    <Property Name="IsSuperAdmin" Type="bit" />
+    <Property Name="IsExternal" Type="bit" />
+    <Property Name="CompanyID" Type="bigint" />
+    <Property Name="EntryUserID" Type="bigint" Nullable="false" />
+    <Property Name="EntryDate" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="ProjectID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="RequisitionForm">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="DesignationID" Type="bigint" />
+    <Property Name="Lab" Type="nvarchar" MaxLength="50" />
+    <Property Name="Project" Type="nvarchar" MaxLength="50" />
+    <Property Name="SifNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsConsumable" Type="bit" />
+    <Property Name="SignatureOfInditor" Type="nvarchar" MaxLength="50" />
+    <Property Name="SignatureOfStoreKeeper" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="RequisitionFormDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LeaderPageNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYDemand" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYIssued" Type="nvarchar" MaxLength="50" />
+    <Property Name="RequisitionFormID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="ReturnVoucher">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="DesignationID" Type="bigint" />
+    <Property Name="Lab" Type="nvarchar" MaxLength="50" />
+    <Property Name="Project" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReturnByName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReturnByDesignation" Type="nvarchar" MaxLength="50" />
+    <Property Name="CatByName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CatByDesignation" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReturnBySignature" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReturnVoucherDetailID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReturnVoucherDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LeaderPageNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYUS" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYS" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_GRNDetail_GRN">
+    <End Role="GRNs" Type="Self.GRNs" Multiplicity="0..1" />
+    <End Role="GRNDetails" Type="Self.GRNDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRNs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GRNDetails">
+        <PropertyRef Name="GRNID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequisitionForm_RefDesignations">
+    <End Role="RefDesignations" Type="Self.RefDesignations" Multiplicity="0..1" />
+    <End Role="RequisitionForm" Type="Self.RequisitionForm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RefDesignations">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RequisitionForm">
+        <PropertyRef Name="DesignationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequisitionFormDetails_RequisitionForm">
+    <End Role="RequisitionForm" Type="Self.RequisitionForm" Multiplicity="0..1" />
+    <End Role="RequisitionFormDetails" Type="Self.RequisitionFormDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RequisitionForm">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RequisitionFormDetails">
+        <PropertyRef Name="RequisitionFormID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReturnVoucher_RefDesignations">
+    <End Role="RefDesignations" Type="Self.RefDesignations" Multiplicity="0..1" />
+    <End Role="ReturnVoucher" Type="Self.ReturnVoucher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RefDesignations">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReturnVoucher">
+        <PropertyRef Name="DesignationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReturnVoucher_ReturnVoucherDetails">
+    <End Role="ReturnVoucherDetails" Type="Self.ReturnVoucherDetails" Multiplicity="1" />
+    <End Role="ReturnVoucher" Type="Self.ReturnVoucher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReturnVoucherDetails">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReturnVoucher">
+        <PropertyRef Name="ReturnVoucherDetailID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InventoryManagementSystemModelStoreContainer">
+    <EntitySet Name="GRNDetails" EntityType="Self.GRNDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GRNs" EntityType="Self.GRNs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RefDesignations" EntityType="Self.RefDesignations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RefUsers" EntityType="Self.RefUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequisitionForm" EntityType="Self.RequisitionForm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequisitionFormDetails" EntityType="Self.RequisitionFormDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReturnVoucher" EntityType="Self.ReturnVoucher" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReturnVoucherDetails" EntityType="Self.ReturnVoucherDetails" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_GRNDetail_GRN" Association="Self.FK_GRNDetail_GRN">
+      <End Role="GRNs" EntitySet="GRNs" />
+      <End Role="GRNDetails" EntitySet="GRNDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequisitionForm_RefDesignations" Association="Self.FK_RequisitionForm_RefDesignations">
+      <End Role="RefDesignations" EntitySet="RefDesignations" />
+      <End Role="RequisitionForm" EntitySet="RequisitionForm" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequisitionFormDetails_RequisitionForm" Association="Self.FK_RequisitionFormDetails_RequisitionForm">
+      <End Role="RequisitionForm" EntitySet="RequisitionForm" />
+      <End Role="RequisitionFormDetails" EntitySet="RequisitionFormDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReturnVoucher_RefDesignations" Association="Self.FK_ReturnVoucher_RefDesignations">
+      <End Role="RefDesignations" EntitySet="RefDesignations" />
+      <End Role="ReturnVoucher" EntitySet="ReturnVoucher" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReturnVoucher_ReturnVoucherDetails" Association="Self.FK_ReturnVoucher_ReturnVoucherDetails">
+      <End Role="ReturnVoucherDetails" EntitySet="ReturnVoucherDetails" />
+      <End Role="ReturnVoucher" EntitySet="ReturnVoucher" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

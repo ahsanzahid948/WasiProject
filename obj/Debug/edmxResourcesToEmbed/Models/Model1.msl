@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InventoryManagementSystemModelStoreContainer" CdmEntityContainer="InventoryManagementSystemEntities">
+    <EntitySetMapping Name="GRNDetails">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.GRNDetail">
+        <MappingFragment StoreEntitySet="GRNDetails">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LeadgerPage" ColumnName="LeadgerPage" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="AU" ColumnName="AU" />
+          <ScalarProperty Name="QTYCreated" ColumnName="QTYCreated" />
+          <ScalarProperty Name="QTYRecived" ColumnName="QTYRecived" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+          <ScalarProperty Name="GRNID" ColumnName="GRNID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GRNs">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.GRN">
+        <MappingFragment StoreEntitySet="GRNs">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+          <ScalarProperty Name="Lab" ColumnName="Lab" />
+          <ScalarProperty Name="Project" ColumnName="Project" />
+          <ScalarProperty Name="GRNNo" ColumnName="GRNNo" />
+          <ScalarProperty Name="SuplyOrderNo" ColumnName="SuplyOrderNo" />
+          <ScalarProperty Name="SuplyDate" ColumnName="SuplyDate" />
+          <ScalarProperty Name="GRNDate" ColumnName="GRNDate" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="SupplierAddress" ColumnName="SupplierAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RefDesignations">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.RefDesignation">
+        <MappingFragment StoreEntitySet="RefDesignations">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="EntryUserID" ColumnName="EntryUserID" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RefUsers">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.RefUser">
+        <MappingFragment StoreEntitySet="RefUsers">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="IdentityNo" ColumnName="IdentityNo" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserProfileImage" ColumnName="UserProfileImage" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+          <ScalarProperty Name="IsSuperAdmin" ColumnName="IsSuperAdmin" />
+          <ScalarProperty Name="IsExternal" ColumnName="IsExternal" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="EntryUserID" ColumnName="EntryUserID" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequisitionFormDetails">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.RequisitionFormDetail">
+        <MappingFragment StoreEntitySet="RequisitionFormDetails">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LeaderPageNo" ColumnName="LeaderPageNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="QTYDemand" ColumnName="QTYDemand" />
+          <ScalarProperty Name="QTYIssued" ColumnName="QTYIssued" />
+          <ScalarProperty Name="RequisitionFormID" ColumnName="RequisitionFormID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequisitionForms">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.RequisitionForm">
+        <MappingFragment StoreEntitySet="RequisitionForms">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+          <ScalarProperty Name="Lab" ColumnName="Lab" />
+          <ScalarProperty Name="Project" ColumnName="Project" />
+          <ScalarProperty Name="SifNo" ColumnName="SifNo" />
+          <ScalarProperty Name="IsConsumable" ColumnName="IsConsumable" />
+          <ScalarProperty Name="SignatureOfInditor" ColumnName="SignatureOfInditor" />
+          <ScalarProperty Name="SignatureOfStoreKeeper" ColumnName="SignatureOfStoreKeeper" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReturnVoucherDetails">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.ReturnVoucherDetail">
+        <MappingFragment StoreEntitySet="ReturnVoucherDetails">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LeaderPageNo" ColumnName="LeaderPageNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="QTYUS" ColumnName="QTYUS" />
+          <ScalarProperty Name="QTYS" ColumnName="QTYS" />
+          <ScalarProperty Name="ReturnVoucherID" ColumnName="ReturnVoucherID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReturnVouchers">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.ReturnVoucher">
+        <MappingFragment StoreEntitySet="ReturnVouchers">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+          <ScalarProperty Name="Lab" ColumnName="Lab" />
+          <ScalarProperty Name="Project" ColumnName="Project" />
+          <ScalarProperty Name="ReturnByName" ColumnName="ReturnByName" />
+          <ScalarProperty Name="ReturnByDesignation" ColumnName="ReturnByDesignation" />
+          <ScalarProperty Name="CatByName" ColumnName="CatByName" />
+          <ScalarProperty Name="CatByDesignation" ColumnName="CatByDesignation" />
+          <ScalarProperty Name="ReturnBySignature" ColumnName="ReturnBySignature" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

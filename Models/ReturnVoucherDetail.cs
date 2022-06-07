@@ -14,18 +14,14 @@ namespace InventoryManagementSystem.Models
     
     public partial class ReturnVoucherDetail
     {
-        public ReturnVoucherDetail()
-        {
-            this.ReturnVouchers = new HashSet<ReturnVoucher>();
-        }
-    
         public long ID { get; set; }
         public string LeaderPageNo { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
         public string QTYUS { get; set; }
         public string QTYS { get; set; }
+        public long ReturnVoucherID { get; set; }
     
-        public virtual ICollection<ReturnVoucher> ReturnVouchers { get; set; }
+        public virtual ReturnVoucher ReturnVoucher { get; set; }
     }
 }

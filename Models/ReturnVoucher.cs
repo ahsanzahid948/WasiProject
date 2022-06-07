@@ -24,7 +24,6 @@ namespace InventoryManagementSystem.Models
         public string CatByName { get; set; }
         public string CatByDesignation { get; set; }
         public string ReturnBySignature { get; set; }
-        public long ReturnVoucherDetailID { get; set; }
     
         public virtual RefDesignation RefDesignation { get; set; }
         public virtual ReturnVoucherDetail ReturnVoucherDetail { get; set; }
