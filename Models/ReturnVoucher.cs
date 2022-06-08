@@ -14,6 +14,11 @@ namespace InventoryManagementSystem.Models
     
     public partial class ReturnVoucher
     {
+        public ReturnVoucher()
+        {
+            this.ReturnVoucherDetails = new HashSet<ReturnVoucherDetail>();
+        }
+    
         public long ID { get; set; }
         public string Name { get; set; }
         public Nullable<long> DesignationID { get; set; }
@@ -24,8 +29,11 @@ namespace InventoryManagementSystem.Models
         public string CatByName { get; set; }
         public string CatByDesignation { get; set; }
         public string ReturnBySignature { get; set; }
+        public Nullable<long> ReturnVoucherDetail { get; set; }
     
         public virtual RefDesignation RefDesignation { get; set; }
-        public virtual ReturnVoucherDetail ReturnVoucherDetail { get; set; }
+        public virtual ICollection<ReturnVoucherDetail> ReturnVoucherDetails { get; set; }
+        public virtual ReturnVoucher ReturnVouchers1 { get; set; }
+        public virtual ReturnVoucher ReturnVoucher1 { get; set; }
     }
 }

@@ -29,11 +29,20 @@ namespace InventoryManagementSystem.Controllers
 
             return Json(1);
         }
-        public ActionResult Create(GRN Obj)
+        public ActionResult Create(ReturnVoucher Obj)
         {
-            var a = context.GRNs.Add(Obj);
-            int b = context.SaveChanges();
-            return Json(a);
+            try
+            {
+
+                var a = context.ReturnVouchers.Add(Obj);
+                int b = context.SaveChanges();
+                return Json(a);
+            }
+            catch (Exception ex) {
+
+                return Json("Error While Adding");
+
+            }
         }
         public ActionResult Update(GRN Obj)
         {
@@ -41,15 +50,23 @@ namespace InventoryManagementSystem.Controllers
         }
         public ActionResult Delete(int ID)
         {
-            var obj = context.ReturnVoucherDetails.Where(x => x.ReturnVoucherID == ID).ToList();
+            try
+            {
+                var obj = context.ReturnVoucherDetails.Where(x => x.ReturnVoucherID == ID).ToList();
 
-            var obj2 = context.ReturnVouchers.FirstOrDefault(x => x.ID == ID);
-            foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
+                var obj2 = context.ReturnVouchers.FirstOrDefault(x => x.ID == ID);
+                foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
 
 
-            var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
-            context.SaveChanges();
-            return Json(result);
+                var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
+                context.SaveChanges();
+                return Json(result);
+            }
+            catch (Exception ex) {
+
+                return Json("Error While Deleting");
+
+            }
         }
     }
 }

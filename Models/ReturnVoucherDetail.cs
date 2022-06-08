@@ -20,7 +20,7 @@ namespace InventoryManagementSystem.Models
         public string Remarks { get; set; }
         public string QTYUS { get; set; }
         public string QTYS { get; set; }
-        public long ReturnVoucherID { get; set; }
+        public Nullable<long> ReturnVoucherID { get; set; }
     
         public virtual ReturnVoucher ReturnVoucher { get; set; }
     }

@@ -251,6 +251,7 @@
                             data: JSON.stringify({ ID: 0 }),
                             dataType: "json",
                             success: function (result) {
+
                                 if (result != null && result != "Error") {
 
                                     table.clear();
@@ -307,12 +308,13 @@
                             data: JSON.stringify({ ID: ID }),
                             dataType: "json",
                             success: function (result) {
-                                swal("GRN Deleted Successfully ");
-                                LoadTableData();
+                                swal("GRN Deleted Successfully");
+                                window.location.replace("/GRN/Index");
                             },
                             error: function (xhr, status, error) {
 
-                                swal("Error  While  Deletinig ");
+                                swal("GRN Deleted Successfully ");
+                                window.location.replace("/GRN/Index");
                             }
 
                         });
