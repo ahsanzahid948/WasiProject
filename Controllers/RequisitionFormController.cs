@@ -29,9 +29,9 @@ namespace InventoryManagementSystem.Controllers
 
             return Json(list,JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Create(GRN Obj)
+        public ActionResult Create(RequisitionForm Obj)
         {
-            var a = context.GRNs.Add(Obj);
+            var a = context.RequisitionForms.Add(Obj);
             int b = context.SaveChanges();
             return Json(a);
         }

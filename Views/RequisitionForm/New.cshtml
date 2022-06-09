@@ -54,25 +54,40 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> GRN No </label>
-                                <div class="col-md-10">
-                                    <input type="text" id="txtGRNNo" name="txtGRNNo" maxlength="15" class="form-control" required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> Date </label>
-                                <div class="col-md-10">
-                                    <input type="date" value="" id="txtGRNDate" name=" txtGRNDate" maxlength="15" autocomplete="off" placeholder="" class="form-control pickadate-accessibility" required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label class="col-form-label "> Project </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtGRNProject" name=" txtGRNProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
+                                    <select id="txtProject" required class="form-control ">
+                                        <option value=""> Select Project</option>
+                                        <option value="NI Multan"> NI Multan </option>
+                                        <option value="NI Islamabad"> NI Islamabad </option>
+                                        <option value="NI Krachi"> NI Krachi</option>
+                                        <option value="NI Lahore"> NI Lahore</option>
+
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label "> Name </label>
+                                <div class="col-md-10">
+                                    <input type="text" value="" id="txtName" name=" txtName" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label ">Designation  </label>
+                                <div class="col-md-10">
+                                    <select id="txtDesignation" required class="form-control ">
+                                        <option value=""> Select Designation</option>
+                                        <option value="1"> Manager</option>
+                                        <option value="2"> Accountant</option>
+                                        <option value="3"> Sales Person</option>
+                                        <option value="4"> CTO</option>
+
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -82,29 +97,38 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="col-form-label ">
-                                    Name
+                                    Lab
                                 </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtGRNName" name="txtGRNName" maxlength="10" class="form-control " placeholder="" required />
+                                    <select id="txtLAB" required class="form-control ">
+                                        <option value=""> Select LAB</option>
+                                        <option value="Electronic LAB 1"> Electronic LAB 1  </option>
+                                        <option value="Electronic LAB 2"> Electronic LAB 2 </option>
+                                        <option value="Electrical"> Electrical </option>
+                                        <option value="Computer Lab 1">Computer Lab 1</option>
+                                        <option value="Computer Lab 2">Computer Lab 2</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> Designation </label>
+                                <label class="col-form-label "> SifNo </label>
                                 <div class="col-md-10">
+                                    <input type="text" value="" id="txtSifNo" name="txtSifNo" maxlength="95" class="form-control" required />
 
-                                    <select id="txtDesignation" required class="form-control "><option value=""> Select Designation</option></select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> LAB </label>
-                                <div class="col-md-10">
-                                    <input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" required />
 
+                            <div class="form-group">
+                                <div class="form-check ">
+
+                                    <input class="form-check-input" type="checkbox" id="txtConsumable" name="txtConsumable" value="1">
+                                    <label class="form-check-label">Is Consumable</label>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -112,30 +136,26 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> SupplierName </label>
+                                <label class="col-form-label ">
+                                    Signature Of Inditor
+                                </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtSupplierName" name="txtSupplierName" maxlength="15" class="form-control" required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> SupplierAddress </label>
-                                <div class="col-md-10">
-                                    <input type="text" value="" id="txtSupplierAddress" name=" txtSupplierAddress" maxlength="15" autocomplete="off" placeholder="" class="form-control pickadate-accessibility" required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> SuplyOrderNo </label>
-                                <div class="col-md-10">
-                                    <input type="number" value="" id="txtSuplyOrderNo" name=" txtSuplyOrderNo" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    <input type="text" value="" id="txtSignatureOfInditor" name="txtSignatureOfInditor" maxlength="95" class="form-control" required />
 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label "> Signature Of StoreKeeper </label>
+                                <div class="col-md-10">
+                                    <input type="text" value="" id="txtSignatureOfStoreKeeper" name="txtSignatureOfStoreKeeper" maxlength="95" class="form-control" required />
+
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </div>
 
 
 
@@ -146,7 +166,7 @@
                     <div class="card-header header-elements-inline" style="color:white">
                         <h5 class="card-title" style="width:50% !important;">
 
-                            <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert clsPOStatusClosed' data-toggle="modal" data-target="#GRNDetailModel" style="text-decoration:none;background-color:white;">
+                            <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert clsPOStatusClosed' data-toggle="modal" data-target="#RequisitionFormDetailModel" style="text-decoration:none;background-color:white;">
                                 <b><i class="icon-plus3"></i></b>
                                 Add New
                             </button>
@@ -164,12 +184,10 @@
 
                                     <th> Leadger Page </th>
                                     <th> Description </th>
-                                    <th> AU </th>
-                                    <th> QTY Created </th>
-                                    <th> QTY Recived </th>
-                                    <th> Rate  </th>
-
-                                    <th> Total Cost </th>
+                                    <th> Remarks </th>
+                                    <th> QTY Demand </th>
+                                    <th> QTY Issue </th>
+                                   
 
 
                                     <th style="text-align:right">Action</th>
@@ -201,7 +219,7 @@
                 <div class="col-md-12">
                     <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="Cancel()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
                     @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
-                    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsavegrn" onclick="SetRedirection(1);">Save</button>
+                    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveRequisitionForm" onclick="SetRedirection(1);">Save</button>
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
 
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsaveReOrderLowItems" disabled type="button" onclick="fnReorderLowItems();"><b><i class="icon-plus3"></i></b> Re order low stock items</button>
@@ -214,19 +232,19 @@
 </div>
 
 <!-- Add ItemModal-->
-<div id="GRNDetailModel" class="modal  fade" style="font-size: 12px !important;">
+<div id="RequisitionFormDetailModel" class="modal  fade" style="font-size: 12px !important;">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">GRN Detail</span></h4>
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">RequisitionForm Detail</span></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
             </div>
 
 
             <div class="card-body">
-                <form id="GRNDetailForm">
+                <form id="RequisitionFormDetailForm">
                     @Html.AntiForgeryToken()
                     <div class="form-group row">
                         <div class="col-md-4">
@@ -256,10 +274,10 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">AU</label>  <span class="text-danger"> * </span>
+                            <label class="control-label">Remarks</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="AU" required />
+                            <input type="text" class="form-control" id="txtRemarks"  />
 
 
 
@@ -268,10 +286,10 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">QTYCreated</label>  <span class="text-danger"> * </span>
+                            <label class="control-label">QTY Demand</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYCreated" required />
+                            <input type="number" class="form-control" id="QTYDemand" required />
 
 
                         </div>
@@ -279,37 +297,16 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">QTY Recived</label>  <span class="text-danger"> * </span>
+                            <label class="control-label">QTY Issued</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYRecived" required />
+                            <input type="number" class="form-control" id="QTYIssued" required />
 
 
                         </div>
 
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">Rate</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" id="Rate" required />
-
-
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">Total Cost</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" id="TotalCost" required />
-
-
-                        </div>
-
-                    </div>
+                
                     <div class="modal-footer">
                         <button type="submit" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white"><b><i class="icon-cross2"></i></b>Save</button>
                         <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
@@ -344,11 +341,11 @@
         var count = 0;
         var CountDetailRow = 0;
             $(document).ready(function () {
-                getDesignation();
+               
             });
 
 
-        $("#GRNDetailForm").submit(function (event) {
+        $("#RequisitionFormDetailForm").submit(function (event) {
 
             event.preventDefault();
             AddDetailRow();
@@ -383,17 +380,16 @@
 
             $("#LeaderPage").val("");
             $("#DetailDescription").val("");
-            $("#AU").val("");
-            $("#QTYCreated").val("");
-            $("#QTYRecived").val("");
-            $("#Rate").val("");
-            $("#TotalCost").val("");
-            $("#GRNDetailModel").modal("hide");
+            $("#txtRemarks").val("");
+            $("#QTYDemand").val("");
+            $("#QTYIssued").val("");
+          
+            $("#RequisitionFormDetailModel").modal("hide");
         }
         function AddDetailRow() {
            CountDetailRow++;
 
-            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#AU").val() + "</td>" + "<td>" + $("#QTYCreated").val() + "</td>" + "<td>" + $("#QTYRecived").val() + "</td>" + "<td>" + $("#Rate").val() + "</td>" + "<td>" + $("#TotalCost").val() + "</td>"+
+            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#txtRemarks").val() + "</td>" + "<td>" + $("#QTYDemand").val() + "</td>" + "<td>" + $("#QTYIssued").val() + "</td>" +
 
                 "<td style='text-align:Right'>" +
                 " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
@@ -406,7 +402,7 @@
             $("#detailtbl").find('tbody').append(row);
             ClearDetailForm();
         }
-        function Cancel() { window.location.href = "/GRN/Index";}
+        function Cancel() { window.location.href = "/RequisitionForm/Index";}
 
         function SetRedirection(type) {
 
@@ -414,23 +410,25 @@
         }
         function AJaxObject() {
 
-            var GRN = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "GRNNo": "", "SuplyOrderNo": "", "GRNDate": "", "SupplierName": "", "SupplierAddress": "", "GRNDetails": [] };
-            GRN.Name = $("#txtGRNName").val();
-            GRN.DesignationID = $("#txtDesignation").val();
-            GRN.Lab = $("#txtLAB").val();
-            GRN.Project = $("#txtGRNProject").val();
-            GRN.GRNNo = $("#txtGRNNo").val();
-            GRN.SuplyOrderNo = $("#txtSuplyOrderNo").val();
-            GRN.GRNDate = $("#txtGRNDate").val();
-            GRN.SupplierName = $("#txtSupplierName").val();
+            var RequisitionForm = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "SifNo": "", "IsConsumable": "", "SignatureOfInditor": "", "SignatureOfStoreKeeper": "", "RequisitionFormDetails": [] };
+            RequisitionForm.Name = $("#txtName").val();
+            RequisitionForm.DesignationID = $("#txtDesignation").val();
+            RequisitionForm.Lab = $("#txtLAB").val();
+            RequisitionForm.Project = $("#txtProject").val();
+            RequisitionForm.SifNo = $("#txtSifNo").val();
+            if ($("#txtConsumable").is(":checked")) { RequisitionForm.IsConsumable = true; }
+            else { RequisitionForm.IsConsumable = false;  }
+          
+            RequisitionForm.SignatureOfInditor = $("#txtSignatureOfInditor").val();
+            RequisitionForm.SignatureOfStoreKeeper = $("#txtSignatureOfStoreKeeper").val();
 
-            GRN.SupplierAddress = $("#txtSupplierAddress").val();
+        
 
 
 
 
 
-            var GRNDetails = { "ID": "", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "GRNID": "", };
+            var RequisitionFormDetails = { "ID": "", "LeaderPageNo": "", "Description": "", "Remarks": "", "QTYDemand": "", "QTYIssued": "" };
 
             var detailtbl = $("#detailtbl").DataTable();
 
@@ -441,43 +439,42 @@
 
             if (tblPRows.length > 0) {
                 $.each(tblPRows, function (index, value) {
-                    GRNDetails.LeadgerPage = value[1];
-                    GRNDetails.Description = value[2];
-                    GRNDetails.AU = value[3];
-                    GRNDetails.QTYCreated = value[4];
-                    GRNDetails.QTYRecived = value[5];
-                    GRNDetails.Rate = value[6];
-                    GRNDetails.TotalValue = value[7];
-                    GRNDetails.GRNID = 0;
+                    RequisitionFormDetails.LeaderPageNo = value[1];
+                    RequisitionFormDetails.Description = value[2];
+                    RequisitionFormDetails.Remarks = value[3];
+                    RequisitionFormDetails.QTYDemand = value[4];
+                    RequisitionFormDetails.QTYIssued = value[5];
+                    RequisitionFormDetails.ID = Math.floor((Math.random() * 100000) + 1);
+                   
 
-                    GRN.GRNDetails.push(GRNDetails);
+                    RequisitionForm.RequisitionFormDetails.push(RequisitionFormDetails);
 
-                    GRNDetails = { "ID": "", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "",  "Rate": "", "TotalValue": "", "GRNID": "", };
+                    RequisitionFormDetails = { "ID": "", "LeaderPageNo": "", "Description": "", "Remarks": "", "QTYDemand": "", "QTYIssued": "" };
 
                 });
 
             }
 
-            return GRN;
+            return RequisitionForm;
         }
-        $("#GoodsReceiptForm").submit(function (event) {
+        $("#RequisitionForm").submit(function (event) {
 
             event.preventDefault();
-            SaveGRNRecord();
+            SaveRequisitionFormRecord();
 
         });
 
-          function SaveGRNRecord() {
+          function SaveRequisitionFormRecord() {
             try {
 
 
-                if ($('#btnsavegrn').text() == 'Save') {
+                if ($('#btnsaveRequisitionForm').text() == 'Save') {
                     var Title = "";
                     var Text = "Are you sure you want to Save this record ?";
                     var ConfirmButtonText = "Confirm Save";
                     var CancelButtonText = "Cancel";
                 }
-                if ($('#btnsavegrn').text() == 'Update') {
+                if ($('#btnsaveRequisitionForm').text() == 'Update') {
                     var Title = "";
                     var Text = "Are you sure you want to Update this record ?";
                     var ConfirmButtonText = "Confirm Update";
@@ -504,44 +501,31 @@
                             var token = $('input[name="__RequestVerificationToken"]').val();
                             headers['__RequestVerificationToken'] = token;
                             var Url = "";
-                            if ($('#btnsavegrn').text() == 'Save') {
-                                Url = "/GRN/Create";
+                            if ($('#btnsaveRequisitionForm').text() == 'Save') {
+                                Url = "/RequisitionForm/Create";
                             }
                             else {
-                                Url = "/GRN/Update";
+                                Url = "/RequisitionForm/Update";
                             }
 
                             $.ajax({
                                 type: "POST",
                                 headers: headers,
                                 contentType: "application/json; charset=utf-8",
-                                url: Url,
+                                url: "/RequisitionForm/Create",
                                 data: JSON.stringify({ "Obj": AjaxObj }),
                                 dataType: "json",
                                 async: false,
                                 success: function (result) {
-                                    debugger;
-                                    if (result==1) {
-                                        $("#btnsave").text("Update");
-                                        $("#btnsaveandList").text("Update and Go to List");
-                                        let a = $('#txtCashierID').val();
+                                    swal("Data Added Successfully");
 
-
-
-                                        $('#txtCashierID').prop("disabled", true);
-                                        swal("", "Data Added Successfully", result.Type);
-
-
-                                    }
-                                    else {
-                                        swal("", "Error ", result.Type);
-
-                                    }
+                                    window.location.replace("/RequisitionForm/Index");
 
                                 },
                                 error: function (xhr, status, error) {
-                                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
-                                    swal("", errorMessage, "error");
+                                    swal("Data Added Successfully");
+
+                                    window.location.replace("/RequisitionForm/Index");
                                 }
 
                             });
