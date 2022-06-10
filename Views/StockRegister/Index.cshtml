@@ -1,0 +1,316 @@
+﻿@model IEnumerable<InventoryManagementSystem.Models.StokeRegister>
+@{ int count = 1;
+}
+@{
+    ViewBag.Title = "Index";
+    var UserPics = "";
+}
+
+
+@section styles
+    {
+
+    <style>
+    </style>
+
+}
+<head>
+
+    <link href="~/Content/CSS/color_file.css" rel="stylesheet" />
+
+</head>
+
+
+<div class="page-header page-header-light">
+
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline" style="margin-top:15px;">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="~/UserManagement/Dashboard/Index" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <span style="background-color:red !important;">Stoke Register</span>
+            </div>
+
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="card" style=" margin-top:15px">
+    <div class="card-header header-elements-inline bg-orange-800">
+
+        <h5 class="card-title">
+
+            <a  data-toggle="modal" data-target="#SaveModal"  class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert' style="background-color: #f5e486; color: black;">
+                <b><i class="icon-plus3"></i></b>
+                NEW
+            </a>
+            <span class="font-weight-semibold  usercolor" style=""> Stoke Register</span>
+        </h5>
+
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+                <a class="list-icons-item" data-action="reload"></a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table datatable-button-html5-columns dataTable no-footer responsive" id="tblGRN">
+            <thead>
+                <tr>
+                    <th>Sr.</th>
+
+                    <th>Particular</th>
+                    <th>Date</th>
+                    <th>Recipit</th>
+                    <th>Issued</th>
+                    <th>Balance</th>
+                    <th>Remarks</th>
+                    <th style="text-align:right">Action</th>
+                    @foreach (var m in Model)
+                    {
+                    <tr>
+                        <td>@count</td>
+
+
+                        <td>@m.Particular</td>
+                        <td>@m.Date</td>
+                        <th>@m.QTYRecipt</th>
+
+                        <td>@m.QTYIssued</td>
+                        <th>@m.Balance</th>
+
+                        <td>@m.Remarks</td>
+                        <td><button onclick='ModifyRecord(" + Data.ID + ");' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
+                        <td>  <button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'></button></td>
+                    </tr>
+                    count++;
+                }
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+    <div id="SaveModal" class="modal fade">
+        <div class="modal-dialog  modal-lg" >
+            <div class="modal-content">
+                <form id="StockForm" class="form-horizontal">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">Stock </span></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3">
+                                    Particular
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" id="txtParticular" class="form-control" name="ID" style="display:none" />
+
+                                    <input id="TxtParticular" type="text" class="form-control" name="txtParticular" maxlength="50" required />
+
+                                </div>
+                            </div>
+                            <div class="form-group  row">
+                                <label class="control-label col-md-3">
+                                    Pholio No.
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-7">
+
+                                    <input id="TxtPholio" type="text" class="form-control" name="TxtPholio" maxlength="50" required />
+
+                                </div>
+                            </div>
+
+                            <div class="form-group  row">
+                                <label class="control-label col-md-3">
+                                    Date
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-7">
+
+                                    <input type="date" id="TxtDate" class="form-control pickadate-accessibility" name="TxtDate" value="" maxlength="50" required />
+
+                                </div>
+                            </div>
+                            <div class="form-group  row">
+                                <label class="control-label col-md-3">
+                                    Quantity Reciept
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-7">
+
+                                    <input id="TxtReciept" type="text" class="form-control" name="TxtReciept" maxlength="50" required />
+
+                                </div>
+                            </div>
+                            <div class="form-group  row">
+                                <label class="control-label col-md-3">
+                                    Quantity Issued
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-7">
+
+                                    <input id="TxtIssued" type="text" class="form-control" name="TxtIssued" maxlength="50" required />
+
+                                </div>
+                            </div>
+                            <div class="form-group  row">
+                                <label class="control-label col-md-3">
+                                    Balance
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-7">
+
+                                    <input id="TxtBalance" type="text" class="form-control" name="TxtBalance" maxlength="50" required />
+
+                                </div>
+                            </div>
+
+                            <div class="form-group  row">
+                                <label class="control-label col-md-3">
+                                    Remarks
+                                    <span class="text-danger"> * </span>
+                                </label>
+                                <div class="col-md-7">
+
+                                    <input id="TxtRemarks" type="text" class="form-control" name="TxtRemarks" maxlength="50" required />
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" data-dismiss="modal" style="color:white"><b><i class="icon-cross2"></i></b>Close</button>
+                        <button type="submit" id="btnsave" class="btn btn-primary btn-sm">Save changes<b><i class="icon-paperplane ml-2"></i></b></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+
+        @Scripts.Render("~/bundles/Validation")
+        @Scripts.Render("~/bundles/ERPScripts")
+        <script src="~/Content/assets/assets/js/sweetalert.min.js"></script>
+
+        <script>
+
+                $(document).ready(function () {
+
+
+
+
+
+                });
+            $("#StockForm").submit(function (event) {
+
+                event.preventDefault();
+                save();
+
+            });
+
+                function save() {
+
+                    
+
+                    var OBJ = { "ID": "", "Particular": "", "Date": "", "Folio": "", "QTYRecipt": "", "QTYIssued": "", "Balance": "", "Remarks": ""}
+
+
+                    
+                    OBJ.Particular = $("#txtParticular").val();
+                    OBJ.Date = $("#TxtDate").val();
+                    OBJ.Folio = $("#TxtPholio").val();
+                    OBJ.QTYRecipt = $("#TxtReciept").val();
+                    OBJ.QTYIssued = $("#TxtIssued").val();
+                    OBJ.Balance = $("#TxtBalance").val();
+                    OBJ.Remarks = $("#TxtRemarks").val();
+
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+
+
+                    $.ajax(
+                        {
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: "/StockRegister/Create",
+                            data: JSON.stringify({ OBJ }),
+                            dataType: "json",
+                            success: function (result) {
+                                swal("Data Added Successfully");
+                                $("#SaveModal").modal("hide");
+                             
+                              
+                                window.location.replace("/StockRegister/Index");
+                            },
+                            error: function (xhr, status, error) {
+                                swal("Data Added Successfully");
+                                $("#SaveModal").modal("hide");
+
+
+                                window.location.replace("/StockRegister/Index");
+
+                            }
+
+                        });
+                }
+
+                function Delete(ID) {
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax(
+                        {
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: "/StockRegister/Delete",
+                            data: JSON.stringify({ ID: ID }),
+                            dataType: "json",
+                            success: function (result) {
+                                swal("Stock Register Deleted Successfully");
+                                window.location.replace("/StockRegister/Index");
+                            },
+                            error: function (xhr, status, error) {
+
+                                swal("Stock Register Deleted Successfully ");
+                                window.location.replace("/StockRegister/Index");
+                            }
+
+                        });
+
+
+                }
+        </script>
+
+    }
+
+
+

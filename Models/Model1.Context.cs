@@ -33,5 +33,6 @@ namespace InventoryManagementSystem.Models
         public DbSet<RequisitionForm> RequisitionForms { get; set; }
         public DbSet<ReturnVoucherDetail> ReturnVoucherDetails { get; set; }
         public DbSet<ReturnVoucher> ReturnVouchers { get; set; }
+        public DbSet<StokeRegister> StokeRegisters { get; set; }
     }
 }

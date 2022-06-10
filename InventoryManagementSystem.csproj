@@ -133,6 +133,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RequisitionFormController.cs" />
     <Compile Include="Controllers\ReturnVoucherController.cs" />
+    <Compile Include="Controllers\StockRegisterController.cs" />
     <Compile Include="Controllers\UserListController.cs" />
     <Compile Include="DAL\Generic\GenericRepository.cs" />
     <Compile Include="DAL\Generic\IGenericRepository.cs" />
@@ -178,6 +179,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnVoucherDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StokeRegister.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -7851,6 +7855,7 @@
     <Content Include="Views\ReturnVoucher\New.cshtml" />
     <Content Include="Views\RequisitionForm\New.cshtml" />
     <Content Include="Views\ReturnVoucher\GetVoucherList.cshtml" />
+    <Content Include="Views\StockRegister\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

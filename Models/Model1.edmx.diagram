@@ -19,6 +19,7 @@
         <AssociationConnector Association="InventoryManagementSystemModel.FK_ReturnVoucher_RefDesignations" />
         <AssociationConnector Association="InventoryManagementSystemModel.FK_ReturnVoucherDetails_ReturnVouchers" />
         <AssociationConnector Association="InventoryManagementSystemModel.FK_ReturnVouchers_ReturnVouchers" />
+        <EntityTypeShape EntityType="InventoryManagementSystemModel.StokeRegister" Width="1.5" PointX="0.75" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

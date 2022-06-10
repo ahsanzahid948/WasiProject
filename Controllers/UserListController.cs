@@ -35,7 +35,11 @@ namespace InventoryManagementSystem.Controllers
         }
 
         public ActionResult GetTableSummary()
-        { if ((bool)Session["IsAdmin"] == true)
+    {
+            try { 
+
+
+            if ((bool)Session["IsAdmin"] == true)
             {
 
                 var result = unitOfWork.UserRepository.GetAll();
@@ -45,7 +49,8 @@ namespace InventoryManagementSystem.Controllers
                 var result = unitOfWork.UserRepository.GetAll().Where(x => x.ID.ToString() == Session["ID"].ToString());
                 return Json(result);
             }
-          
+            }
+            catch(Exception ex){ return Json(""); }
         }
 
         public ActionResult Create(RefUser refUser )

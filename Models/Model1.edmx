@@ -122,6 +122,19 @@
           <Property Name="ReturnBySignature" Type="nvarchar" MaxLength="50" />
           <Property Name="ReturnVoucherDetail" Type="bigint" />
         </EntityType>
+        <EntityType Name="StokeRegister">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Particular" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
+          <Property Name="Folio" Type="nvarchar" MaxLength="50" />
+          <Property Name="QTYRecipt" Type="nvarchar" MaxLength="50" />
+          <Property Name="QTYIssued" Type="nvarchar" MaxLength="50" />
+          <Property Name="Balance" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <Association Name="FK_GRNDetail_GRN">
           <End Role="GRNs" Type="Self.GRNs" Multiplicity="0..1" />
           <End Role="GRNDetails" Type="Self.GRNDetails" Multiplicity="*" />
@@ -203,6 +216,7 @@
           <EntitySet Name="RequisitionForms" EntityType="Self.RequisitionForms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnVoucherDetails" EntityType="Self.ReturnVoucherDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnVouchers" EntityType="Self.ReturnVouchers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokeRegister" EntityType="Self.StokeRegister" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_GRNDetail_GRN" Association="Self.FK_GRNDetail_GRN">
             <End Role="GRNs" EntitySet="GRNs" />
             <End Role="GRNDetails" EntitySet="GRNDetails" />
@@ -397,6 +411,7 @@
             <End Role="ReturnVoucher" EntitySet="ReturnVouchers" />
             <End Role="ReturnVoucher1" EntitySet="ReturnVouchers" />
           </AssociationSet>
+          <EntitySet Name="StokeRegisters" EntityType="InventoryManagementSystemModel.StokeRegister" />
         </EntityContainer>
         <EntityType Name="ReturnVoucherDetail">
           <Key>
@@ -467,6 +482,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="StokeRegister">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Particular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QTYRecipt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QTYIssued" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Balance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -594,6 +622,20 @@
                 <ScalarProperty Name="Lab" ColumnName="Lab" />
                 <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokeRegisters">
+            <EntityTypeMapping TypeName="InventoryManagementSystemModel.StokeRegister">
+              <MappingFragment StoreEntitySet="StokeRegister">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="QTYIssued" ColumnName="QTYIssued" />
+                <ScalarProperty Name="QTYRecipt" ColumnName="QTYRecipt" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Particular" ColumnName="Particular" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
