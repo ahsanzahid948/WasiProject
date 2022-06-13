@@ -1,6 +1,6 @@
 ﻿@{
     long moduleid = 4;
-    moduleid =  4;
+    moduleid = 4;
 
 }
 
@@ -36,13 +36,20 @@
                         <span>Users</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                @{
+                    if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"] == true)
+                    {
+                        <li class="nav-item">
 
-                    <a href="/GRN/Index" class="nav-link">
-                        <i class="icon-stats-growth"></i>
-                        <span>GRN</span>
-                    </a>
-                </li>
+                            <a href="/GRN/Index" class="nav-link">
+                                <i class="icon-stats-growth"></i>
+                                <span>GRN</span>
+                            </a>
+                        </li>
+                    }
+
+                }
+
                 <li class="nav-item">
 
                     <a href="/ReturnVoucher/Index" class="nav-link">

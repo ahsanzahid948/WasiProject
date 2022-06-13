@@ -147,7 +147,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> SupplierAddress </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtSupplierAddress" name=" txtSupplierAddress" maxlength="15" autocomplete="off" placeholder="" class="form-control " required />
+                                    <input type="text" value="" id="txtSupplierAddress" name=" txtSupplierAddress" maxlength="200" autocomplete="off" placeholder="" class="form-control " required />
                                 </div>
                             </div>
                         </div>
@@ -296,7 +296,7 @@
                             <label class="control-label">QTYCreated</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYCreated" required />
+                            <input type="number" class="form-control" id="QTYCreated" required onchange="calculatetotal()"/>
 
 
                         </div>
@@ -318,7 +318,7 @@
                             <label class="control-label">Rate</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="Rate" required />
+                            <input type="number" class="form-control" id="Rate" onchange="calculatetotal()" required />
 
 
                         </div>
@@ -329,7 +329,7 @@
                             <label class="control-label">Total Cost</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="TotalCost" required />
+                            <input type="number" class="form-control" id="TotalCost" required onchange="calculatetotal()"/>
 
 
                         </div>
@@ -390,6 +390,16 @@
             $("#Rate").val("");
             $("#TotalCost").val("");
             $("#GRNDetailModel").modal("hide");
+        }
+
+
+        function calculatetotal() {
+            let qc = $("#QTYCreated").val();
+            let rate = $("#Rate").val();
+            let total = qc * rate;
+            if (total > 0) { $("#TotalCost").val(total); }
+
+
         }
         function AddDetailRow() {
            CountDetailRow++;

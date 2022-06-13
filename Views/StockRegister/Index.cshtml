@@ -119,7 +119,7 @@
                                     <span class="text-danger"> * </span>
                                 </label>
                                 <div class="col-md-7">
-                                    <input type="text" id="txtParticular" class="form-control" name="ID" style="display:none" />
+                                  
 
                                     <input id="TxtParticular" type="text" class="form-control" name="txtParticular" maxlength="50" required />
 
@@ -155,7 +155,7 @@
                                 </label>
                                 <div class="col-md-7">
 
-                                    <input id="TxtReciept" type="text" class="form-control" name="TxtReciept" maxlength="50" required />
+                                    <input id="TxtReciept" type="text" class="form-control" name="TxtReciept" maxlength="50" onchange="calculatebalance()" required />
 
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                                 </label>
                                 <div class="col-md-7">
 
-                                    <input id="TxtIssued" type="text" class="form-control" name="TxtIssued" maxlength="50" required />
+                                    <input id="TxtIssued" type="text" class="form-control" name="TxtIssued" maxlength="50" onchange="calculatebalance()" required />
 
                                 </div>
                             </div>
@@ -177,7 +177,7 @@
                                 </label>
                                 <div class="col-md-7">
 
-                                    <input id="TxtBalance" type="text" class="form-control" name="TxtBalance" maxlength="50" required />
+                                    <input id="TxtBalance" type="text" class="form-control" onchange="calculatebalance()" name="TxtBalance" maxlength="50" required />
 
                                 </div>
                             </div>
@@ -234,6 +234,18 @@
 
             });
 
+
+            function calculatebalance() {
+                let total = $("#TxtReciept").val() - $("#TxtIssued").val();
+
+                if (total > 0) {
+                    $("#TxtBalance").val(total);
+
+                }
+                else { $("#TxtBalance").val(0);}
+                
+            }
+
                 function save() {
 
                     
@@ -242,7 +254,7 @@
 
 
                     
-                    OBJ.Particular = $("#txtParticular").val();
+                    OBJ.Particular = $("#TxtParticular").val();
                     OBJ.Date = $("#TxtDate").val();
                     OBJ.Folio = $("#TxtPholio").val();
                     OBJ.QTYRecipt = $("#TxtReciept").val();

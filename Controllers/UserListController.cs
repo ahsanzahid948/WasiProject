@@ -39,8 +39,8 @@ namespace InventoryManagementSystem.Controllers
             try { 
 
 
-            if ((bool)Session["IsAdmin"] == true)
-            {
+            if (Session["IsAdmin"] !=null &&(bool) Session["IsAdmin"]==true)
+                {
 
                 var result = unitOfWork.UserRepository.GetAll();
                 return Json(result);

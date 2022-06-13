@@ -29,6 +29,13 @@ namespace InventoryManagementSystem.Controllers
 
             return Json(list);
         }
+      
+        public ActionResult View(int ID)
+        { 
+            var list = context.GRNs.FirstOrDefault(x => x.ID == ID);
+
+            return Json(list);
+        }
         public ActionResult Create(GRN Obj)
         {
             try

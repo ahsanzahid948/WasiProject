@@ -86,7 +86,7 @@
                             <th>@m.SuplyDate</th>
 
                             <td>@m.GRNDate</td>
-                            <td><button onclick='ModifyRecord(" + Data.ID + ");' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
+                            <td><button onclick='View(@m.ID);' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
                             <td>  <button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'></button></td>
                         </tr>
                         count++;
@@ -214,12 +214,7 @@
             </div>
         </div>
 
-        @section scripts{
-
-            @Scripts.Render("~/bundles/Validation")
-            @Scripts.Render("~/bundles/ERPScripts")
-            <script src="~/Content/assets/assets/js/sweetalert.min.js"></script>
-
+      
             <script>
 
                 $(document).ready(function () {
@@ -321,9 +316,37 @@
 
 
                 }
+
+
+                function View(ID) {
+                    alert(ID);
+                    var headers = {};
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    headers['__RequestVerificationToken'] = token;
+                    $.ajax(
+                        {
+                            type: "POST",
+                            headers: headers,
+                            contentType: "application/json; charset=utf-8",
+                            url: "/View",
+                            data: JSON.stringify({ ID: ID }),
+                            dataType: "json",
+                            success: function (result) {
+                                if (result != null) { debugger }
+                            },
+                            error: function (xhr, status, error) {
+
+                              
+                            }
+
+                        });
+
+
+                }
+                
             </script>
 
-        }
+    
 
 
 
