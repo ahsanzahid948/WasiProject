@@ -22,6 +22,13 @@ namespace InventoryManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult GetUpdate(int ID)
+        {
+            var list = context.GRNs.FirstOrDefault(x => x.ID == ID);
+
+            return View(list);
+        }
+        
         public ActionResult GetList()
         {
            var list= unitOfWork.GrnRepository.GetAll();
@@ -34,7 +41,7 @@ namespace InventoryManagementSystem.Controllers
         { 
             var list = context.GRNs.FirstOrDefault(x => x.ID == ID);
 
-            return Json(list);
+            return View(list);
         }
         public ActionResult Create(GRN Obj)
         {
@@ -48,7 +55,29 @@ namespace InventoryManagementSystem.Controllers
         }
         public ActionResult Update(GRN Obj)
         {
-            return View();
+            try
+            {
+                var obj = context.GRNDetails.Where(x => x.GRNID ==Obj.ID).ToList();
+
+                var obj2 = context.GRNs.FirstOrDefault(x => x.ID == Obj.ID);
+                foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
+
+
+                var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
+                context.SaveChanges();
+
+                Obj.ID = 0;
+                var a = context.GRNs.Add(Obj);
+                int b = context.SaveChanges();
+                return Json(b);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json("");
+
+            }
         }
         public ActionResult Delete(int ID)
         {
@@ -71,5 +100,14 @@ namespace InventoryManagementSystem.Controllers
             }
            
         }
+
+        public ActionResult UpdateList()
+        {
+            var list = unitOfWork.GrnRepository.GetAll();
+
+
+            return Json(list);
+        }
+        
     }
 }

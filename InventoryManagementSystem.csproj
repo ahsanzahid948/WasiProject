@@ -7855,6 +7855,8 @@
     <Content Include="Views\RequisitionForm\New.cshtml" />
     <Content Include="Views\ReturnVoucher\GetVoucherList.cshtml" />
     <Content Include="Views\StockRegister\Index.cshtml" />
+    <Content Include="Views\GRN\View.cshtml" />
+    <Content Include="Views\GRN\GetUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

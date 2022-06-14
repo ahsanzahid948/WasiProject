@@ -1,6 +1,4 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
+﻿@model InventoryManagementSystem.Models.GRN
 
 @section styles{
     <style>
@@ -50,7 +48,7 @@
 
 
                     <input type="text" id="txtRedirection" class="form-control" hidden />
-
+                    <input type="text" id="txtGRNID" class="form-control" hidden />
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -104,7 +102,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> Designation </label>
                                 <div class="col-md-10">
-                                    
+
                                     <select id="txtDesignation" required class="form-control ">
                                         <option value=""> Select Designation</option>
                                         <option value="1"> Manager</option>
@@ -147,7 +145,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> SupplierAddress </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtSupplierAddress" name=" txtSupplierAddress" maxlength="200" autocomplete="off" placeholder="" class="form-control " required />
+                                    <input type="text" id="txtSupplierAddress" name=" txtSupplierAddress" maxlength="200" autocomplete="off" placeholder="" class="form-control " required />
                                 </div>
                             </div>
                         </div>
@@ -155,7 +153,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> SuplyOrderNo </label>
                                 <div class="col-md-10">
-                                    <input type="number" value="" id="txtSuplyOrderNo" name=" txtSuplyOrderNo" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
+                                    <input type="number" id="txtSuplyOrderNo" name=" txtSuplyOrderNo" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -171,10 +169,7 @@
                     <div class="card-header header-elements-inline" style="color:white">
                         <h5 class="card-title" style="width:50% !important;">
 
-                            <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert clsPOStatusClosed' data-toggle="modal" data-target="#GRNDetailModel" style="text-decoration:none;background-color:white;">
-                                <b><i class="icon-plus3"></i></b>
-                                Add New
-                            </button>
+
                             <span class="font-weight-semibold">Items List</span>
 
                         </h5>
@@ -195,12 +190,36 @@
                                     <th> Rate  </th>
 
                                     <th> Total Cost </th>
-                                    
 
-                                    <th style="text-align:right">Action</th>
+
+
                                 </tr>
                             </thead>
                             <tbody>
+                                @{
+                                    int no = 1;
+                                    foreach (var a in Model.GRNDetails)
+                                    {
+
+                                        <tr>
+                                            <td> @no</td>
+
+                                            <td> @a.LeadgerPage </td>
+                                            <td> @a.Description </td>
+                                            <td> @a.AU </td>
+                                            <td> @a.QTYCreated </td>
+                                            <td> @a.QTYRecived </td>
+                                            <td> @a.Rate  </td>
+
+                                            <td> @a.TotalValue </td>
+
+                                        </tr>
+
+                                        no++;
+                                    }
+
+
+                                }
                             </tbody>
 
                             <!--<tfoot class="text-center">
@@ -224,18 +243,17 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="Cancel()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
-                    @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
-                    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsavegrn" onclick="SetRedirection(1);">Save</button>
-                    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
 
-                    <button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsaveReOrderLowItems" disabled type="button" onclick="fnReorderLowItems();"><b><i class="icon-plus3"></i></b> Re order low stock items</button>
-                    <button class="btn btn-primary btn-sm clsPOStatusClosed buttondisplay" id="btnClosePO" disabled onclick="fnClosePO()" type="button">Close</button>
+                    @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
+
                 </div>
             </div>
 
         </div>
     </form>
+
+    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="window.location.href = '/GRN/Index';"> Go to List</button>
+
 </div>
 
 <!-- Add ItemModal-->
@@ -296,7 +314,7 @@
                             <label class="control-label">QTYCreated</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYCreated" required onchange="calculatetotal()"/>
+                            <input type="number" class="form-control" id="QTYCreated" required onchange="calculatetotal()" />
 
 
                         </div>
@@ -329,7 +347,7 @@
                             <label class="control-label">Total Cost</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="TotalCost" required onchange="calculatetotal()"/>
+                            <input type="number" class="form-control" id="TotalCost" required onchange="calculatetotal()" />
 
 
                         </div>
@@ -342,14 +360,14 @@
 
                     </div>
                 </form>
-               
+
             </div>
 
 
 
 
 
-          
+
         </div>
 
     </div>
@@ -368,108 +386,32 @@
     <script>
         var count = 0;
         var CountDetailRow = 0;
-            $(document).ready(function () {
-                
-            });
-
-
-        $("#GRNDetailForm").submit(function (event) {
-
-            event.preventDefault();
-            AddDetailRow();
-
+        $(document).ready(function () {
+            SetAJaxObject();
+            $("input").attr("disabled", true);
+            $("select").attr("disabled", true);
         });
-      
-        function ClearDetailForm() {
 
-            $("#LeaderPage").val("");
-            $("#DetailDescription").val("");
-            $("#AU").val("");
-            $("#QTYCreated").val("");
-            $("#QTYRecived").val("");
-            $("#Rate").val("");
-            $("#TotalCost").val("");
-            $("#GRNDetailModel").modal("hide");
-        }
+        function SetAJaxObject() {
+            $("#txtGRNID").val("@Model.ID");
+            
+            $("#txtGRNNo").val("@Model.GRNNo");
+            $("#txtGRNName").val("@Model.Name");
+            $("#txtDesignation").val("@Model.DesignationID").change();
+            $("#txtLAB").val("@Model.Lab").change();
+            $("#txtGRNProject").val("@Model.Project").change();
+            $("#txtGRNNo").val("@Model.GRNNo");
+            $("#txtSuplyOrderNo").val("@Model.SuplyOrderNo");
+            $("#txtGRNDate").val("@Model.GRNDate");
+            $("#txtSupplierName").val("@Model.SupplierName");
 
-
-        function calculatetotal() {
-            let qc = $("#QTYCreated").val();
-            let rate = $("#Rate").val();
-            let total = qc * rate;
-            if (total > 0) { $("#TotalCost").val(total); }
-
-
-        }
-        function AddDetailRow() {
-           CountDetailRow++;
-
-            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#AU").val() + "</td>" + "<td>" + $("#QTYCreated").val() + "</td>" + "<td>" + $("#QTYRecived").val() + "</td>" + "<td>" + $("#Rate").val() + "</td>" + "<td>" + $("#TotalCost").val() + "</td>"+
-
-                "<td style='text-align:Right'>" +
-                " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
-                "<i class='icon-menu9'></i></a>" +
-                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
-                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + this + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
-                "</div ></div ></div></td> </tr > ";
-
-
-            $("#detailtbl").find('tbody').append(row);
-            ClearDetailForm();
-        }
-        function Cancel() { window.location.href = "/GRN/Index";}
-
-        function SetRedirection(type) {
-
-            $("#txtRedirection").val(type);
-        }
-        function AJaxObject() {
-
-            var GRN = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "GRNNo": "", "SuplyOrderNo": "", "GRNDate": "", "SupplierName": "", "SupplierAddress": "", "GRNDetails": [] };
-            GRN.Name = $("#txtGRNName").val();
-            GRN.DesignationID = $("#txtDesignation").val();
-            GRN.Lab = $("#txtLAB").val();
-            GRN.Project = $("#txtGRNProject").val();
-            GRN.GRNNo = $("#txtGRNNo").val();
-            GRN.SuplyOrderNo = $("#txtSuplyOrderNo").val();
-            GRN.GRNDate = $("#txtGRNDate").val();
-            GRN.SupplierName = $("#txtSupplierName").val();
-
-            GRN.SupplierAddress = $("#txtSupplierAddress").val();
+            $("#txtSupplierAddress").val("@Model.SupplierAddress");
 
 
 
 
 
-            var GRNDetails = { "ID":"", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "GRNID": "", };
 
-            var detailtbl = $("#detailtbl").DataTable();
-           
-
-            var tblPRows = detailtbl.rows().data();
-
-
-
-            if (tblPRows.length > 0) {
-                $.each(tblPRows, function (index, value) {
-                    GRNDetails.LeadgerPage = value[1];
-                    GRNDetails.Description = value[2];
-                    GRNDetails.AU = value[3];
-                    GRNDetails.QTYCreated = value[4];
-                    GRNDetails.QTYRecived = value[5];
-                    GRNDetails.Rate = value[6];
-                    GRNDetails.TotalValue = value[7];
-                    GRNDetails.ID=Math.floor((Math.random() * 100000) + 1);
-
-                    GRN.GRNDetails.push(GRNDetails);
-
-                    GRNDetails = { "ID": "","LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "",  "Rate": "", "TotalValue": "", "GRNID": "", };
-
-                });
-
-            }
-
-            return GRN;
         }
         $("#GoodsReceiptForm").submit(function (event) {
 
@@ -478,22 +420,17 @@
 
         });
 
-          function SaveGRNRecord() {
+        function SaveGRNRecord() {
             try {
-              
 
-                if ($('#btnsavegrn').text() == 'Save') {
-                    var Title = "";
-                    var Text = "Are you sure you want to Save this record ?";
-                    var ConfirmButtonText = "Confirm Save";
-                    var CancelButtonText = "Cancel";
-                }
-                if ($('#btnsavegrn').text() == 'Update') {
+
+
+
                     var Title = "";
                     var Text = "Are you sure you want to Update this record ?";
                     var ConfirmButtonText = "Confirm Update";
                     var CancelButtonText = "Cancel";
-                }
+
                 swal(
                     {
                         title: Title,
@@ -514,13 +451,8 @@
                             var headers = {};
                             var token = $('input[name="__RequestVerificationToken"]').val();
                             headers['__RequestVerificationToken'] = token;
-                            var Url = "";
-                            if ($('#btnsavegrn').text() == 'Save') {
-                                Url = "/GRN/Create";
-                            }
-                            else {
-                                Url = "/GRN/Update";
-                            }
+                            var Url = "/GRN/Update";
+
 
                             $.ajax({
                                 type: "POST",
@@ -531,18 +463,18 @@
                                 dataType: "json",
                                 async: false,
                                 success: function (result) {
-                                   
-                                  
-                                        $("#btnsave").text("Update");
-                                        $("#btnsaveandList").text("Update and Go to List");
-                                        let a = $('#txtCashierID').val();
-                                  
-                                       
-                                       
-                                        $('#txtCashierID').prop("disabled", true);
-                                       
 
-                                        swal("Data Added Successfully");
+
+                                    $("#btnsave").text("Update");
+                                    $("#btnsaveandList").text("Update and Go to List");
+                                    let a = $('#txtCashierID').val();
+
+
+
+                                    $('#txtCashierID').prop("disabled", true);
+
+
+                                    swal("Data Added Successfully");
 
                                     window.location.replace("/GRN/Index");
 
@@ -550,7 +482,7 @@
                                 error: function (xhr, status, error) {
                                     swal("Data Added Successfully");
                                     window.location.replace("/GRN/Index");
-                                   /* swal("", "Error While Adding Data", "error");*/
+                                    /* swal("", "Error While Adding Data", "error");*/
                                 }
 
                             });
@@ -565,12 +497,94 @@
                     }
                 );
 
-            
+
 
             }
             catch (err) {
                 swal("Cancelled", err.ToString(), "error");
             }
+        }
+
+        function AJaxObject() {
+
+            var GRN = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "GRNNo": "", "SuplyOrderNo": "", "GRNDate": "", "SupplierName": "", "SupplierAddress": "", "GRNDetails": [] };
+
+            GRN.ID = $("#txtGRNID").val();
+            GRN.Name = $("#txtGRNName").val();
+            GRN.DesignationID = $("#txtDesignation").val();
+            GRN.Lab = $("#txtLAB").val();
+            GRN.Project = $("#txtGRNProject").val();
+            GRN.GRNNo = $("#txtGRNNo").val();
+            GRN.SuplyOrderNo = $("#txtSuplyOrderNo").val();
+            GRN.GRNDate = $("#txtGRNDate").val();
+            GRN.SupplierName = $("#txtSupplierName").val();
+
+            GRN.SupplierAddress = $("#txtSupplierAddress").val();
+
+
+
+
+
+            var GRNDetails = { "ID": "", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "GRNID": "", };
+
+            var detailtbl = $("#detailtbl").DataTable();
+
+
+            var tblPRows = detailtbl.rows().data();
+
+
+            debugger
+            if (tblPRows.length > 0) {
+                $.each(tblPRows, function (index, value) {
+                    GRNDetails.LeadgerPage = value[1];
+                    GRNDetails.Description = value[2];
+                    GRNDetails.AU = value[3];
+                    GRNDetails.QTYCreated = value[4];
+                    GRNDetails.QTYRecived = value[5];
+                    GRNDetails.Rate = value[6];
+                    GRNDetails.TotalValue = value[7];
+                    GRNDetails.ID = Math.floor((Math.random() * 100000) + 1);
+
+                    GRN.GRNDetails.push(GRNDetails);
+
+                    GRNDetails = { "ID": "", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "GRNID": "", };
+
+                });
+
+            }
+
+            return GRN;
+        }
+        $("#GRNDetailForm").submit(function (event) {
+
+            event.preventDefault();
+            AddDetailRow();
+
+        });
+        function AddDetailRow() {
+            CountDetailRow++;
+
+            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#AU").val() + "</td>" + "<td>" + $("#QTYCreated").val() + "</td>" + "<td>" + $("#QTYRecived").val() + "</td>" + "<td>" + $("#Rate").val() + "</td>" + "<td>" + $("#TotalCost").val() + "</td>" +
+"<td>  <button onclick='DeleteDetailRow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button></td> </tr > ";
+
+
+            $("#detailtbl").find('tbody').append(row);
+            ClearDetailForm();
+        }
+
+
+
+        function DeleteDetailRow(a) { a.closest('tr').remove(); }
+        function ClearDetailForm() {
+
+            $("#LeaderPage").val("");
+            $("#DetailDescription").val("");
+            $("#AU").val("");
+            $("#QTYCreated").val("");
+            $("#QTYRecived").val("");
+            $("#Rate").val("");
+            $("#TotalCost").val("");
+            $("#GRNDetailModel").modal("hide");
         }
     </script>
 }
