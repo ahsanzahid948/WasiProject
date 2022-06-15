@@ -1,5 +1,4 @@
-﻿@model InventoryManagementSystem.Models.ReturnVoucher
-
+﻿@model InventoryManagementSystem.Models.RequisitionForm
 @section styles{
     <style>
 
@@ -16,7 +15,7 @@
 <!---->
 
 <head>
-    <title>Return Voucher</title>
+    <title>Purchase Orders</title>
 </head>
 @{
     string DestinationStoreID = "0";
@@ -26,7 +25,7 @@
     <div class="d-flex">
         <div class="breadcrumb">
             <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-            <span class="breadcrumb-item active">Return Voucher</span>
+            <span class="breadcrumb-item active">Purchase Orders</span>
         </div>
         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
     </div>
@@ -34,10 +33,10 @@
 <div class="card" style="font-size: 14px !important;">
     <div class="card-header header-elements-inline search-header content-header">
         <h5 class="card-title">
-            <i class=""></i>Return Voucher
+            <i class=""></i>Requisition Form
         </h5>
     </div>
-    <form id="GoodsReceiptForm">
+    <form id="RequisitionForm">
         @Html.AntiForgeryToken()
 
         <div class="card-body">
@@ -45,19 +44,16 @@
             <div class="tab-content">
                 <div class="tab-pane fade in active show" id="generalinformation">
 
-
-
+                    
+                    <input type="text" id="txtIDSs" class="form-control" hidden />
                     <input type="text" id="txtRedirection" class="form-control" hidden />
-                    <input type="text" id="txtReturnVoucherID" value="@Model.ID" class="form-control" hidden />
+
                     <div class="row">
-
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="col-form-label "> Project </label>
                                 <div class="col-md-10">
-
-                                    <select id="txtReturnVoucherProject" required class="form-control ">
+                                    <select id="txtProject" required class="form-control ">
                                         <option value=""> Select Project</option>
                                         <option value="NI Multan"> NI Multan </option>
                                         <option value="NI Islamabad"> NI Islamabad </option>
@@ -66,27 +62,20 @@
 
                                     </select>
 
-                                    @*<input type="text" value="" id="txtReturnVoucherProject" name=" txtReturnVoucherProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />*@
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label ">
-                                    Name
-                                </label>
+                                <label class="col-form-label "> Name </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtReturnVoucherName" name="txtReturnVoucherName" maxlength="10" class="form-control " placeholder="" required />
+                                    <input type="text" value="" id="txtName" name=" txtName" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> Designation </label>
+                                <label class="col-form-label ">Designation  </label>
                                 <div class="col-md-10">
                                     <select id="txtDesignation" required class="form-control ">
                                         <option value=""> Select Designation</option>
@@ -96,14 +85,17 @@
                                         <option value="4"> CTO</option>
 
                                     </select>
-                                    @*<select id="txtDesignation" required class="form-control "><option value=""> Select Designation</option></select>*@
-
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> LAB </label>
+                                <label class="col-form-label ">
+                                    Lab
+                                </label>
                                 <div class="col-md-10">
                                     <select id="txtLAB" required class="form-control ">
                                         <option value=""> Select LAB</option>
@@ -113,35 +105,49 @@
                                         <option value="Computer Lab 1">Computer Lab 1</option>
                                         <option value="Computer Lab 2">Computer Lab 2</option>
                                     </select>
-                                    @*<input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" required />*@
-
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> CatByName </label>
+                                <label class="col-form-label "> SifNo </label>
                                 <div class="col-md-10">
-                                    <input type="text" id="txtCatByName" name="txtCatByName" maxlength="15" class="form-control" required />
+                                    <input type="text" value="" id="txtSifNo" name="txtSifNo" maxlength="95" class="form-control" required />
+
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <div class="form-check ">
+
+                                    <input class="form-check-input" type="checkbox" id="txtConsumable" name="txtConsumable" value="1">
+                                    <label class="form-check-label">Is Consumable</label>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
+
                     <div class="row">
-
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> Cat By Designation </label>
+                                <label class="col-form-label ">
+                                    Signature Of Inditor
+                                </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtCatByDesignation" name=" txtCatByDesignation" maxlength="15" autocomplete="off" placeholder="" class="form-control " required />
+                                    <input type="text" value="" id="txtSignatureOfInditor" name="txtSignatureOfInditor" maxlength="95" class="form-control" required />
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label "> Return By Signature </label>
+                                <label class="col-form-label "> Signature Of StoreKeeper </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtReturnBySignature" name=" txtReturnBySignature" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
+                                    <input type="text" value="" id="txtSignatureOfStoreKeeper" name="txtSignatureOfStoreKeeper" maxlength="95" class="form-control" required />
+
                                 </div>
                             </div>
                         </div>
@@ -151,122 +157,117 @@
 
 
 
+                </div>
+
+                <div class="card">
+                    <div class="card-header header-elements-inline" style="color:white">
+                        <h5 class="card-title" style="width:50% !important;">
+
+                            <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert clsPOStatusClosed' data-toggle="modal" data-target="#RequisitionFormDetailModel" style="text-decoration:none;background-color:white;">
+                                <b><i class="icon-plus3"></i></b>
+                                Add New
+                            </button>
+                            <span class="font-weight-semibold">Items List</span>
+
+                        </h5>
+
+
+                    </div>
+                    <div class="card-body">
+                        <table class="table " id="detailtbl">
+                            <thead>
+                                <tr>
+                                    <th> Sr. #</th>
+
+                                    <th> Leadger Page </th>
+                                    <th> Description </th>
+                                    <th> Remarks </th>
+                                    <th> QTY Demand </th>
+                                    <th> QTY Issue </th>
 
 
 
-                    <div class="card">
-                        <div class="card-header header-elements-inline" style="color:white">
-                            <h5 class="card-title" style="width:50% !important;">
+                                    <th style="text-align:right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int no = 1;
+                                    foreach (var a in Model.RequisitionFormDetails)
+                                    {
 
-                                <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert clsPOStatusClosed' data-toggle="modal" data-target="#ReturnVoucherDetailModel" style="text-decoration:none;background-color:white;">
-                                    <b><i class="icon-plus3"></i></b>
-                                    Add New
-                                </button>
-                                <span class="font-weight-semibold">Items List</span>
-
-                            </h5>
-
-
-                        </div>
-                        <div class="card-body">
-                            <table class="table " id="detailtbl">
-                                <thead>
-                                    <tr>
-                                        <th> Sr. #</th>
-
-                                        <th> Description </th>
-
-                                        <th> Leader Page NO </th>
-                                        <th>   QTY US</th>
-                                        <th> QTY S </th>
-                                        <th> Remarks  </th>
+                                                                <tr>
+                                                                    <td> @no</td>
 
 
+                                                                    <td> @a.LeaderPageNo </td>
+                                                                    <td> @a.Description </td>
+                                                                    <td> @a.Remarks </td>
+                                                                    <td> @a.QTYDemand </td>
+                                                                    <td> @a.QTYIssued  </td>
+                                                                   
+                                                                    <td> <button onclick='Deletedetailrow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button> </td> 
 
 
-                                        <th style="text-align:right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int no = 1;
-                                        foreach (var a in Model.ReturnVoucherDetails)
-                                        {
+                                                                </tr>
 
-                                            <tr>
-                                                <td> @no</td>
-
-
-                                                <td> @a.Description </td>
-                                                <td> @a.LeaderPageNo </td>
-                                                <td> @a.QTYUS </td>
-                                                <td> @a.QTYS </td>
-                                                <td> @a.Remarks  </td>
-
-                                                <td> <button onclick='Deletedetailrow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button> </td>
-
-                                            </tr>
-
-                                            no++;
-                                        }
-
-
+                                        no++;
                                     }
-                                </tbody>
 
-                                <!--<tfoot class="text-center">
-                    <tr>
-                        <th colspan="4" id="">Total Cost Received 0</th>
-                        <th colspan="4" id="">Amount Remaining 0</th>
-                        <th colspan="4" id="">Total Cost Ordered 0</th>
-                    </tr>
-                </tfoot>-->
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 text-right" id="">Total Cost Received</div><div class="col-md-2 text-left" id="idDivTotalReceivedQtyPrice">0</div>
-                        <div class="col-md-2 text-right" id="">Amount Remaining</div><div class="col-md-2 text-left" id="idDivRemainingReceiveQty">0</div>
-                        <div class="col-md-2 text-right" id="">Total Cost Ordered</div><div class="col-md-2 text-left" id="idDivTotalCostOrdered">0</div>
+
+                                }
+                            </tbody>
+
+                            <!--<tfoot class="text-center">
+        <tr>
+            <th colspan="4" id="">Total Cost Received 0</th>
+            <th colspan="4" id="">Amount Remaining 0</th>
+            <th colspan="4" id="">Total Cost Ordered 0</th>
+        </tr>
+    </tfoot>-->
+                        </table>
                     </div>
                 </div>
-
-            </div>
-            <div class="modal-footer">
                 <div class="row">
-                    <div class="col-md-12">
-                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="Cancel()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
-                        @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
-                      
-                        <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Update and Go to List</button>
-
-                        
-                        <button class="btn btn-primary btn-sm clsPOStatusClosed buttondisplay" id="btnClosePO" disabled onclick="fnClosePO()" type="button">Close</button>
-                    </div>
+                  
                 </div>
-
             </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="Cancel()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
+                    @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
+                   
+                    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Update and Go to List</button>
+
+                   
+                </div>
+            </div>
+
+        </div>
     </form>
 </div>
 
 <!-- Add ItemModal-->
-<div id="ReturnVoucherDetailModel" class="modal  fade" style="font-size: 12px !important;">
+<div id="RequisitionFormDetailModel" class="modal  fade" style="font-size: 12px !important;">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">ReturnVoucher Detail</span></h4>
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">RequisitionForm Detail</span></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
             </div>
 
 
             <div class="card-body">
-                <form id="ReturnVoucherDetailForm">
+                <form id="RequisitionFormDetailForm">
                     @Html.AntiForgeryToken()
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">Leader Page No</label>
+                            <label class="control-label">Leader Page</label>
                             <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
@@ -292,33 +293,33 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <label class="control-label">QTY S</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYS" required />
-
-
-
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">QTY US</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYUS" required />
-
-
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-4">
                             <label class="control-label">Remarks</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="Remarks" required />
+                            <input type="text" class="form-control" id="txtRemarks" />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Demand</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYDemand" required />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Issued</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYIssued" required />
 
 
                         </div>
@@ -359,13 +360,26 @@
         var count = 0;
         var CountDetailRow = 0;
         $(document).ready(function () {
+            $("#txtName").val("@Model.Name");
+            
+            $("#txtIDSs").val("@Model.ID");
+            $("#txtDesignation").val("@Model.DesignationID").change();
+            $("#txtLAB").val("@Model.Lab").change();
+            $("#txtProject").val("@Model.Project").change();
+            $("#txtSifNo").val("@Model.SifNo");
 
-            setdata();
+            var a = "@Model.IsConsumable";
 
+            if (a == "True") { $("#txtConsumable").attr("checked", true);}
+
+
+
+            $("#txtSignatureOfInditor").val("@Model.SignatureOfInditor");
+            $("#txtSignatureOfStoreKeeper").val("@Model.SignatureOfStoreKeeper");
         });
 
 
-        $("#ReturnVoucherDetailForm").submit(function (event) {
+        $("#RequisitionFormDetailForm").submit(function (event) {
 
             event.preventDefault();
             AddDetailRow();
@@ -401,16 +415,16 @@
 
             $("#LeaderPage").val("");
             $("#DetailDescription").val("");
-            $("#QTYS").val("");
-            $("#QTYUS").val("");
-            $("#Remarks").val("");
+            $("#txtRemarks").val("");
+            $("#QTYDemand").val("");
+            $("#QTYIssued").val("");
 
-            $("#ReturnVoucherDetailModel").modal("hide");
+            $("#RequisitionFormDetailModel").modal("hide");
         }
         function AddDetailRow() {
             CountDetailRow++;
 
-            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#QTYS").val() + "</td>" + "<td>" + $("#QTYUS").val() + "</td>" + "<td>" + $("#Remarks").val() + "</td>" +
+            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#txtRemarks").val() + "</td>" + "<td>" + $("#QTYDemand").val() + "</td>" + "<td>" + $("#QTYIssued").val() + "</td>" +
 
                 "<td> <button onclick='Deletedetailrow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button> </td> ";
 
@@ -418,7 +432,7 @@
             $("#detailtbl").find('tbody').append(row);
             ClearDetailForm();
         }
-        function Cancel() { window.location.href = "/ReturnVoucher/Index"; }
+        function Cancel() { window.location.href = "/RequisitionForm/Index"; }
 
         function SetRedirection(type) {
 
@@ -426,16 +440,18 @@
         }
         function AJaxObject() {
 
-            var ReturnVoucher = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "ReturnByName": "", "ReturnByDesignation": "", "CatByName": "", "CatByDesignation": "", "ReturnBySignature": "", "ReturnVoucherDetails": [] };
-            ReturnVoucher.ID = $("#txtReturnVoucherID").val();
-            ReturnVoucher.Name = $("#txtReturnVoucherName").val();
-            ReturnVoucher.DesignationID = $("#txtDesignation").val();
-            ReturnVoucher.Lab = $("#txtLAB").val();
-            ReturnVoucher.Project = $("#txtReturnVoucherProject").val();
-            ReturnVoucher.ReturnVoucherNo = $("#txtReturnVoucherNo").val();
-            ReturnVoucher.CatByName = $("#txtCatByName").val();
-            ReturnVoucher.CatByDesignation = $("#txtCatByDesignation").val();
-            ReturnVoucher.ReturnBySignature = $("#ReturnBySignature").val();
+            var RequisitionForm = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "SifNo": "", "IsConsumable": "", "SignatureOfInditor": "", "SignatureOfStoreKeeper": "", "RequisitionFormDetails": [] };
+            RequisitionForm.Name = $("#txtName").val();
+            RequisitionForm.ID = $("#txtIDSs").val();
+            RequisitionForm.DesignationID = $("#txtDesignation").val();
+            RequisitionForm.Lab = $("#txtLAB").val();
+            RequisitionForm.Project = $("#txtProject").val();
+            RequisitionForm.SifNo = $("#txtSifNo").val();
+            if ($("#txtConsumable").is(":checked")) { RequisitionForm.IsConsumable = true; }
+            else { RequisitionForm.IsConsumable = false; }
+
+            RequisitionForm.SignatureOfInditor = $("#txtSignatureOfInditor").val();
+            RequisitionForm.SignatureOfStoreKeeper = $("#txtSignatureOfStoreKeeper").val();
 
 
 
@@ -443,7 +459,7 @@
 
 
 
-            var ReturnVoucherDetails = { "ID": "", "LeaderPageNo": "", "Description": "", "Remarks": "", "QTYUS": "", "QTYS": "", };
+            var RequisitionFormDetails = { "ID": "", "LeaderPageNo": "", "Description": "", "Remarks": "", "QTYDemand": "", "QTYIssued": "" };
 
             var detailtbl = $("#detailtbl").DataTable();
 
@@ -454,42 +470,42 @@
 
             if (tblPRows.length > 0) {
                 $.each(tblPRows, function (index, value) {
-                    ReturnVoucherDetails.LeadgerPage = value[2];
-                    ReturnVoucherDetails.Description = value[1];
-                    ReturnVoucherDetails.Remarks = value[5];
-                    ReturnVoucherDetails.QTYUS = value[3];
-                    ReturnVoucherDetails.QTYS = value[4];
+                    RequisitionFormDetails.LeaderPageNo = value[1];
+                    RequisitionFormDetails.Description = value[2];
+                    RequisitionFormDetails.Remarks = value[3];
+                    RequisitionFormDetails.QTYDemand = value[4];
+                    RequisitionFormDetails.QTYIssued = value[5];
+                    RequisitionFormDetails.ID = Math.floor((Math.random() * 100000) + 1);
 
-                    ReturnVoucherDetails.ID = Math.floor((Math.random() * 100000) + 1);
 
-                    ReturnVoucher.ReturnVoucherDetails.push(ReturnVoucherDetails);
+                    RequisitionForm.RequisitionFormDetails.push(RequisitionFormDetails);
 
-                    ReturnVoucherDetails = { "ID": "", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "ReturnVoucherID": "", };
+                    RequisitionFormDetails = { "ID": "", "LeaderPageNo": "", "Description": "", "Remarks": "", "QTYDemand": "", "QTYIssued": "" };
 
                 });
 
             }
 
-            return ReturnVoucher;
+            return RequisitionForm;
         }
-        $("#GoodsReceiptForm").submit(function (event) {
+        $("#RequisitionForm").submit(function (event) {
 
             event.preventDefault();
-            SaveReturnVoucherRecord();
+            SaveRequisitionFormRecord();
 
         });
 
-        function SaveReturnVoucherRecord() {
+        function SaveRequisitionFormRecord() {
             try {
 
 
-
-
+               
+                
                     var Title = "";
                     var Text = "Are you sure you want to Update this record ?";
                     var ConfirmButtonText = "Confirm Update";
                     var CancelButtonText = "Cancel";
-
+               
                 swal(
                     {
                         title: Title,
@@ -510,36 +526,27 @@
                             var headers = {};
                             var token = $('input[name="__RequestVerificationToken"]').val();
                             headers['__RequestVerificationToken'] = token;
-                           var Url = "/ReturnVoucher/Update";
-
+                            var Url = "/RequisitionForm/Update";
+                         
 
                             $.ajax({
                                 type: "POST",
                                 headers: headers,
                                 contentType: "application/json; charset=utf-8",
-                                url: Url,
+                                url: "/RequisitionForm/Update",
                                 data: JSON.stringify({ "Obj": AjaxObj }),
                                 dataType: "json",
                                 async: false,
                                 success: function (result) {
-                                    debugger;
-
-
-                                    let a = $('#txtCashierID').val();
-
-
-
-                                    $('#txtCashierID').prop("disabled", true);
                                     swal("Data Added Successfully");
 
-
-                                    window.location.replace("/ReturnVoucher/Index");
-
+                                    window.location.replace("/RequisitionForm/Index");
 
                                 },
                                 error: function (xhr, status, error) {
                                     swal("Data Added Successfully");
-                                    window.location.replace("/ReturnVoucher/Index");
+
+                                    window.location.replace("/RequisitionForm/Index");
                                 }
 
                             });
@@ -561,22 +568,6 @@
                 swal("Cancelled", err.ToString(), "error");
             }
         }
-        function setdata() {
-
-              $("#txtReturnVoucherName").val("@Model.Name");
-             $("#txtDesignation").val("@Model.DesignationID").change();
-            $("#txtLAB").val("@Model.Lab").change();
-            $("#txtReturnVoucherProject").val("@Model.Project").change();
-
-            $("#txtCatByName").val("@Model.CatByName");
-            $("#txtCatByDesignation").val("@Model.CatByDesignation");
-                $("#ReturnBySignature").val("@Model.ReturnBySignature");
-
-        }
         function Deletedetailrow(a) { a.closest('tr').remove(); }
-
-       
     </script>
-
-
 }

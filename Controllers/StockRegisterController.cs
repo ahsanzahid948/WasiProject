@@ -12,7 +12,7 @@ namespace InventoryManagementSystem.Controllers
     {
         InventoryManagementSystemEntities context = new InventoryManagementSystemEntities();
         private UnitOfWork unitOfWork = new UnitOfWork();
-        // GET: GRN
+        
         public ActionResult Index()
         {
             var list = context.StokeRegisters.ToList();
@@ -21,6 +21,12 @@ namespace InventoryManagementSystem.Controllers
         public ActionResult New()
         {
             return View();
+        }
+        public ActionResult View(int ID)
+        {
+            var list = context.StokeRegisters.FirstOrDefault(x => x.ID == ID);
+
+            return View(list);
         }
         public ActionResult GetList()
         {

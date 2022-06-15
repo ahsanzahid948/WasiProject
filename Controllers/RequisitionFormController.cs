@@ -28,7 +28,12 @@ namespace InventoryManagementSystem.Controllers
 
             return View(list);
         }
+        public ActionResult GetUpdate(int ID)
+        {
+            var list = context.RequisitionForms.FirstOrDefault(x => x.ID == ID);
 
+            return View(list);
+        }
         public ActionResult GetList()
         {
             var list = context.RequisitionForms.ToList();
@@ -42,9 +47,33 @@ namespace InventoryManagementSystem.Controllers
             int b = context.SaveChanges();
             return Json(a);
         }
-        public ActionResult Update(GRN Obj)
+        public ActionResult Update(RequisitionForm Obj)
         {
-            return View();
+            try
+            {
+                var obj = context.RequisitionFormDetails.Where(x => x.RequisitionFormID == Obj.ID).ToList();
+
+                var obj2 = context.RequisitionForms.FirstOrDefault(x => x.ID == Obj.ID);
+                foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
+
+
+                var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
+                context.SaveChanges();
+
+                Obj.ID = 0;
+                var a = context.RequisitionForms.Add(Obj);
+                int b = context.SaveChanges();
+
+
+                return Json(b);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json("");
+
+            }
         }
 
         public ActionResult Delete(int  Id)

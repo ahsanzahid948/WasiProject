@@ -7860,6 +7860,8 @@
     <Content Include="Views\ReturnVoucher\View.cshtml" />
     <Content Include="Views\ReturnVoucher\GetUpdate.cshtml" />
     <Content Include="Views\RequisitionForm\View.cshtml" />
+    <Content Include="Views\RequisitionForm\GetUpdate.cshtml" />
+    <Content Include="Views\StockRegister\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

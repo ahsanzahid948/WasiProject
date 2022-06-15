@@ -1,0 +1,476 @@
+﻿@model InventoryManagementSystem.Models.StokeRegister
+
+@section styles{
+    <style>
+
+        .jvmodalbodyscroll {
+            /*height: 510px !important;
+            overflow-y: scroll !important;*/
+        }
+
+        .buttondisplay {
+            display: none;
+        }
+    </style>
+}
+<!---->
+
+<head>
+    <title>Purchase Orders</title>
+</head>
+@{
+    string DestinationStoreID = "0";
+    DestinationStoreID = "avc";
+}
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Stoke Register</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card" style="font-size: 14px !important;">
+    <div class="card-header header-elements-inline search-header content-header">
+        <h5 class="card-title">
+            <i class=""></i>Stoke Register
+        </h5>
+    </div>
+
+    @Html.AntiForgeryToken()
+
+    <div class="card-body">
+
+        <div class="tab-content">
+            <div class="tab-pane fade in active show" id="generalinformation">
+
+
+
+                <input type="text" id="txtRedirection" class="form-control" hidden />
+
+
+                <div class="form-group row">
+                    <label class="control-label col-md-3">
+                        Particular
+                        <span class="text-danger"> * </span>
+                    </label>
+                    <div class="col-md-7">
+
+
+                        <input id="TxtParticular" type="text" class="form-control" name="txtParticular" maxlength="50" required />
+
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <label class="control-label col-md-3">
+                        Pholio No.
+                        <span class="text-danger"> * </span>
+                    </label>
+                    <div class="col-md-7">
+
+                        <input id="TxtPholio" type="text" class="form-control" name="TxtPholio" maxlength="50" required />
+
+                    </div>
+                </div>
+
+                <div class="form-group  row">
+                    <label class="control-label col-md-3">
+                        Date
+                        <span class="text-danger"> * </span>
+                    </label>
+                    <div class="col-md-7">
+
+                        <input type="date" id="TxtDate" class="form-control pickadate-accessibility" name="TxtDate" value="" maxlength="50" required />
+
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <label class="control-label col-md-3">
+                        Quantity Reciept
+                        <span class="text-danger"> * </span>
+                    </label>
+                    <div class="col-md-7">
+
+                        <input id="TxtReciept" type="text" class="form-control" name="TxtReciept" maxlength="50" onchange="calculatebalance()" required />
+
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <label class="control-label col-md-3">
+                        Quantity Issued
+                        <span class="text-danger"> * </span>
+                    </label>
+                    <div class="col-md-7">
+
+                        <input id="TxtIssued" type="text" class="form-control" name="TxtIssued" maxlength="50" onchange="calculatebalance()" required />
+
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <label class="control-label col-md-3">
+                        Balance
+                        <span class="text-danger"> * </span>
+                    </label>
+                    <div class="col-md-7">
+
+                        <input id="TxtBalance" type="text" class="form-control" onchange="calculatebalance()" name="TxtBalance" maxlength="50" required />
+
+                    </div>
+                </div>
+
+                <div class="form-group  row">
+                    <label class="control-label col-md-3">
+                        Remarks
+                        <span class="text-danger"> * </span>
+                    </label>
+                    <div class="col-md-7">
+
+                        <input id="TxtRemarks" type="text" class="form-control" name="TxtRemarks" maxlength="50" required />
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+
+        </div>
+
+    </div>
+    <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="window.location.href = '/StockRegister/Index';"> Go to List</button>
+</div>
+
+<!-- Add ItemModal-->
+<div id="RequisitionFormDetailModel" class="modal  fade" style="font-size: 12px !important;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">RequisitionForm Detail</span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+
+            <div class="card-body">
+                <form id="RequisitionFormDetailForm">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Leader Page</label>
+                            <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="LeaderPage" required />
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Description</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="DetailDescription" required />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Remarks</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="txtRemarks" />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Demand</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYDemand" required />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Issued</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYIssued" required />
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white"><b><i class="icon-cross2"></i></b>Save</button>
+                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
+
+                    </div>
+                </form>
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+    <script>
+        var count = 0;
+        var CountDetailRow = 0;
+        $(document).ready(function () {
+           $("#TxtParticular").val();
+           $("#TxtDate").val();
+           $("#TxtPholio").val();
+            $("#TxtReciept").val();
+             $("#TxtIssued").val();
+            $("#TxtBalance").val();
+           $("#TxtRemarks").val();
+        });
+
+
+        $("#RequisitionFormDetailForm").submit(function (event) {
+
+            event.preventDefault();
+            AddDetailRow();
+
+        });
+        function getDesignation() {
+            $.ajax({
+                type: "POST",
+
+                contentType: "application/json; charset=utf-8",
+                url: "/Designation/GETList",
+
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    debugger;
+                    if (result) {
+
+                        $.each(result, function (Index, value) { $("#txtDesignation").append("<option value='" + value.ID + "'>" + value.Description + " </option>"); });
+
+                    }
+
+
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
+                    swal("", errorMessage, "error");
+                }
+
+            });
+        }
+        function ClearDetailForm() {
+
+            $("#LeaderPage").val("");
+            $("#DetailDescription").val("");
+            $("#txtRemarks").val("");
+            $("#QTYDemand").val("");
+            $("#QTYIssued").val("");
+
+            $("#RequisitionFormDetailModel").modal("hide");
+        }
+        function AddDetailRow() {
+            CountDetailRow++;
+
+            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#txtRemarks").val() + "</td>" + "<td>" + $("#QTYDemand").val() + "</td>" + "<td>" + $("#QTYIssued").val() + "</td>" +
+
+                "<td style='text-align:Right'>" +
+                " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
+                "<i class='icon-menu9'></i></a>" +
+                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
+                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + this + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                "</div ></div ></div></td> </tr > ";
+
+
+            $("#detailtbl").find('tbody').append(row);
+            ClearDetailForm();
+        }
+        function Cancel() { window.location.href = "/RequisitionForm/Index"; }
+
+        function SetRedirection(type) {
+
+            $("#txtRedirection").val(type);
+        }
+        function AJaxObject() {
+
+            var RequisitionForm = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "SifNo": "", "IsConsumable": "", "SignatureOfInditor": "", "SignatureOfStoreKeeper": "", "RequisitionFormDetails": [] };
+            RequisitionForm.Name = $("#txtName").val();
+            RequisitionForm.DesignationID = $("#txtDesignation").val();
+            RequisitionForm.Lab = $("#txtLAB").val();
+            RequisitionForm.Project = $("#txtProject").val();
+            RequisitionForm.SifNo = $("#txtSifNo").val();
+            if ($("#txtConsumable").is(":checked")) { RequisitionForm.IsConsumable = true; }
+            else { RequisitionForm.IsConsumable = false; }
+
+            RequisitionForm.SignatureOfInditor = $("#txtSignatureOfInditor").val();
+            RequisitionForm.SignatureOfStoreKeeper = $("#txtSignatureOfStoreKeeper").val();
+
+
+
+
+
+
+
+            var RequisitionFormDetails = { "ID": "", "LeaderPageNo": "", "Description": "", "Remarks": "", "QTYDemand": "", "QTYIssued": "" };
+
+            var detailtbl = $("#detailtbl").DataTable();
+
+
+            var tblPRows = detailtbl.rows().data();
+
+
+
+            if (tblPRows.length > 0) {
+                $.each(tblPRows, function (index, value) {
+                    RequisitionFormDetails.LeaderPageNo = value[1];
+                    RequisitionFormDetails.Description = value[2];
+                    RequisitionFormDetails.Remarks = value[3];
+                    RequisitionFormDetails.QTYDemand = value[4];
+                    RequisitionFormDetails.QTYIssued = value[5];
+                    RequisitionFormDetails.ID = Math.floor((Math.random() * 100000) + 1);
+
+
+                    RequisitionForm.RequisitionFormDetails.push(RequisitionFormDetails);
+
+                    RequisitionFormDetails = { "ID": "", "LeaderPageNo": "", "Description": "", "Remarks": "", "QTYDemand": "", "QTYIssued": "" };
+
+                });
+
+            }
+
+            return RequisitionForm;
+        }
+        $("#RequisitionForm").submit(function (event) {
+
+            event.preventDefault();
+            SaveRequisitionFormRecord();
+
+        });
+
+        function SaveRequisitionFormRecord() {
+            try {
+
+
+                if ($('#btnsaveRequisitionForm').text() == 'Save') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Save this record ?";
+                    var ConfirmButtonText = "Confirm Save";
+                    var CancelButtonText = "Cancel";
+                }
+                if ($('#btnsaveRequisitionForm').text() == 'Update') {
+                    var Title = "";
+                    var Text = "Are you sure you want to Update this record ?";
+                    var ConfirmButtonText = "Confirm Update";
+                    var CancelButtonText = "Cancel";
+                }
+                swal(
+                    {
+                        title: Title,
+                        text: Text,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: ConfirmButtonText,
+                        cancelButtonText: CancelButtonText,
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    },
+                    function (isConfirm) {
+
+                        if (isConfirm) {
+
+                            let AjaxObj = AJaxObject();
+
+                            var headers = {};
+                            var token = $('input[name="__RequestVerificationToken"]').val();
+                            headers['__RequestVerificationToken'] = token;
+                            var Url = "";
+                            if ($('#btnsaveRequisitionForm').text() == 'Save') {
+                                Url = "/RequisitionForm/Create";
+                            }
+                            else {
+                                Url = "/RequisitionForm/Update";
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                headers: headers,
+                                contentType: "application/json; charset=utf-8",
+                                url: "/RequisitionForm/Create",
+                                data: JSON.stringify({ "Obj": AjaxObj }),
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    swal("Data Added Successfully");
+
+                                    window.location.replace("/RequisitionForm/Index");
+
+                                },
+                                error: function (xhr, status, error) {
+                                    swal("Data Added Successfully");
+
+                                    window.location.replace("/RequisitionForm/Index");
+                                }
+
+                            });
+
+
+                        }
+                        else {
+
+                            swal("Cancelled", "Your operation Canceled :)", "error");
+                        }
+
+                    }
+                );
+
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+    </script>
+}

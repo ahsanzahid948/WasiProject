@@ -74,21 +74,20 @@
                     <th style="text-align:right">Action</th>
                     @foreach (var m in Model)
                     {
-                    <tr>
-                        <td>@count</td>
+                <tr>
+                    <td>@count</td>
 
 
-                        <td>@m.Particular</td>
-                        <td>@m.Date</td>
-                        <th>@m.QTYRecipt</th>
+                    <td>@m.Particular</td>
+                    <td>@m.Date</td>
+                    <th>@m.QTYRecipt</th>
 
-                        <td>@m.QTYIssued</td>
-                        <th>@m.Balance</th>
+                    <td>@m.QTYIssued</td>
+                    <th>@m.Balance</th>
 
-                        <td>@m.Remarks</td>
-                        <td><button onclick='ModifyRecord(" + Data.ID + ");' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
-                        <td>  <button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'></button></td>
-                    </tr>
+                    <td>@m.Remarks</td>
+                    <td><button type='button' onclick="window.location.href = '/StockRegister/View?ID=@m.ID';" class='btn bg-primary  btn-sm authorizeOrNotUpdate' style='color:white'>View </button><button type='button' onclick="window.location.href = '/StockRegister/GetUpdate?ID=@m.ID';" class='btn bg-blue  btn-sm authorizeOrNotUpdate' style='color:white;margin-left:10px'>Update </button><button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white;margin-left:10px'>Delete</button></td>
+                </tr>
                     count++;
                 }
                     </tr>
