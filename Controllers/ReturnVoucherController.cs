@@ -27,7 +27,7 @@ namespace InventoryManagementSystem.Controllers
         }
         public ActionResult GetUpdate(int ID)
         {
-            var list = context.GRNs.FirstOrDefault(x => x.ID == ID);
+            var list = context.ReturnVouchers.FirstOrDefault(x => x.ID == ID);
 
             return View(list);
         }
@@ -56,9 +56,33 @@ namespace InventoryManagementSystem.Controllers
 
             }
         }
-        public ActionResult Update(GRN Obj)
+        public ActionResult Update(ReturnVoucher Obj)
         {
-            return View();
+            try
+            {
+                var obj = context.ReturnVoucherDetails.Where(x => x.ReturnVoucherID == Obj.ID).ToList();
+
+                var obj2 = context.ReturnVouchers.FirstOrDefault(x => x.ID == Obj.ID);
+                foreach (var o in obj) { context.Entry(o).State = System.Data.EntityState.Deleted; }
+
+
+                var result = context.Entry(obj2).State = System.Data.EntityState.Deleted;
+                context.SaveChanges();
+
+                Obj.ID = 0;
+                var a = context.ReturnVouchers.Add(Obj);
+                int b = context.SaveChanges();
+
+
+                return Json(b);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json("");
+
+            }
         }
         public ActionResult Delete(int ID)
         {

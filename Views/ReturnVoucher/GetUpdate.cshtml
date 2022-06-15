@@ -48,16 +48,9 @@
 
 
                     <input type="text" id="txtRedirection" class="form-control" hidden />
-
+                    <input type="text" id="txtReturnVoucherID" value="@Model.ID" class="form-control" hidden />
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> ReturnVoucher No </label>
-                                <div class="col-md-10">
-                                    <input type="text" value="" id="txtReturnVoucherNo" name="txtReturnVoucherNo" maxlength="15" class="form-control" required />
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -195,15 +188,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @{
+                                        int no = 1;
+                                        foreach (var a in Model.ReturnVoucherDetails)
+                                        {
+
+                                            <tr>
+                                                <td> @no</td>
+
+
+                                                <td> @a.Description </td>
+                                                <td> @a.LeaderPageNo </td>
+                                                <td> @a.QTYUS </td>
+                                                <td> @a.QTYS </td>
+                                                <td> @a.Remarks  </td>
+
+                                                <td> <button onclick='Deletedetailrow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button> </td>
+
+                                            </tr>
+
+                                            no++;
+                                        }
+
+
+                                    }
                                 </tbody>
 
                                 <!--<tfoot class="text-center">
-                                    <tr>
-                                        <th colspan="4" id="">Total Cost Received 0</th>
-                                        <th colspan="4" id="">Amount Remaining 0</th>
-                                        <th colspan="4" id="">Total Cost Ordered 0</th>
-                                    </tr>
-                                </tfoot>-->
+                    <tr>
+                        <th colspan="4" id="">Total Cost Received 0</th>
+                        <th colspan="4" id="">Amount Remaining 0</th>
+                        <th colspan="4" id="">Total Cost Ordered 0</th>
+                    </tr>
+                </tfoot>-->
                             </table>
                         </div>
                     </div>
@@ -220,10 +237,10 @@
                     <div class="col-md-12">
                         <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" id="btnPOCancel" onclick="Cancel()" style="color:white"><b><i class="icon-cross2"></i></b> Cancel</button>
                         @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
-                        <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveReturnVoucher" onclick="SetRedirection(1);">Save</button>
-                        <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
+                      
+                        <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Update and Go to List</button>
 
-                        <button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsaveReOrderLowItems" disabled type="button" onclick="fnReorderLowItems();"><b><i class="icon-plus3"></i></b> Re order low stock items</button>
+                        
                         <button class="btn btn-primary btn-sm clsPOStatusClosed buttondisplay" id="btnClosePO" disabled onclick="fnClosePO()" type="button">Close</button>
                     </div>
                 </div>
@@ -342,24 +359,16 @@
         var count = 0;
         var CountDetailRow = 0;
         $(document).ready(function () {
-            $("#txtReturnVoucherName").val(@Model.Name);
-             $("#txtDesignation").val(@Model.DesignationID).change();
-            $("#txtLAB").val(@Model.Lab).change();
-            $("#txtReturnVoucherProject").val(@Model.Project).change();
 
-            $("#txtCatByName").val(@Model.CatByName);
-            $("#txtCatByDesignation").val(@Model.CatByDesignation);
-            $("#ReturnBySignature").val(@Model.ReturnBySignature);
+            setdata();
+
         });
 
 
         $("#ReturnVoucherDetailForm").submit(function (event) {
 
-
-
-
-
-
+            event.preventDefault();
+            AddDetailRow();
 
         });
         function getDesignation() {
@@ -403,12 +412,7 @@
 
             var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#QTYS").val() + "</td>" + "<td>" + $("#QTYUS").val() + "</td>" + "<td>" + $("#Remarks").val() + "</td>" +
 
-                "<td style='text-align:Right'>" +
-                " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
-                "<i class='icon-menu9'></i></a>" +
-                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
-                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + this + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
-                "</div ></div ></div></td> </tr > ";
+                "<td> <button onclick='Deletedetailrow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button> </td> ";
 
 
             $("#detailtbl").find('tbody').append(row);
@@ -423,6 +427,7 @@
         function AJaxObject() {
 
             var ReturnVoucher = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "ReturnByName": "", "ReturnByDesignation": "", "CatByName": "", "CatByDesignation": "", "ReturnBySignature": "", "ReturnVoucherDetails": [] };
+            ReturnVoucher.ID = $("#txtReturnVoucherID").val();
             ReturnVoucher.Name = $("#txtReturnVoucherName").val();
             ReturnVoucher.DesignationID = $("#txtDesignation").val();
             ReturnVoucher.Lab = $("#txtLAB").val();
@@ -478,18 +483,13 @@
             try {
 
 
-                if ($('#btnsaveReturnVoucher').text() == 'Save') {
-                    var Title = "";
-                    var Text = "Are you sure you want to Save this record ?";
-                    var ConfirmButtonText = "Confirm Save";
-                    var CancelButtonText = "Cancel";
-                }
-                if ($('#btnsaveReturnVoucher').text() == 'Update') {
+
+
                     var Title = "";
                     var Text = "Are you sure you want to Update this record ?";
                     var ConfirmButtonText = "Confirm Update";
                     var CancelButtonText = "Cancel";
-                }
+
                 swal(
                     {
                         title: Title,
@@ -510,13 +510,8 @@
                             var headers = {};
                             var token = $('input[name="__RequestVerificationToken"]').val();
                             headers['__RequestVerificationToken'] = token;
-                            var Url = "";
-                            if ($('#btnsaveReturnVoucher').text() == 'Save') {
-                                Url = "/ReturnVoucher/Create";
-                            }
-                            else {
-                                Url = "/ReturnVoucher/Update";
-                            }
+                           var Url = "/ReturnVoucher/Update";
+
 
                             $.ajax({
                                 type: "POST",
@@ -566,5 +561,20 @@
                 swal("Cancelled", err.ToString(), "error");
             }
         }
+        function setdata() {
+
+              $("#txtReturnVoucherName").val("@Model.Name");
+             $("#txtDesignation").val("@Model.DesignationID").change();
+            $("#txtLAB").val("@Model.Lab").change();
+            $("#txtReturnVoucherProject").val("@Model.Project").change();
+
+            $("#txtCatByName").val("@Model.CatByName");
+            $("#txtCatByDesignation").val("@Model.CatByDesignation");
+                $("#ReturnBySignature").val("@Model.ReturnBySignature");
+
+        }
+        function Deletedetailrow(a) { a.closest('tr').remove(); }
     </script>
+
+
 }

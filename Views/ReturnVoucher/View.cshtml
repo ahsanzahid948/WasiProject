@@ -36,233 +36,229 @@
             <i class=""></i>Return Voucher
         </h5>
     </div>
-    <form id="GoodsReceiptForm">
-        @Html.AntiForgeryToken()
 
-        <div class="card-body">
+    @Html.AntiForgeryToken()
 
-            <div class="tab-content">
-                <div class="tab-pane fade in active show" id="generalinformation">
+    <div class="card-body">
 
-
-
-                    <input type="text" id="txtRedirection" class="form-control" hidden />
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> ReturnVoucher No </label>
-                                <div class="col-md-10">
-                                    <input type="text" id="txtReturnVoucherNo" name="txtReturnVoucherNo" maxlength="15" class="form-control" required />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> Project </label>
-                                <div class="col-md-10">
-
-                                    <select id="txtReturnVoucherProject" required class="form-control ">
-                                        <option value=""> Select Project</option>
-                                        <option value="NI Multan"> NI Multan </option>
-                                        <option value="NI Islamabad"> NI Islamabad </option>
-                                        <option value="NI Krachi"> NI Krachi</option>
-                                        <option value="NI Lahore"> NI Lahore</option>
-
-                                    </select>
-
-                                    @*<input type="text" value="" id="txtReturnVoucherProject" name=" txtReturnVoucherProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />*@
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label ">
-                                    Name
-                                </label>
-                                <div class="col-md-10">
-                                    <input type="text" id="txtReturnVoucherName" name="txtReturnVoucherName" maxlength="10" class="form-control " placeholder="" required />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> Designation </label>
-                                <div class="col-md-10">
-                                    <select id="txtDesignation" required class="form-control ">
-                                        <option value=""> Select Designation</option>
-                                        <option value="1"> Manager</option>
-                                        <option value="2"> Accountant</option>
-                                        <option value="3"> Sales Person</option>
-                                        <option value="4"> CTO</option>
-
-                                    </select>
-                                    @*<select id="txtDesignation" required class="form-control "><option value=""> Select Designation</option></select>*@
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> LAB </label>
-                                <div class="col-md-10">
-                                    <select id="txtLAB" required class="form-control ">
-                                        <option value=""> Select LAB</option>
-                                        <option value="Electronic LAB 1"> Electronic LAB 1  </option>
-                                        <option value="Electronic LAB 2"> Electronic LAB 2 </option>
-                                        <option value="Electrical"> Electrical </option>
-                                        <option value="Computer Lab 1">Computer Lab 1</option>
-                                        <option value="Computer Lab 2">Computer Lab 2</option>
-                                    </select>
-                                    @*<input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" required />*@
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> CatByName </label>
-                                <div class="col-md-10">
-                                    <input type="text" id="txtCatByName" name="txtCatByName" maxlength="15" class="form-control" required />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> Cat By Designation </label>
-                                <div class="col-md-10">
-                                    <input type="text" value="" id="txtCatByDesignation" name=" txtCatByDesignation" maxlength="15" autocomplete="off" placeholder="" class="form-control " required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label "> Return By Signature </label>
-                                <div class="col-md-10">
-                                    <input type="text" value="" id="txtReturnBySignature" name=" txtReturnBySignature" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+        <div class="tab-content">
+            <div class="tab-pane fade in active show" id="generalinformation">
 
 
 
+                <input type="text" id="txtRedirection" class="form-control" hidden />
 
-
-
-
-                    <div class="card">
-                        <div class="card-header header-elements-inline" style="color:white">
-                            <h5 class="card-title" style="width:50% !important;">
-
-                               
-                                <span class="font-weight-semibold">Items List</span>
-
-                            </h5>
-
-
-                        </div>
-                        <div class="card-body">
-                            <table class="table " id="detailtbl">
-                                <thead>
-                                    <tr>
-                                        <th> Sr. #</th>
-
-                                        <th> Description </th>
-
-                                        <th> Leader Page NO </th>
-                                        <th>   QTY US</th>
-                                        <th> QTY S </th>
-                                        <th> Remarks  </th>
-
-
-
-
-                                        <th style="text-align:right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int no = 1;
-                                        foreach (var a in Model.ReturnVoucherDetails)
-                                        {
-
-                                            <tr>
-                                                <td> @no</td>
-
-
-                                                <td> @a.Description </td>
-                                                <td> @a.LeaderPageNo </td>
-                                                <td> @a.QTYUS </td>
-                                                <td> @a.QTYS </td>
-                                                <td> @a.Remarks  </td>
-
-
-
-                                            </tr>
-
-                                            no++;
-                                        }
-
-
-                                    }
-                                </tbody>
-
-                                <!--<tfoot class="text-center">
-                                    <tr>
-                                        <th colspan="4" id="">Total Cost Received 0</th>
-                                        <th colspan="4" id="">Amount Remaining 0</th>
-                                        <th colspan="4" id="">Total Cost Ordered 0</th>
-                                    </tr>
-                                </tfoot>-->
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 text-right" id="">Total Cost Received</div><div class="col-md-2 text-left" id="idDivTotalReceivedQtyPrice">0</div>
-                        <div class="col-md-2 text-right" id="">Amount Remaining</div><div class="col-md-2 text-left" id="idDivRemainingReceiveQty">0</div>
-                        <div class="col-md-2 text-right" id="">Total Cost Ordered</div><div class="col-md-2 text-left" id="idDivTotalCostOrdered">0</div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> ReturnVoucher No </label>
+                            <div class="col-md-10">
+                                <input type="text" id="txtReturnVoucherNo" name="txtReturnVoucherNo" maxlength="15" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
 
-                        @*<button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsave" type="submit">Save</button>*@
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> Project </label>
+                            <div class="col-md-10">
 
+                                <select id="txtReturnVoucherProject" required class="form-control ">
+                                    <option value=""> Select Project</option>
+                                    <option value="NI Multan"> NI Multan </option>
+                                    <option value="NI Islamabad"> NI Islamabad </option>
+                                    <option value="NI Krachi"> NI Krachi</option>
+                                    <option value="NI Lahore"> NI Lahore</option>
+
+                                </select>
+
+                                @*<input type="text" value="" id="txtReturnVoucherProject" name=" txtReturnVoucherProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label ">
+                                Name
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" id="txtReturnVoucherName" name="txtReturnVoucherName" maxlength="10" class="form-control " placeholder="" required />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-    </form>
+                <div class="row">
 
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> Designation </label>
+                            <div class="col-md-10">
+                                <select id="txtDesignation" required class="form-control ">
+                                    <option value=""> Select Designation</option>
+                                    <option value="1"> Manager</option>
+                                    <option value="2"> Accountant</option>
+                                    <option value="3"> Sales Person</option>
+                                    <option value="4"> CTO</option>
+
+                                </select>
+                                @*<select id="txtDesignation" required class="form-control "><option value=""> Select Designation</option></select>*@
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> LAB </label>
+                            <div class="col-md-10">
+                                <select id="txtLAB" required class="form-control ">
+                                    <option value=""> Select LAB</option>
+                                    <option value="Electronic LAB 1"> Electronic LAB 1  </option>
+                                    <option value="Electronic LAB 2"> Electronic LAB 2 </option>
+                                    <option value="Electrical"> Electrical </option>
+                                    <option value="Computer Lab 1">Computer Lab 1</option>
+                                    <option value="Computer Lab 2">Computer Lab 2</option>
+                                </select>
+                                @*<input type="text" value="" id="txtLAB" name="txtLAB" maxlength="95" class="form-control" required />*@
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> CatByName </label>
+                            <div class="col-md-10">
+                                <input type="text" id="txtCatByName" name="txtCatByName" maxlength="15" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> Cat By Designation </label>
+                            <div class="col-md-10">
+                                <input type="text" value="" id="txtCatByDesignation" name=" txtCatByDesignation" maxlength="15" autocomplete="off" placeholder="" class="form-control " required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> Return By Signature </label>
+                            <div class="col-md-10">
+                                <input type="text" value="" id="txtReturnBySignature" name=" txtReturnBySignature" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+                <div class="card">
+                    <div class="card-header header-elements-inline" style="color:white">
+                        <h5 class="card-title" style="width:50% !important;">
+
+
+                            <span class="font-weight-semibold">Items List</span>
+
+                        </h5>
+
+
+                    </div>
+                    <div class="card-body">
+                        <table class="table " id="detailtbl">
+                            <thead>
+                                <tr>
+                                    <th> Sr. #</th>
+
+                                    <th> Description </th>
+
+                                    <th> Leader Page NO </th>
+                                    <th>   QTY US</th>
+                                    <th> QTY S </th>
+                                    <th> Remarks  </th>
+
+
+
+
+                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int no = 1;
+                                    foreach (var a in Model.ReturnVoucherDetails)
+                                    {
+
+                                        <tr>
+                                            <td> @no</td>
+
+
+                                            <td> @a.Description </td>
+                                            <td> @a.LeaderPageNo </td>
+                                            <td> @a.QTYUS </td>
+                                            <td> @a.QTYS </td>
+                                            <td> @a.Remarks  </td>
+
+
+
+                                        </tr>
+
+                                        no++;
+                                    }
+
+
+                                }
+                            </tbody>
+
+                            <!--<tfoot class="text-center">
+                                <tr>
+                                    <th colspan="4" id="">Total Cost Received 0</th>
+                                    <th colspan="4" id="">Amount Remaining 0</th>
+                                    <th colspan="4" id="">Total Cost Ordered 0</th>
+                                </tr>
+                            </tfoot>-->
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 text-right" id="">Total Cost Received</div><div class="col-md-2 text-left" id="idDivTotalReceivedQtyPrice">0</div>
+                    <div class="col-md-2 text-right" id="">Amount Remaining</div><div class="col-md-2 text-left" id="idDivRemainingReceiveQty">0</div>
+                    <div class="col-md-2 text-right" id="">Total Cost Ordered</div><div class="col-md-2 text-left" id="idDivTotalCostOrdered">0</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
 
     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="window.location.href = '/ReturnVoucher/Index';"> Go to List</button>
+    <br />
 
-</div>
-
-
-
-
-@section scripts
+    @section scripts
 {
 
-    @Scripts.Render("~/bundles/DataTableScripts")
+        @Scripts.Render("~/bundles/DataTableScripts")
 
-    @Scripts.Render("~/bundles/DateScripts")
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
-    <script>
+        @Scripts.Render("~/bundles/DateScripts")
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+        <script>
         var count = 0;
         var CountDetailRow = 0;
             $(document).ready(function () {
@@ -281,5 +277,5 @@
 
 
 
-    </script>
-}
+        </script>
+    }
