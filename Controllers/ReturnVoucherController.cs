@@ -19,6 +19,18 @@ namespace InventoryManagementSystem.Controllers
            
             return View(v);
         }
+        public ActionResult View(int ID)
+        {
+            var list = context.ReturnVouchers.FirstOrDefault(x => x.ID == ID);
+
+            return View(list);
+        }
+        public ActionResult GetUpdate(int ID)
+        {
+            var list = context.GRNs.FirstOrDefault(x => x.ID == ID);
+
+            return View(list);
+        }
         public ActionResult New()
         {
             return View();

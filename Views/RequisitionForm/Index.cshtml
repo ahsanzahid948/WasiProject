@@ -89,8 +89,7 @@
                 <th>@m.SignatureOfInditor</th>
 
                 <td>@m.SignatureOfStoreKeeper</td>
-                <td><button onclick='ModifyRecord(" + Data.ID + ");' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
-                <td>  <button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'></button></td>
+                <td><button type='button' onclick="window.location.href = '/RequisitionForm/View?ID=@m.ID';" class='btn bg-primary  btn-sm authorizeOrNotUpdate' style='color:white'>View </button><button type='button' onclick="window.location.href = '/RequisitionForm/GetUpdate?ID=@m.ID';" class='btn bg-blue  btn-sm authorizeOrNotUpdate' style='color:white;margin-left:10px'>Update </button><button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white;margin-left:10px'>Delete</button></td>
             </tr>
                     count++;
                 }

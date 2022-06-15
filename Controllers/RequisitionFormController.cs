@@ -22,6 +22,13 @@ namespace InventoryManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult View(int ID)
+        {
+            var list = context.RequisitionForms.FirstOrDefault(x => x.ID == ID);
+
+            return View(list);
+        }
+
         public ActionResult GetList()
         {
             var list = context.RequisitionForms.ToList();

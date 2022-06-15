@@ -78,11 +78,10 @@
                 <td>@m.Name</td>
                 <td>@m.Project</td>
                 <th>@m.ReturnBySignature</th>
-                
+
                 <td>@m.CatByName</td>
-              @{ count++;}
-                <td><button onclick='ModifyRecord(" + Data.ID + ");' type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate' style='color:white'></button></td>
-              <td>  <button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'></button></td>
+                @{ count++;}
+                <td><button type='button' onclick="window.location.href = '/ReturnVoucher/View?ID=@m.ID';" class='btn bg-primary  btn-sm authorizeOrNotUpdate' style='color:white'>View </button><button type='button' onclick="window.location.href = '/ReturnVoucher/GetUpdate?ID=@m.ID';" class='btn bg-blue  btn-sm authorizeOrNotUpdate' style='color:white;margin-left:10px'>Update </button><button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white;margin-left:10px'>Delete</button></td>
             </tr>
 
     }
