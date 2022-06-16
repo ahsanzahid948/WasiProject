@@ -28,6 +28,13 @@ namespace InventoryManagementSystem.Controllers
 
             return View(list);
         }
+        public ActionResult GetUpdate(int ID)
+        {
+            var list = context.StokeRegisters.FirstOrDefault(x => x.ID == ID);
+
+            return View(list);
+        }
+        
         public ActionResult GetList()
         {
             var list = unitOfWork.GrnRepository.GetAll();
@@ -45,9 +52,23 @@ namespace InventoryManagementSystem.Controllers
             }
             catch (Exception ex) { return Json(""); }
         }
-        public ActionResult Update(GRN Obj)
+        public ActionResult Update(StokeRegister Obj)
         {
-            return View();
+            try {
+                var o = context.StokeRegisters.FirstOrDefault(x => x.ID == Obj.ID);
+                o.Particular = Obj.Particular;
+                o.QTYIssued = Obj.QTYIssued;
+                o.QTYRecipt = Obj.QTYRecipt;
+                o.Remarks = Obj.Remarks;
+                o.Folio = Obj.Folio;
+                var result = context.Entry(o).State = System.Data.EntityState.Modified;
+                context.SaveChanges();
+            }
+            catch (Exception ex) {
+
+                int a = 2;
+            }
+            return Json(1);
         }
         public ActionResult Delete(int ID)
         {

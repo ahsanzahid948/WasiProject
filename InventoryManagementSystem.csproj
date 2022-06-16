@@ -7862,6 +7862,7 @@
     <Content Include="Views\RequisitionForm\View.cshtml" />
     <Content Include="Views\RequisitionForm\GetUpdate.cshtml" />
     <Content Include="Views\StockRegister\View.cshtml" />
+    <Content Include="Views\StockRegister\GetUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

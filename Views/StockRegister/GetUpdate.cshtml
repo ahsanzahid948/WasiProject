@@ -1,0 +1,376 @@
+﻿@model InventoryManagementSystem.Models.StokeRegister
+
+@section styles{
+    <style>
+
+        .jvmodalbodyscroll {
+            /*height: 510px !important;
+            overflow-y: scroll !important;*/
+        }
+
+        .buttondisplay {
+            display: none;
+        }
+    </style>
+}
+<!---->
+
+<head>
+    <title>Purchase Orders</title>
+</head>
+@{
+    string DestinationStoreID = "0";
+    DestinationStoreID = "avc";
+}
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Stoke Register</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card" style="font-size: 14px !important;">
+    <div class="card-header header-elements-inline search-header content-header">
+        <h5 class="card-title">
+            <i class=""></i>Stoke Register
+        </h5>
+    </div>
+
+    @Html.AntiForgeryToken()
+    <form id="StockForm">
+        <div class="card-body">
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active show" id="generalinformation">
+
+                    <input type="text" id="txtStokeID" class="form-control" hidden />
+
+                    <input type="text" id="txtRedirection" class="form-control" hidden />
+
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">
+                            Particular
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-7">
+
+
+                            <input id="TxtParticular" type="text" class="form-control" name="txtParticular" maxlength="50" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group  row">
+                        <label class="control-label col-md-3">
+                            Pholio No.
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-7">
+
+                            <input id="TxtPholio" type="text" class="form-control" name="TxtPholio" maxlength="50" required />
+
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="control-label col-md-3">
+                            Date
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-7">
+
+                            <input type="date" id="TxtDate" class="form-control pickadate-accessibility" name="TxtDate" value="" maxlength="50" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group  row">
+                        <label class="control-label col-md-3">
+                            Quantity Reciept
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-7">
+
+                            <input id="TxtReciept" type="text" class="form-control" name="TxtReciept" maxlength="50" onchange="calculatebalance()" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group  row">
+                        <label class="control-label col-md-3">
+                            Quantity Issued
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-7">
+
+                            <input id="TxtIssued" type="text" class="form-control" name="TxtIssued" maxlength="50" onchange="calculatebalance()" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group  row">
+                        <label class="control-label col-md-3">
+                            Balance
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-7">
+
+                            <input id="TxtBalance" type="text" class="form-control" onchange="calculatebalance()" name="TxtBalance" maxlength="50" required />
+
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="control-label col-md-3">
+                            Remarks
+                            <span class="text-danger"> * </span>
+                        </label>
+                        <div class="col-md-7">
+
+                            <input id="TxtRemarks" type="text" class="form-control" name="TxtRemarks" maxlength="50" required />
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+            </div>
+
+        </div>
+
+
+
+    </form>
+    <button class="btn btn-danger btn-sm clsPOStatusClosed" id="btnsaveandList" onclick="window.location.href = '/StockRegister/Index';"> Cancel</button>
+    <br />
+    <button class="btn btn-primary btn-sm clsPOStatusClosed"  onclick=" save();" id="btnsaveandList">Update Go to List</button>
+</div>
+
+<!-- Add ItemModal-->
+<div id="RequisitionFormDetailModel" class="modal  fade" style="font-size: 12px !important;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">RequisitionForm Detail</span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+
+            <div class="card-body">
+                <form id="RequisitionFormDetailForm">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Leader Page</label>
+                            <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="LeaderPage" required />
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Description</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="DetailDescription" required />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Remarks</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="txtRemarks" />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Demand</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYDemand" required />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Issued</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYIssued" required />
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white"><b><i class="icon-cross2"></i></b>Save</button>
+                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
+
+                    </div>
+                </form>
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+    <script>
+        var count = 0;
+        var CountDetailRow = 0;
+        $(document).ready(function () {
+            $("#txtStokeID").val("@Model.ID");
+            $("#TxtParticular").val("@Model.Particular");
+            $("#TxtDate").val("@Model.Date");
+            $("#TxtPholio").val("@Model.Folio");
+            $("#TxtReciept").val("@Model.QTYRecipt");
+             $("#TxtIssued").val("@Model.QTYIssued");
+            $("#TxtBalance").val("@Model.Balance");
+            $("#TxtRemarks").val("@Model.Remarks");
+
+
+
+
+        });
+
+        $("#StockForm").submit(function (event) {
+
+            event.preventDefault();
+            save();
+
+        });
+
+
+        function calculatebalance() {
+            let total = $("#TxtReciept").val() - $("#TxtIssued").val();
+
+            if (total > 0) {
+                $("#TxtBalance").val(total);
+
+            }
+            else { $("#TxtBalance").val(0); }
+
+        }
+
+        function save() {
+
+
+
+            var OBJ = { "ID": "", "Particular": "", "Date": "", "Folio": "", "QTYRecipt": "", "QTYIssued": "", "Balance": "", "Remarks": "" }
+
+
+            OBJ.ID = $("#txtStokeID").val();
+            OBJ.Particular = $("#TxtParticular").val();
+            OBJ.Date = $("#TxtDate").val();
+            OBJ.Folio = $("#TxtPholio").val();
+            OBJ.QTYRecipt = $("#TxtReciept").val();
+            OBJ.QTYIssued = $("#TxtIssued").val();
+            OBJ.Balance = $("#TxtBalance").val();
+            OBJ.Remarks = $("#TxtRemarks").val();
+
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+
+
+            $.ajax(
+                {
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/StockRegister/Update",
+                    data: JSON.stringify({ OBJ }),
+                    dataType: "json",
+                    success: function (result) {
+                        swal("Data Added Successfully");
+                        $("#SaveModal").modal("hide");
+
+
+                        window.location.replace("/StockRegister/Index");
+                    },
+                    error: function (xhr, status, error) {
+                        swal("Data Added Successfully");
+                        $("#SaveModal").modal("hide");
+
+
+                        window.location.replace("/StockRegister/Index");
+
+                    }
+
+                });
+        }
+
+        function Delete(ID) {
+            var headers = {};
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            headers['__RequestVerificationToken'] = token;
+            $.ajax(
+                {
+                    type: "POST",
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    url: "/StockRegister/Delete",
+                    data: JSON.stringify({ ID: ID }),
+                    dataType: "json",
+                    success: function (result) {
+                        swal("Stock Register Deleted Successfully");
+                        window.location.replace("/StockRegister/Index");
+                    },
+                    error: function (xhr, status, error) {
+
+                        swal("Stock Register Deleted Successfully ");
+                        window.location.replace("/StockRegister/Index");
+                    }
+
+                });
+
+
+        }
+
+    </script>
+}
