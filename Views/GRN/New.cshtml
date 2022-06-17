@@ -214,9 +214,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2 text-right" id="">Total Cost Received</div><div class="col-md-2 text-left" id="idDivTotalReceivedQtyPrice">0</div>
-                    <div class="col-md-2 text-right" id="">Amount Remaining</div><div class="col-md-2 text-left" id="idDivRemainingReceiveQty">0</div>
-                    <div class="col-md-2 text-right" id="">Total Cost Ordered</div><div class="col-md-2 text-left" id="idDivTotalCostOrdered">0</div>
+                   
                 </div>
             </div>
 
@@ -229,7 +227,7 @@
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsavegrn" onclick="SetRedirection(1);">Save</button>
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
 
-                    <button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsaveReOrderLowItems" disabled type="button" onclick="fnReorderLowItems();"><b><i class="icon-plus3"></i></b> Re order low stock items</button>
+
                     <button class="btn btn-primary btn-sm clsPOStatusClosed buttondisplay" id="btnClosePO" disabled onclick="fnClosePO()" type="button">Close</button>
                 </div>
             </div>
@@ -406,12 +404,7 @@
 
             var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#AU").val() + "</td>" + "<td>" + $("#QTYCreated").val() + "</td>" + "<td>" + $("#QTYRecived").val() + "</td>" + "<td>" + $("#Rate").val() + "</td>" + "<td>" + $("#TotalCost").val() + "</td>"+
 
-                "<td style='text-align:Right'>" +
-                " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
-                "<i class='icon-menu9'></i></a>" +
-                "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
-                "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + this + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
-                "</div ></div ></div></td> </tr > ";
+                "<td><button onclick='DeleteDetailRow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button></td> </tr > ";
 
 
             $("#detailtbl").find('tbody').append(row);
@@ -571,6 +564,11 @@
             catch (err) {
                 swal("Cancelled", err.ToString(), "error");
             }
+        }
+
+        function DeleteDetailRow(a) {
+
+            a.closest('tr').remove();
         }
     </script>
 }
