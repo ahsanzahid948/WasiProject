@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="InventoryManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="InventoryManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="GRNDetails">
           <Key>
             <PropertyRef Name="ID" />
@@ -194,6 +194,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="IssueVoucherReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="InventoryManagementSystemModelStoreContainer">
           <EntitySet Name="GRNDetails" EntityType="Self.GRNDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GRNs" EntityType="Self.GRNs" Schema="dbo" store:Type="Tables" />
@@ -225,8 +228,7 @@
             <End Role="ReturnVoucherDetails" EntitySet="ReturnVoucherDetails" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="InventoryManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -459,7 +461,20 @@
             <End Role="ReturnVouchers" EntitySet="ReturnVouchers" />
             <End Role="ReturnVoucherDetails" EntitySet="ReturnVoucherDetails" />
           </AssociationSet>
+          <FunctionImport Name="IssueVoucherReport" ReturnType="Collection(InventoryManagementSystemModel.IssueVoucherReport_Result)">
+            <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="IssueVoucherReport_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="String" Name="LeaderPageNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="QTYDemand" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="QTYIssued" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="RequisitionFormID" Nullable="true" />
+          <Property Type="Int32" Name="QTYRemaining" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -604,6 +619,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="IssueVoucherReport" FunctionName="InventoryManagementSystemModel.Store.IssueVoucherReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventoryManagementSystemModel.IssueVoucherReport_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LeaderPageNo" ColumnName="LeaderPageNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="QTYDemand" ColumnName="QTYDemand" />
+                <ScalarProperty Name="QTYIssued" ColumnName="QTYIssued" />
+                <ScalarProperty Name="RequisitionFormID" ColumnName="RequisitionFormID" />
+                <ScalarProperty Name="QTYRemaining" ColumnName="QTYRemaining" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

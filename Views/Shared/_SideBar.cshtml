@@ -71,6 +71,33 @@
                         <span>Stock Register</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/StockRegister/Index" class="nav-link navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <i class="icon-wordpress"></i>
+                        <span>Reports</span>
+                    </a>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                     
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+
+                                <a href="/IsssueVoucherReport/Index" class="nav-link">
+                                    <i class="icon-reading"></i>
+                                    <span>Issue Voucher Report</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a href="/ReturnVoucherReport/Index" class="nav-link">
+                                    <i class="icon-reading"></i>
+                                    <span>Retun Voucher Report</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                
+                </li>
                 <!-- /main -->
             </ul>
         </div>
@@ -94,7 +121,122 @@
 
 
 </div>
+<div id="reportmodel" class="modal  fade" style="font-size: 12px !important;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
 
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">GRN Detail</span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+
+            <div class="card-body">
+                <form id="GRNDetailForm">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Leader Page</label>
+                            <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="LeaderPage" required />
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Description</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="DetailDescription" required />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">AU</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="AU" required />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTYCreated</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYCreated" required onchange="calculatetotal()" />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Recived</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYRecived" required />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Rate</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="Rate" onchange="calculatetotal()" required />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Total Cost</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="TotalCost" required onchange="calculatetotal()" />
+
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white"><b><i class="icon-cross2"></i></b>Save</button>
+                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
+
+                    </div>
+                </form>
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
 <script>
     $(document).ready(function () {
         try {

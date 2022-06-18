@@ -12,6 +12,9 @@ namespace InventoryManagementSystem.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class InventoryManagementSystemEntities : DbContext
     {
@@ -34,5 +37,14 @@ namespace InventoryManagementSystem.Models
         public DbSet<ReturnVoucherDetail> ReturnVoucherDetails { get; set; }
         public DbSet<ReturnVoucher> ReturnVouchers { get; set; }
         public DbSet<StokeRegister> StokeRegisters { get; set; }
+    
+        public virtual ObjectResult<IssueVoucherReport_Result> IssueVoucherReport(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IssueVoucherReport_Result>("IssueVoucherReport", nameParameter);
+        }
     }
 }
