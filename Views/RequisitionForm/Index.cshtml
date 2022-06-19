@@ -75,26 +75,27 @@
                     <th style="text-align:right">Action</th>
 
                 </tr>
-                @foreach (var m in Model)
-                {
-            <tr>
-                <td>@count</td>
-
-
-                <td>@m.Name</td>
-                <td>@m.Lab</td>
-                <th>@m.Project</th>
-
-                <td>@m.SifNo</td>
-                <th>@m.SignatureOfInditor</th>
-
-                <td>@m.SignatureOfStoreKeeper</td>
-                <td><button type='button' onclick="window.location.href = '/RequisitionForm/View?ID=@m.ID';" class='btn bg-primary  btn-sm authorizeOrNotUpdate' style='color:white'>View </button><button type='button' onclick="window.location.href = '/RequisitionForm/GetUpdate?ID=@m.ID';" class='btn bg-blue  btn-sm authorizeOrNotUpdate' style='color:white;margin-left:10px'>Update </button><button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white;margin-left:10px'>Delete</button></td>
-            </tr>
-                    count++;
-                }
+            
             </thead>
             <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@count</td>
+
+
+                        <td>@m.Name</td>
+                        <td>@m.Lab</td>
+                        <th>@m.Project</th>
+
+                        <td>@m.SifNo</td>
+                        <th>@m.SignatureOfInditor</th>
+
+                        <td>@m.SignatureOfStoreKeeper</td>
+                        <td><button type='button' onclick="window.location.href = '/RequisitionForm/View?ID=@m.ID';" class='btn bg-primary  btn-sm authorizeOrNotUpdate' style='color:white'>View </button><button type='button' onclick="window.location.href = '/RequisitionForm/GetUpdate?ID=@m.ID';" class='btn bg-blue  btn-sm authorizeOrNotUpdate authorize' style='color:white;margin-left:10px'>Update </button><button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete authorize' style='color:white;margin-left:10px'>Delete</button></td>
+                    </tr>
+                    count++;
+                }
             </tbody>
         </table>
     </div>
@@ -225,7 +226,7 @@
 
         $(document).ready(function () {
 
-           
+            checkroles();
 
 
 
@@ -320,6 +321,25 @@
 
 
         }
+              function checkroles() {
+
+                 var Role = '@Session["IsAdmin"]' != null ? '@Session["IsAdmin"]' :'';
+
+                if (Role != 'True') {
+
+                    $(".authorize").attr("disabled", true);
+
+
+
+
+                }
+                else {
+
+                    $(".authorize").attr("disabled", false);
+
+                }
+
+            }
     </script>
 
 }

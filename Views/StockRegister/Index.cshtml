@@ -72,27 +72,31 @@
                     <th>Balance</th>
                     <th>Remarks</th>
                     <th style="text-align:right">Action</th>
-                    @foreach (var m in Model)
-                    {
-                <tr>
-                    <td>@count</td>
-
-
-                    <td>@m.Particular</td>
-                    <td>@m.Date</td>
-                    <th>@m.QTYRecipt</th>
-
-                    <td>@m.QTYIssued</td>
-                    <th>@m.Balance</th>
-
-                    <td>@m.Remarks</td>
-                    <td><button type='button' onclick="window.location.href = '/StockRegister/View?ID=@m.ID';" class='btn bg-primary  btn-sm authorizeOrNotUpdate' style='color:white'>View </button><button type='button' onclick="window.location.href = '/StockRegister/GetUpdate?ID=@m.ID';" class='btn bg-blue  btn-sm authorizeOrNotUpdate' style='color:white;margin-left:10px'>Update </button><button onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white;margin-left:10px'>Delete</button></td>
-                </tr>
-                    count++;
-                }
+                  
                     </tr>
                 </thead>
-                <tbody></tbody>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@count</td>
+
+
+                        <td>@m.Particular</td>
+                        <td>@m.Date</td>
+                        <th>@m.QTYRecipt</th>
+
+                        <td>@m.QTYIssued</td>
+                        <th>@m.Balance</th>
+
+                        <td>@m.Remarks</td>
+                        <td><button type='button'  onclick="window.location.href = '/StockRegister/View?ID=@m.ID';" class='btn bg-primary  btn-sm authorizeOrNotUpdate' style='color:white'>View </button><button type='button' id="stokeupdate" onclick="window.location.href = '/StockRegister/GetUpdate?ID=@m.ID';" class='btn bg-blue  btn-sm authorizeOrNotUpdate authorize' style='color:white;margin-left:10px'>Update </button><button id="stokeDelete" onclick='Delete(@m.ID);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete authorize' style='color:white;margin-left:10px'>Delete</button></td>
+                    </tr>
+                    count++;
+                }</tr>
+
+
+            </tbody>
             </table>
         </div>
 
@@ -222,7 +226,7 @@
                 $(document).ready(function () {
 
 
-
+                    checkroles();
 
 
                 });
@@ -232,6 +236,26 @@
                 save();
 
             });
+            function checkroles() {
+
+                 var Role = '@Session["IsAdmin"]' != null ? '@Session["IsAdmin"]' :'';
+
+                if (Role != 'True') {
+
+                    $(".authorize").attr("disabled", true);
+
+                  
+                   
+
+                }
+                else {
+
+                    $(".authorize").attr("disabled", false);
+                    
+                }
+
+            }
+
 
 
             function calculatebalance() {
@@ -242,17 +266,17 @@
 
                 }
                 else { $("#TxtBalance").val(0);}
-                
+
             }
 
                 function save() {
 
-                    
+
 
                     var OBJ = { "ID": "", "Particular": "", "Date": "", "Folio": "", "QTYRecipt": "", "QTYIssued": "", "Balance": "", "Remarks": ""}
 
 
-                    
+
                     OBJ.Particular = $("#TxtParticular").val();
                     OBJ.Date = $("#TxtDate").val();
                     OBJ.Folio = $("#TxtPholio").val();
@@ -277,8 +301,8 @@
                             success: function (result) {
                                 swal("Data Added Successfully");
                                 $("#SaveModal").modal("hide");
-                             
-                              
+
+
                                 window.location.replace("/StockRegister/Index");
                             },
                             error: function (xhr, status, error) {
@@ -293,7 +317,15 @@
                         });
                 }
 
-                function Delete(ID) {
+            function Delete(ID) {
+
+                if (checkroles() == 0) {
+                    swal("You are not Authorized tO Delete");
+                    return false;
+
+                }
+
+
                     var headers = {};
                     var token = $('input[name="__RequestVerificationToken"]').val();
                     headers['__RequestVerificationToken'] = token;

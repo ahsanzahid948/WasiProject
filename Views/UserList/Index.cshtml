@@ -194,7 +194,7 @@
 
             LoadTableData();
 
-
+           
 
         });
 
@@ -237,12 +237,12 @@
                             "<td>" + Data.EmailAddress + "</td>" +
                             "<td>" + Active + "</td>" +
 
-                            "<td style='text-align:Right'>" +
+                            "<td style='text-align:Right' class='authorize'>" +
                             " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
                             "<i class='icon-menu9'></i></a>" +
                             "<div class='dropdown-menu dropdown-menu-right hide' x-placement='top-end' style='text-align:center;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-158px, -127px, 0px);min-width: 6.50rem;padding:0.2rem 0!important;'>" +
-                            "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='ModifyRecord(" + Data.ID + ");'type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate'  style='color:white'><b><i class='icon-pencil'></i></b></button></span>" +
-                            "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + Data.ID + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
+                            "<span class='red-tooltip' data-toggle='tooltip' title='Edit'><button onclick='ModifyRecord(" + Data.ID + ");'type='button' class='btn bg-primary-600  btn-sm authorizeOrNotUpdate authorize'  style='color:white'><b><i class='icon-pencil'></i></b></button></span>" +
+                            "<span class='red-tooltip' data-toggle='tooltip' title='Delete'><button onclick='Delete(" + Data.ID + ");'type='button' class='btn bg-danger btn-sm authorizeOrNotDelete authorize'  style='color:white'><b><i class='icon-bin'></i></b></button></span>" +
                             "</div ></div ></div></td></tr>";
 
                         table.row.add($(newRow));
@@ -263,7 +263,10 @@
 
                 }
 
-            });
+                });
+
+
+            checkroles();
         }
         function ModifyRecord(ID) {
 
@@ -277,7 +280,7 @@
 
 
             LoadModifyData(ID);
-         
+
 
             $('#SaveModal').modal('show');
             $('#btnsave').show();
@@ -452,7 +455,7 @@
             user.MobileNumber = $("#TxtMobileNumber").val();
             user.password = $("#TxtPassword").val();
             user.UserProfileImage = $("#fileUserProfileImage").val();
-            @{ 
+            @{
                 var EUI = Session["ID"] != null ? Session["ID"].ToString() : " ";
                 var CI= Session["CompanyID"] != null ? Session["CompanyID"].ToString() : " ";
                 var PI= Session["ProjectID"] != null ? Session["ProjectID"].ToString() : " ";
@@ -797,6 +800,25 @@
                 swal("Cancelled", err.toString(), "error");
             }
         }
+              function checkroles() {
+
+                 var Role = '@Session["IsAdmin"]' != null ? '@Session["IsAdmin"]' :'';
+
+                if (Role != 'True') {
+                   
+                    $("button").attr("disabled", true);
+
+
+
+
+                }
+                else {
+                    
+                    $("button").attr("disabled", false);
+
+                }
+
+            }
     </script>
 }
 

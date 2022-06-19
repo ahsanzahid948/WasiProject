@@ -54,7 +54,7 @@
                             <input name="Name" type="text" id="txtrtName" class="form-control" required/>
                         </div>
                         <div class="col-4">
-                            <button type="submit"  id="btnsave" class="btn btn-primary btn-sm">Gernate Report<b><i class="icon-paperplane ml-2"></i></b></button>
+                            <button type="submit"  id="btnsave" class="btn btn-primary btn-sm authorize">Gernate Report<b><i class="icon-paperplane ml-2"></i></b></button>
                         </div>
 
 
@@ -202,10 +202,10 @@
         var count = 0;
         var CountDetailRow = 0;
         $(document).ready(function () {
-           
+            checkroles();
         });
 
-      
+
         //$("#GoodsReceiptForm").submit(function (event) {
 
         //    event.preventDefault();
@@ -245,6 +245,24 @@
             }
         }
 
-  
+        function checkroles() {
+
+                 var Role = '@Session["IsAdmin"]' != null ? '@Session["IsAdmin"]' :'';
+
+                if (Role != 'True') {
+
+                    $(".authorize").attr("disabled", true);
+
+
+
+
+                }
+                else {
+
+                    $(".authorize").attr("disabled", false);
+
+                }
+
+            }
     </script>
 }
