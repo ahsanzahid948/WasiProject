@@ -180,7 +180,7 @@
                         <table class="table " id="detailtbl">
                             <thead>
                                 <tr>
-                                    <th> Sr. #</th>
+                                 
 
                                     <th> Leadger Page </th>
                                     <th> Description </th>
@@ -207,10 +207,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2 text-right" id="">Total Cost Received</div><div class="col-md-2 text-left" id="idDivTotalReceivedQtyPrice">0</div>
-                    <div class="col-md-2 text-right" id="">Amount Remaining</div><div class="col-md-2 text-left" id="idDivRemainingReceiveQty">0</div>
-                    <div class="col-md-2 text-right" id="">Total Cost Ordered</div><div class="col-md-2 text-left" id="idDivTotalCostOrdered">0</div>
-                </div>
+                         </div>
             </div>
 
         </div>
@@ -252,7 +249,7 @@
                             <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="LeaderPage" required />
+                            <input type="number" class="form-control" id="aLeaderPage" required />
 
 
 
@@ -265,7 +262,7 @@
                             <label class="control-label">Description</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="DetailDescription" required />
+                            <input type="text" class="form-control" id="aDetailDescription" required />
 
 
 
@@ -378,8 +375,8 @@
             });}
         function ClearDetailForm() {
 
-            $("#LeaderPage").val("");
-            $("#DetailDescription").val("");
+            $("#aLeaderPage").val("");
+            $("#aDetailDescription").val("");
             $("#txtRemarks").val("");
             $("#QTYDemand").val("");
             $("#QTYIssued").val("");
@@ -389,7 +386,7 @@
         function AddDetailRow() {
            CountDetailRow++;
 
-            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#txtRemarks").val() + "</td>" + "<td>" + $("#QTYDemand").val() + "</td>" + "<td>" + $("#QTYIssued").val() + "</td>" +
+            var row = "<tr> <td>" + $("#aLeaderPage").val() + "</td>" + "<td>" + $("#aDetailDescription").val() + "</td>" + "<td>" + $("#txtRemarks").val() + "</td>" + "<td>" + $("#QTYDemand").val() + "</td>" + "<td>" + $("#QTYIssued").val() + "</td>" +
 
                 "<td style='text-align:Right'>" +
                 " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
@@ -439,11 +436,11 @@
 
             if (tblPRows.length > 0) {
                 $.each(tblPRows, function (index, value) {
-                    RequisitionFormDetails.LeaderPageNo = value[1];
-                    RequisitionFormDetails.Description = value[2];
-                    RequisitionFormDetails.Remarks = value[3];
-                    RequisitionFormDetails.QTYDemand = value[4];
-                    RequisitionFormDetails.QTYIssued = value[5];
+                    RequisitionFormDetails.LeaderPageNo = value[0];
+                    RequisitionFormDetails.Description = value[1];
+                    RequisitionFormDetails.Remarks = value[2];
+                    RequisitionFormDetails.QTYDemand = value[3];
+                    RequisitionFormDetails.QTYIssued = value[4];
                     RequisitionFormDetails.ID = Math.floor((Math.random() * 100000) + 1);
                    
 
