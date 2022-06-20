@@ -181,16 +181,16 @@
                         <table class="table " id="detailtbl">
                             <thead>
                                 <tr>
-                                    <th> Sr. #</th>
 
-                                    <th> Description </th>
-                                   
                                     <th> Leader Page NO </th>
+                                    <th> Description </th>
+
+
                                     <th>   QTY US</th>
                                     <th> QTY S </th>
                                     <th> Remarks  </th>
 
-                                 
+
 
 
                                     <th style="text-align:right">Action</th>
@@ -245,7 +245,7 @@
                             <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="LeaderPage" required />
+                            <input type="number" class="form-control" id="aLeaderPage" required />
 
 
 
@@ -258,7 +258,7 @@
                             <label class="control-label">Description</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="DetailDescription" required />
+                            <input type="text" class="form-control" id="ReturnDetailDescription" required />
 
 
 
@@ -372,7 +372,7 @@
         function ClearDetailForm() {
 
             $("#LeaderPage").val("");
-            $("#DetailDescription").val("");
+            $("#ReturnDetailDescription").val("");
             $("#QTYS").val("");
             $("#QTYUS").val("");
             $("#Remarks").val("");
@@ -382,7 +382,7 @@
         function AddDetailRow() {
            CountDetailRow++;
 
-            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#QTYS").val() + "</td>" + "<td>" + $("#QTYUS").val() + "</td>" + "<td>" + $("#Remarks").val() + "</td>"+
+            var row = "<tr><td>" + $("#aLeaderPage").val() + "</td>" + "<td>" + $("#ReturnDetailDescription").val() + "</td>" + "<td>" + $("#QTYS").val() + "</td>" + "<td>" + $("#QTYUS").val() + "</td>" + "<td>" + $("#Remarks").val() + "</td>"+
 
                 "<td style='text-align:Right'>" +
                 " <div class='list-icons'><div class='dropdown hide'><a href='#' class='btn btn-sm' style='background-color: #f5e486' data-toggle='dropdown' aria-expanded='true'>" +
@@ -431,11 +431,11 @@
 
             if (tblPRows.length > 0) {
                 $.each(tblPRows, function (index, value) {
-                    ReturnVoucherDetails.LeadgerPage = value[2];
+                    ReturnVoucherDetails.LeaderPageNo = value[0];
                     ReturnVoucherDetails.Description = value[1];
-                    ReturnVoucherDetails.Remarks = value[5];
-                    ReturnVoucherDetails.QTYUS = value[3];
-                    ReturnVoucherDetails.QTYS = value[4];
+                    ReturnVoucherDetails.Remarks = value[4];
+                    ReturnVoucherDetails.QTYUS = value[2];
+                    ReturnVoucherDetails.QTYS = value[3];
                 
                     ReturnVoucherDetails.ID = Math.floor((Math.random() * 100000) + 1);
 
