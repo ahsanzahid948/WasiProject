@@ -49,14 +49,7 @@
                 <input type="text" id="txtRedirection" class="form-control" hidden />
 
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-form-label "> ReturnVoucher No </label>
-                            <div class="col-md-10">
-                                <input type="text" id="txtReturnVoucherNo" name="txtReturnVoucherNo" maxlength="15" class="form-control" required />
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div class="col-md-4">
                         <div class="form-group">
@@ -83,6 +76,14 @@
                             </label>
                             <div class="col-md-10">
                                 <input type="text" id="txtReturnVoucherName" name="txtReturnVoucherName" maxlength="10" class="form-control " placeholder="" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label "> CatByName </label>
+                            <div class="col-md-10">
+                                <input type="text" id="txtCatByName" name="txtCatByName" maxlength="15" class="form-control" required />
                             </div>
                         </div>
                     </div>
@@ -124,14 +125,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-form-label "> CatByName </label>
-                            <div class="col-md-10">
-                                <input type="text" id="txtCatByName" name="txtCatByName" maxlength="15" class="form-control" required />
-                            </div>
-                        </div>
-                    </div>
+                 
                 </div>
                 <div class="row">
 
@@ -252,6 +246,7 @@
         var count = 0;
         var CountDetailRow = 0;
             $(document).ready(function () {
+                  $("#txtReturnVoucherName").val("@Model.");
              $("#txtReturnVoucherName").val("@Model.Name");
              $("#txtDesignation").val("@Model.DesignationID").change();
             $("#txtLAB").val("@Model.Lab").change();
