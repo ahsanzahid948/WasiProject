@@ -1,0 +1,268 @@
+﻿@model InventoryManagementSystem.Models.GRN
+
+@section styles{
+    <style>
+
+        .jvmodalbodyscroll {
+            /*height: 510px !important;
+            overflow-y: scroll !important;*/
+        }
+
+        .buttondisplay {
+            display: none;
+        }
+    </style>
+}
+<!---->
+
+<head>
+    <title>Purchase Orders</title>
+</head>
+@{
+    string DestinationStoreID = "0";
+    DestinationStoreID = "avc";
+}
+<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+    <div class="d-flex">
+        <div class="breadcrumb">
+            <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+            <span class="breadcrumb-item active">Purchase Orders</span>
+        </div>
+        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+    </div>
+</div>
+<div class="card" style="font-size: 14px !important;">
+    <div class="card-header header-elements-inline search-header content-header">
+        <h5 class="card-title">
+            <i class=""></i>Issue Voucher Report
+        </h5>
+    </div>
+    <form id="GoodsReceiptForm" action="/ReturnVoucherReport/ShowReport">
+        @Html.AntiForgeryToken()
+
+        <div class="card-body">
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active show" id="generalinformation">
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-4">
+                            <input name="Name" type="text" id="txtrtName" class="form-control" required />
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" id="btnsave" class="btn btn-primary btn-sm authorize">Gernate Report<b><i class="icon-paperplane ml-2"></i></b></button>
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+    </form>
+</div>
+
+<!-- Add ItemModal-->
+<div id="GRNDetailModel" class="modal  fade" style="font-size: 12px !important;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">GRN Detail</span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+
+            <div class="card-body">
+                <form id="GRNDetailForm">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Leader Page</label>
+                            <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="LeaderPage" required />
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Description</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="DetailDescription" required />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">AU</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="AU" required />
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTYCreated</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYCreated" required onchange="calculatetotal()" />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">QTY Recived</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="QTYRecived" required />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Rate</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="Rate" onchange="calculatetotal()" required />
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Total Cost</label>  <span class="text-danger"> * </span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="TotalCost" required onchange="calculatetotal()" />
+
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white"><b><i class="icon-cross2"></i></b>Save</button>
+                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
+
+
+                    </div>
+                </form>
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/DataTableScripts")
+
+    @Scripts.Render("~/bundles/DateScripts")
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+    <script>
+        var count = 0;
+        var CountDetailRow = 0;
+        $(document).ready(function () {
+            checkroles();
+        });
+
+
+        //$("#GoodsReceiptForm").submit(function (event) {
+
+        //    event.preventDefault();
+        //    SaveGRNRecord();
+
+        //});
+
+        function showreport() {
+            try {
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/IsssueVoucherReport/ShowReport",
+                    data: JSON.stringify({ "Name": $("#txtrtName").val()  }),
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+
+                        swal("Data Updated Successfully");
+
+                        window.location.replace("/GRN/Index");
+
+                    },
+                    error: function (xhr, status, error) {
+                        swal("Data Added Successfully");
+                        window.location.replace("/GRN/Index");
+                        /* swal("", "Error While Adding Data", "error");*/
+                    }
+
+                });
+
+
+            }
+            catch (err) {
+                swal("Cancelled", err.ToString(), "error");
+            }
+        }
+
+        function checkroles() {
+
+                 var Role = '@Session["IsAdmin"]' != null ? '@Session["IsAdmin"]' :'';
+
+                if (Role != 'True') {
+
+                    $(".authorize").attr("disabled", true);
+
+
+
+
+                }
+                else {
+
+                    $(".authorize").attr("disabled", false);
+
+                }
+
+            }
+    </script>
+}

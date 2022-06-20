@@ -195,6 +195,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RequisitionFormController.cs" />
     <Compile Include="Controllers\ReturnVoucherController.cs" />
+    <Compile Include="Controllers\ReturnVoucherReportController.cs" />
     <Compile Include="Controllers\StockRegisterController.cs" />
     <Compile Include="Controllers\UserListController.cs" />
     <Compile Include="DAL\Generic\GenericRepository.cs" />
@@ -244,6 +245,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnVoucherDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReturnVoucherReport_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StokeRegister.cs">
@@ -7857,6 +7861,7 @@
     <Content Include="abc.rpt" />
     <Content Include="az.rpt" />
     <Content Include="aw.rpt" />
+    <Content Include="ReturnVoucherReport.rpt" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Chart.bundle.js" />
     <Content Include="Scripts\chart.js" />
@@ -7935,6 +7940,7 @@
     <Content Include="Views\StockRegister\View.cshtml" />
     <Content Include="Views\StockRegister\GetUpdate.cshtml" />
     <Content Include="Views\IsssueVoucherReport\Index.cshtml" />
+    <Content Include="Views\ReturnVoucherReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
