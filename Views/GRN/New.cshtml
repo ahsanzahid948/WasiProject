@@ -30,7 +30,7 @@
             <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
             <span class="breadcrumb-item active">Purchase Orders</span>
         </div>
-        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        <a href="#" class="header-elements-toggle text-defGRNsAUlt d-md-none"><i class="icon-more"></i></a>
     </div>
 </div>
 <div class="card" style="font-size: 14px !important;">
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> Date </label>
                                 <div class="col-md-10">
-                                    <input type="date" value="" id="txtGRNDate" name=" txtGRNDate" maxlength="15" autocomplete="off" placeholder="" class="form-control pickadate-accessibility" required />
+                                    <input type="date" value="" id="txtGRNDate" name=" txtGRNDate" maxlength="15" GRNsAUtocomplete="off" placeholder="" class="form-control pickadate-accessibility" required />
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                     </select>
 
 
-                                    @*<input type="text" value="" id="txtGRNProject" name=" txtGRNProject" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />*@
+                                    @*<input type="text" value="" id="txtGRNProject" name=" txtGRNProject" maxlength="15" GRNsAUtocomplete="off" placeholder="" class="form-control" required />*@
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> SupplierAddress </label>
                                 <div class="col-md-10">
-                                    <input type="text" value="" id="txtSupplierAddress" name=" txtSupplierAddress" maxlength="200" autocomplete="off" placeholder="" class="form-control " required />
+                                    <input type="text" value="" id="txtSupplierAddress" name=" txtSupplierAddress" maxlength="200" GRNsAUtocomplete="off" placeholder="" class="form-control " required />
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                             <div class="form-group">
                                 <label class="col-form-label "> SuplyOrderNo </label>
                                 <div class="col-md-10">
-                                    <input type="number" value="" id="txtSuplyOrderNo" name=" txtSuplyOrderNo" maxlength="15" autocomplete="off" placeholder="" class="form-control" required />
+                                    <input type="number" value="" id="txtSuplyOrderNo" name=" txtSuplyOrderNo" maxlength="15" GRNsAUtocomplete="off" placeholder="" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -172,7 +172,7 @@
                     <div class="card-header header-elements-inline" style="color:white">
                         <h5 class="card-title" style="width:50% !important;">
 
-                            <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm authorizeOrNotInsert clsPOStatusClosed' data-toggle="modal" data-target="#GRNDetailModel" style="text-decoration:none;background-color:white;">
+                            <button type="button" class='btn   btn-labeled btn-labeled-left btn-sm GRNsAUthorizeOrNotInsert clsPOStatusClosed' data-toggle="modal" data-target="#GRNsDetailModel" style="text-decoration:none;background-color:white;">
                                 <b><i class="icon-plus3"></i></b>
                                 Add New
                             </button>
@@ -183,17 +183,17 @@
 
                     </div>
                     <div class="card-body">
-                        <table class="table " id="detailtbl">
+                        <table class="table " id="GRNsdetailtbl">
                             <thead>
                                 <tr>
-                                    <th> Sr. #</th>
+                       
 
                                     <th> Leadger Page </th>
                                     <th> Description </th>
-                                    <th> AU </th>
+                                    <th> GRNsAU </th>
                                     <th> QTY Created </th>
                                     <th> QTY Recived </th>
-                                    <th> Rate  </th>
+                                    <th> GRNsRate  </th>
 
                                     <th> Total Cost </th>
                                     
@@ -204,13 +204,7 @@
                             <tbody>
                             </tbody>
 
-                            <!--<tfoot class="text-center">
-                                <tr>
-                                    <th colspan="4" id="">Total Cost Received 0</th>
-                                    <th colspan="4" id="">Amount Remaining 0</th>
-                                    <th colspan="4" id="">Total Cost Ordered 0</th>
-                                </tr>
-                            </tfoot>-->
+                           
                         </table>
                     </div>
                 </div>
@@ -238,7 +232,7 @@
 </div>
 
 <!-- Add ItemModal-->
-<div id="GRNDetailModel" class="modal  fade" style="font-size: 12px !important;">
+<div id="GRNsDetailModel" class="modal  fade" style="font-size: 12px !important;">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
 
@@ -250,7 +244,7 @@
 
 
             <div class="card-body">
-                <form id="GRNDetailForm">
+                <form id="GRNsDetailForm">
                     @Html.AntiForgeryToken()
                     <div class="form-group row">
                         <div class="col-md-4">
@@ -258,7 +252,7 @@
                             <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="LeaderPage" required />
+                            <input type="number" class="form-control" id="GRNSLeaderPage" required />
 
 
 
@@ -271,7 +265,7 @@
                             <label class="control-label">Description</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="DetailDescription" required />
+                            <input type="text" class="form-control" id="GRNSDescription" required />
 
 
 
@@ -283,7 +277,7 @@
                             <label class="control-label">AU</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="AU" required />
+                            <input type="number" class="form-control" id="GRNsAU" required />
 
 
 
@@ -295,7 +289,7 @@
                             <label class="control-label">QTYCreated</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYCreated" required onchange="calculatetotal()"/>
+                            <input type="number" class="form-control" id="GRNsQTYCreated" required onchange="calculatetotal()"/>
 
 
                         </div>
@@ -306,7 +300,7 @@
                             <label class="control-label">QTY Recived</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYRecived" required />
+                            <input type="number" class="form-control" id="GRNsQTYRecived" required />
 
 
                         </div>
@@ -317,7 +311,7 @@
                             <label class="control-label">Rate</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="Rate" onchange="calculatetotal()" required />
+                            <input type="number" class="form-control" id="GRNsRate" onchange="calculatetotal()" required />
 
 
                         </div>
@@ -328,7 +322,7 @@
                             <label class="control-label">Total Cost</label>  <span class="text-danger"> * </span>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" id="TotalCost" required onchange="calculatetotal()"/>
+                            <input type="number" class="form-control" id="GRNsTotalCost" required onchange="calculatetotal()"/>
 
 
                         </div>
@@ -372,7 +366,7 @@
             });
 
 
-        $("#GRNDetailForm").submit(function (event) {
+        $("#GRNsDetailForm").submit(function (event) {
 
             event.preventDefault();
             AddDetailRow();
@@ -381,34 +375,34 @@
       
         function ClearDetailForm() {
 
-            $("#LeaderPage").val("");
-            $("#DetailDescription").val("");
-            $("#AU").val("");
-            $("#QTYCreated").val("");
-            $("#QTYRecived").val("");
-            $("#Rate").val("");
-            $("#TotalCost").val("");
-            $("#GRNDetailModel").modal("hide");
+            $("#GRNSLeaderPage").val("");
+            $("#GRNSDescription").val("");
+            $("#GRNsAU").val("");
+            $("#GRNsQTYCreated").val("");
+            $("#GRNsQTYRecived").val("");
+            $("#GRNsRate").val("");
+            $("#GRNsTotalCost").val("");
+            $("#GRNsDetailModel").modal("hide");
         }
 
 
         function calculatetotal() {
-            let qc = $("#QTYCreated").val();
-            let rate = $("#Rate").val();
-            let total = qc * rate;
-            if (total > 0) { $("#TotalCost").val(total); }
+            let qc = $("#GRNsQTYCreated").val();
+            let GRNsRate = $("#GRNsRate").val();
+            let total = qc * GRNsRate;
+            if (total > 0) { $("#GRNsTotalCost").val(total); }
 
 
         }
         function AddDetailRow() {
            CountDetailRow++;
 
-            var row = "<tr><td>" + count + "</td>" + "<td>" + $("#LeaderPage").val() + "</td>" + "<td>" + $("#DetailDescription").val() + "</td>" + "<td>" + $("#AU").val() + "</td>" + "<td>" + $("#QTYCreated").val() + "</td>" + "<td>" + $("#QTYRecived").val() + "</td>" + "<td>" + $("#Rate").val() + "</td>" + "<td>" + $("#TotalCost").val() + "</td>"+
+            var row = "<tr></td>" + "<td>" + $("#GRNSLeaderPage").val() + "</td>" + "<td>" + $("#GRNSDescription").val() + "</td>" + "<td>" + $("#GRNsAU").val() + "</td>" + "<td>" + $("#GRNsQTYCreated").val() + "</td>" + "<td>" + $("#GRNsQTYRecived").val() + "</td>" + "<td>" + $("#GRNsRate").val() + "</td>" + "<td>" + $("#GRNsTotalCost").val() + "</td>"+
 
-                "<td><button onclick='DeleteDetailRow(this);' type='button' class='btn bg-danger btn-sm authorizeOrNotDelete' style='color:white'>Delete</button></td> </tr > ";
+                "<td><button onclick='DeleteDetailRow(this);' type='button' class='btn bg-danger btn-sm GRNsAUthorizeOrNotDelete' style='color:white'>Delete</button></td> </tr > ";
 
 
-            $("#detailtbl").find('tbody').append(row);
+            $("#GRNsdetailtbl").find('tbody').append(row);
             ClearDetailForm();
         }
         function Cancel() { window.location.href = "/GRN/Index";}
@@ -437,22 +431,22 @@
 
             var GRNDetails = { "ID":"", "LeadgerPage": "", "Description": "", "AU": "", "QTYCreated": "", "QTYRecived": "", "QTYRecived": "", "Rate": "", "TotalValue": "", "GRNID": "", };
 
-            var detailtbl = $("#detailtbl").DataTable();
+            var GRNsdetailtbl = $("#GRNsdetailtbl").DataTable();
            
 
-            var tblPRows = detailtbl.rows().data();
+            var tblPRows = GRNsdetailtbl.rows().data();
 
 
 
             if (tblPRows.length > 0) {
                 $.each(tblPRows, function (index, value) {
-                    GRNDetails.LeadgerPage = value[1];
-                    GRNDetails.Description = value[2];
-                    GRNDetails.AU = value[3];
-                    GRNDetails.QTYCreated = value[4];
-                    GRNDetails.QTYRecived = value[5];
-                    GRNDetails.Rate = value[6];
-                    GRNDetails.TotalValue = value[7];
+                    GRNDetails.LeadgerPage = value[0];
+                    GRNDetails.Description = value[1];
+                    GRNDetails.AU = value[2];
+                    GRNDetails.QTYCreated = value[3];
+                    GRNDetails.QTYRecived = value[4];
+                    GRNDetails.Rate = value[5];
+                    GRNDetails.TotalValue = value[6];
                     GRNDetails.ID=Math.floor((Math.random() * 100000) + 1);
 
                     GRN.GRNDetails.push(GRNDetails);
