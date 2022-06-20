@@ -93,13 +93,13 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID" Type="bigint" Nullable="false" />
     <Property Name="LeaderPageNo" Type="nvarchar" MaxLength="50" />
     <Property Name="Description" Type="nvarchar" MaxLength="50" />
     <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
     <Property Name="QTYUS" Type="nvarchar" MaxLength="50" />
     <Property Name="QTYS" Type="nvarchar" MaxLength="50" />
-    <Property Name="ReturnVoucherID" Type="bigint" Nullable="false" />
+    <Property Name="ReturnVoucherID" Type="bigint" />
   </EntityType>
   <EntityType Name="ReturnVouchers">
     <Key>
@@ -115,6 +115,19 @@
     <Property Name="CatByName" Type="nvarchar" MaxLength="50" />
     <Property Name="CatByDesignation" Type="nvarchar" MaxLength="50" />
     <Property Name="ReturnBySignature" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="StokeRegisters">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Particular" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="nvarchar" MaxLength="50" />
+    <Property Name="Folio" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYRecipt" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTYIssued" Type="nvarchar" MaxLength="50" />
+    <Property Name="Balance" Type="nvarchar" MaxLength="50" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_GRNDetail_GRN">
     <End Role="GRNs" Type="Self.GRNs" Multiplicity="0..1" />
@@ -165,17 +178,23 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_ReturnVoucherDetails_ReturnVouchers">
-    <End Role="ReturnVouchers" Type="Self.ReturnVouchers" Multiplicity="1" />
-    <End Role="ReturnVoucherDetails" Type="Self.ReturnVoucherDetails" Multiplicity="0..1" />
+    <End Role="ReturnVouchers" Type="Self.ReturnVouchers" Multiplicity="0..1" />
+    <End Role="ReturnVoucherDetails" Type="Self.ReturnVoucherDetails" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ReturnVouchers">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="ReturnVoucherDetails">
-        <PropertyRef Name="ID" />
+        <PropertyRef Name="ReturnVoucherID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="IssueVoucherReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Name" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ReturnVoucherReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Name" Type="varchar" Mode="In" />
+  </Function>
   <EntityContainer Name="InventoryManagementSystemModelStoreContainer">
     <EntitySet Name="GRNDetails" EntityType="Self.GRNDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GRNs" EntityType="Self.GRNs" Schema="dbo" store:Type="Tables" />
@@ -185,6 +204,7 @@
     <EntitySet Name="RequisitionForms" EntityType="Self.RequisitionForms" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ReturnVoucherDetails" EntityType="Self.ReturnVoucherDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ReturnVouchers" EntityType="Self.ReturnVouchers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StokeRegisters" EntityType="Self.StokeRegisters" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_GRNDetail_GRN" Association="Self.FK_GRNDetail_GRN">
       <End Role="GRNs" EntitySet="GRNs" />
       <End Role="GRNDetails" EntitySet="GRNDetails" />

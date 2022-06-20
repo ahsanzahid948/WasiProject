@@ -46,5 +46,14 @@ namespace InventoryManagementSystem.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IssueVoucherReport_Result>("IssueVoucherReport", nameParameter);
         }
+    
+        public virtual ObjectResult<ReturnVoucherReport_Result> ReturnVoucherReport(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ReturnVoucherReport_Result>("ReturnVoucherReport", nameParameter);
+        }
     }
 }

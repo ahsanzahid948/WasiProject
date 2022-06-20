@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="InventoryManagementSystemModelStoreContainer" CdmEntityContainer="InventoryManagementSystemEntities">
+  <EntityContainerMapping StorageEntityContainer="InventoryManagementSystemModelStoreContainer" CdmEntityContainer="Entities">
     <EntitySetMapping Name="GRNDetails">
       <EntityTypeMapping TypeName="InventoryManagementSystemModel.GRNDetail">
         <MappingFragment StoreEntitySet="GRNDetails">
@@ -125,5 +125,47 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="StokeRegisters">
+      <EntityTypeMapping TypeName="InventoryManagementSystemModel.StokeRegister">
+        <MappingFragment StoreEntitySet="StokeRegisters">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Particular" ColumnName="Particular" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Folio" ColumnName="Folio" />
+          <ScalarProperty Name="QTYRecipt" ColumnName="QTYRecipt" />
+          <ScalarProperty Name="QTYIssued" ColumnName="QTYIssued" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="IssueVoucherReport" FunctionName="InventoryManagementSystemModel.Store.IssueVoucherReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryManagementSystemModel.IssueVoucherReport_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LeaderPageNo" ColumnName="LeaderPageNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="QTYDemand" ColumnName="QTYDemand" />
+          <ScalarProperty Name="QTYIssued" ColumnName="QTYIssued" />
+          <ScalarProperty Name="RequisitionFormID" ColumnName="RequisitionFormID" />
+          <ScalarProperty Name="QTYRemaining" ColumnName="QTYRemaining" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ReturnVoucherReport" FunctionName="InventoryManagementSystemModel.Store.ReturnVoucherReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryManagementSystemModel.ReturnVoucherReport_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LeaderPageNo" ColumnName="LeaderPageNo" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="QTYUS" ColumnName="QTYUS" />
+          <ScalarProperty Name="QTYS" ColumnName="QTYS" />
+          <ScalarProperty Name="ReturnVoucherID" ColumnName="ReturnVoucherID" />
+          <ScalarProperty Name="QTYRemaining" ColumnName="QTYRemaining" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

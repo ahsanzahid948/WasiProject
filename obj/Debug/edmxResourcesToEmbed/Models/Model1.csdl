@@ -100,13 +100,13 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Int64" Nullable="false" />
     <Property Name="LeaderPageNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="QTYUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="QTYS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ReturnVoucherID" Type="Int64" Nullable="false" />
+    <Property Name="ReturnVoucherID" Type="Int64" />
     <NavigationProperty Name="ReturnVoucher" Relationship="Self.FK_ReturnVoucherDetails_ReturnVouchers" FromRole="ReturnVoucherDetails" ToRole="ReturnVouchers" />
   </EntityType>
   <EntityType Name="ReturnVoucher">
@@ -124,7 +124,20 @@
     <Property Name="CatByDesignation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ReturnBySignature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="RefDesignation" Relationship="Self.FK_ReturnVoucher_RefDesignations" FromRole="ReturnVouchers" ToRole="RefDesignations" />
-    <NavigationProperty Name="ReturnVoucherDetail" Relationship="Self.FK_ReturnVoucherDetails_ReturnVouchers" FromRole="ReturnVouchers" ToRole="ReturnVoucherDetails" />
+    <NavigationProperty Name="ReturnVoucherDetails" Relationship="Self.FK_ReturnVoucherDetails_ReturnVouchers" FromRole="ReturnVouchers" ToRole="ReturnVoucherDetails" />
+  </EntityType>
+  <EntityType Name="StokeRegister">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Particular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="QTYRecipt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="QTYIssued" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Balance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_GRNDetail_GRN">
     <End Role="GRNs" Type="Self.GRN" Multiplicity="0..1" />
@@ -175,18 +188,18 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_ReturnVoucherDetails_ReturnVouchers">
-    <End Role="ReturnVouchers" Type="Self.ReturnVoucher" Multiplicity="1" />
-    <End Role="ReturnVoucherDetails" Type="Self.ReturnVoucherDetail" Multiplicity="0..1" />
+    <End Role="ReturnVouchers" Type="Self.ReturnVoucher" Multiplicity="0..1" />
+    <End Role="ReturnVoucherDetails" Type="Self.ReturnVoucherDetail" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ReturnVouchers">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="ReturnVoucherDetails">
-        <PropertyRef Name="ID" />
+        <PropertyRef Name="ReturnVoucherID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="InventoryManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="GRNDetails" EntityType="Self.GRNDetail" />
     <EntitySet Name="GRNs" EntityType="Self.GRN" />
     <EntitySet Name="RefDesignations" EntityType="Self.RefDesignation" />
@@ -195,6 +208,7 @@
     <EntitySet Name="RequisitionForms" EntityType="Self.RequisitionForm" />
     <EntitySet Name="ReturnVoucherDetails" EntityType="Self.ReturnVoucherDetail" />
     <EntitySet Name="ReturnVouchers" EntityType="Self.ReturnVoucher" />
+    <EntitySet Name="StokeRegisters" EntityType="Self.StokeRegister" />
     <AssociationSet Name="FK_GRNDetail_GRN" Association="Self.FK_GRNDetail_GRN">
       <End Role="GRNs" EntitySet="GRNs" />
       <End Role="GRNDetails" EntitySet="GRNDetails" />
@@ -215,5 +229,31 @@
       <End Role="ReturnVouchers" EntitySet="ReturnVouchers" />
       <End Role="ReturnVoucherDetails" EntitySet="ReturnVoucherDetails" />
     </AssociationSet>
+    <FunctionImport Name="IssueVoucherReport" ReturnType="Collection(InventoryManagementSystemModel.IssueVoucherReport_Result)">
+      <Parameter Name="Name" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ReturnVoucherReport" ReturnType="Collection(InventoryManagementSystemModel.ReturnVoucherReport_Result)">
+      <Parameter Name="Name" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
+  <ComplexType Name="IssueVoucherReport_Result">
+    <Property Type="Int64" Name="ID" Nullable="false" />
+    <Property Type="String" Name="LeaderPageNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="QTYDemand" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="QTYIssued" Nullable="true" MaxLength="50" />
+    <Property Type="Int64" Name="RequisitionFormID" Nullable="true" />
+    <Property Type="Int32" Name="QTYRemaining" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ReturnVoucherReport_Result">
+    <Property Type="Int64" Name="ID" Nullable="false" />
+    <Property Type="String" Name="LeaderPageNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="QTYUS" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="QTYS" Nullable="true" MaxLength="50" />
+    <Property Type="Int64" Name="ReturnVoucherID" Nullable="true" />
+    <Property Type="Int32" Name="QTYRemaining" Nullable="true" />
+  </ComplexType>
 </Schema>

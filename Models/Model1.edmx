@@ -197,6 +197,9 @@
         <Function Name="IssueVoucherReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Name" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="ReturnVoucherReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="InventoryManagementSystemModelStoreContainer">
           <EntitySet Name="GRNDetails" EntityType="Self.GRNDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GRNs" EntityType="Self.GRNs" Schema="dbo" store:Type="Tables" />
@@ -462,6 +465,9 @@
             <End Role="ReturnVoucherDetails" EntitySet="ReturnVoucherDetails" />
           </AssociationSet>
           <FunctionImport Name="IssueVoucherReport" ReturnType="Collection(InventoryManagementSystemModel.IssueVoucherReport_Result)">
+          <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ReturnVoucherReport" ReturnType="Collection(InventoryManagementSystemModel.ReturnVoucherReport_Result)">
             <Parameter Name="Name" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
@@ -473,6 +479,16 @@
           <Property Type="String" Name="QTYDemand" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="QTYIssued" Nullable="true" MaxLength="50" />
           <Property Type="Int64" Name="RequisitionFormID" Nullable="true" />
+          <Property Type="Int32" Name="QTYRemaining" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ReturnVoucherReport_Result">
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="String" Name="LeaderPageNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="QTYUS" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="QTYS" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="ReturnVoucherID" Nullable="true" />
           <Property Type="Int32" Name="QTYRemaining" Nullable="true" />
         </ComplexType>
       </Schema>
@@ -629,6 +645,20 @@
                 <ScalarProperty Name="QTYDemand" ColumnName="QTYDemand" />
                 <ScalarProperty Name="QTYIssued" ColumnName="QTYIssued" />
                 <ScalarProperty Name="RequisitionFormID" ColumnName="RequisitionFormID" />
+                <ScalarProperty Name="QTYRemaining" ColumnName="QTYRemaining" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ReturnVoucherReport" FunctionName="InventoryManagementSystemModel.Store.ReturnVoucherReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventoryManagementSystemModel.ReturnVoucherReport_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LeaderPageNo" ColumnName="LeaderPageNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="QTYUS" ColumnName="QTYUS" />
+                <ScalarProperty Name="QTYS" ColumnName="QTYS" />
+                <ScalarProperty Name="ReturnVoucherID" ColumnName="ReturnVoucherID" />
                 <ScalarProperty Name="QTYRemaining" ColumnName="QTYRemaining" />
               </ComplexTypeMapping>
             </ResultMapping>
