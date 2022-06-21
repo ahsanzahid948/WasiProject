@@ -379,32 +379,7 @@
             AddDetailRow();
 
         });
-        function getDesignation() {
-            $.ajax({
-                type: "POST",
-
-                contentType: "application/json; charset=utf-8",
-                url: "/Designation/GETList",
-
-                dataType: "json",
-                async: false,
-                success: function (result) {
-                    debugger;
-                    if (result) {
-
-                        $.each(result, function (Index, value) { $("#txtDesignation").append("<option value='" + value.ID + "'>" + value.Description + " </option>"); });
-
-                    }
-
-
-                },
-                error: function (xhr, status, error) {
-                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
-                    swal("", errorMessage, "error");
-                }
-
-            });
-        }
+      
         function ClearDetailForm() {
 
             $("#LeaderPage").val("");

@@ -19,7 +19,7 @@ namespace InventoryManagementSystem.Models
         public string Remarks { get; set; }
         public string QTYDemand { get; set; }
         public string QTYIssued { get; set; }
-        public Nullable<long> RequisitionFormID { get; set; }
-        public Nullable<int> QTYRemaining { get; set; }
+        public long RequisitionFormID { get; set; }
+        public int QTYRemaining { get; set; }
     }
 }

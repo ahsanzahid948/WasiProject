@@ -237,101 +237,7 @@
 </div>
 
 <!-- Add ItemModal-->
-<div id="RequisitionFormDetailModel" class="modal  fade" style="font-size: 12px !important;">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
 
-            <div class="modal-header">
-                <h4 class="modal-title"><i class="icon-pencil"></i> <span id="modalHeading" class="caption-subject font-green bold uppercase">RequisitionForm Detail</span></h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-            </div>
-
-
-            <div class="card-body">
-                <form id="RequisitionFormDetailForm">
-                    @Html.AntiForgeryToken()
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">Leader Page</label>
-                            <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" id="LeaderPage" required />
-
-
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">Description</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="DetailDescription" required />
-
-
-
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">Remarks</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="txtRemarks" />
-
-
-
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">QTY Demand</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYDemand" required />
-
-
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="control-label">QTY Issued</label>  <span class="text-danger"> * </span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" id="QTYIssued" required />
-
-
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn bg-primary btn-labeled btn-labeled-left btn-sm" style="color:white"><b><i class="icon-cross2"></i></b>Save</button>
-                        <button type="button" class="btn bg-danger btn-labeled btn-labeled-left btn-sm" style="color:white" data-dismiss="modal"><b><i class="icon-cross2"></i></b>Close</button>
-
-
-                    </div>
-                </form>
-
-            </div>
-
-
-
-
-
-
-        </div>
-
-    </div>
-
-</div>
 
 
 
@@ -341,7 +247,7 @@
     @Scripts.Render("~/bundles/DataTableScripts")
 
     @Scripts.Render("~/bundles/DateScripts")
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+
     <script>
         var count = 0;
         var CountDetailRow = 0;

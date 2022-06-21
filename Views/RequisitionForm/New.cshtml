@@ -28,7 +28,7 @@
     <div class="d-flex">
         <div class="breadcrumb">
             <a href="" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-            <span class="breadcrumb-item active">Purchase Orders</span>
+            
         </div>
         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
     </div>
@@ -39,6 +39,7 @@
             <i class=""></i>Requisition Form
         </h5>
     </div>
+    <!-- Add Form-->
     <form id="RequisitionForm">
         @Html.AntiForgeryToken()
 
@@ -154,7 +155,7 @@
                                 </div>
                             </div>
                         </div>
-                     
+
                     </div>
 
 
@@ -180,14 +181,14 @@
                         <table class="table " id="detailtbl">
                             <thead>
                                 <tr>
-                                 
+
 
                                     <th> Leadger Page </th>
                                     <th> Description </th>
                                     <th> Remarks </th>
                                     <th> QTY Demand </th>
                                     <th> QTY Issue </th>
-                                   
+
 
 
                                     <th style="text-align:right">Action</th>
@@ -196,12 +197,12 @@
                             <tbody>
                             </tbody>
 
-                    
+
                         </table>
                     </div>
                 </div>
                 <div class="row">
-                         </div>
+                </div>
             </div>
 
         </div>
@@ -213,7 +214,7 @@
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveRequisitionForm" onclick="SetRedirection(1);">Save</button>
                     <button class="btn btn-primary btn-sm clsPOStatusClosed" type="submit" id="btnsaveandList" onclick="SetRedirection(2);">Save and Go to List</button>
 
-                    <button class="btn btn-primary btn-sm clsPOStatusClosed" id="btnsaveReOrderLowItems" disabled type="button" onclick="fnReorderLowItems();"><b><i class="icon-plus3"></i></b> Re order low stock items</button>
+               
                     <button class="btn btn-primary btn-sm clsPOStatusClosed buttondisplay" id="btnClosePO" disabled onclick="fnClosePO()" type="button">Close</button>
                 </div>
             </div>
@@ -342,31 +343,7 @@
             AddDetailRow();
 
         });
-        function getDesignation() {
-            $.ajax({
-                type: "POST",
-
-                contentType: "application/json; charset=utf-8",
-                url:"/Designation/GETList",
-
-                dataType: "json",
-                async: false,
-                success: function (result) {
-                    debugger;
-                    if (result) {
-
-                        $.each(result, function (Index, value) { $("#txtDesignation").append("<option value='" + value.ID + "'>" + value.Description + " </option>"); });
-
-                    }
-
-
-                },
-                error: function (xhr, status, error) {
-                    var errorMessage = AjaxErrorMessage + ' (Error Code: ' + xhr.status + ')';
-                    swal("", errorMessage, "error");
-                }
-
-            });}
+     
         function ClearDetailForm() {
 
             $("#aLeaderPage").val("");
@@ -395,10 +372,7 @@
         }
         function Cancel() { window.location.href = "/RequisitionForm/Index";}
 
-        function SetRedirection(type) {
-
-            $("#txtRedirection").val(type);
-        }
+       
         function AJaxObject() {
 
             var RequisitionForm = { "ID": "", "Name": "", "DesignationID": "", "Lab": "", "Project": "", "SifNo": "", "IsConsumable": "", "SignatureOfInditor": "", "SignatureOfStoreKeeper": "", "RequisitionFormDetails": [] };
